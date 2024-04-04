@@ -12,9 +12,9 @@ public class LoggedInController implements Initializable {
 
     @FXML
     private Button button_logout;
-
     @FXML
     private Label label_welcome;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

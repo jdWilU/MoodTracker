@@ -59,7 +59,7 @@ public class DBUtils {
                 alert.setContentText("You cannot use this username.");
                 alert.show();
             } else {
-                psInsert = connection.prepareStatement("INSERT INTO users(username, email, password VALUES (?, ?, ?)");
+                psInsert = connection.prepareStatement("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
                 psInsert.setString(1, username);
                 psInsert.setString(2, email);
                 psInsert.setString(3, password);
