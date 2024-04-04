@@ -11,29 +11,32 @@ import javafx.stage.Stage;
 import java.sql.*;
 
 import java.io.IOException;
+import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DBUtils {
-
     public static void changeScene(ActionEvent event, String fxmlFile, String title, String username){
         Parent root = null;
         if (username != null){
             try {
-                FXMLLoader loader = new FXMLLoader(DBUtils.class.getResource(fxmlFile));
+                FXMLLoader loader = new FXMLLoader(DBUtils.class.getClassLoader().getResource(fxmlFile));
                 root = loader.load();
                 LoggedInController loggedInController = loader.getController();
                 loggedInController.setUserInformation(username);
             } catch (IOException e){
-                e.printStackTrace();
+                Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error loading FXML file: " + fxmlFile, e);
             }
         } else {
             try {
-                root = FXMLLoader.load(DBUtils.class.getClassLoader().getResource(fxmlFile));
+                root = FXMLLoader.load(Objects.requireNonNull(DBUtils.class.getClassLoader().getResource(fxmlFile)));
             } catch(IOException e){
-                e.printStackTrace();
+                Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error loading FXML file: " + fxmlFile, e);
             }
         }
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setTitle(title);
+        assert root != null;
         stage.setScene(new Scene(root, 600, 400));
         stage.show();
     }
@@ -50,7 +53,7 @@ public class DBUtils {
             psCheckUserExists.setString(1, username);
             resultSet = psCheckUserExists.executeQuery();
 
-            if (resultSet.isBeforeFirst()){;
+            if (resultSet.isBeforeFirst()){
                 System.out.println("User already exists!");
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("You cannot use this username.");
@@ -65,34 +68,34 @@ public class DBUtils {
                 changeScene(event, "logged-in.fxml", "Welcome", username);
             }
         } catch (SQLException e){
-            e.printStackTrace();
+            Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error executing SQL queries", e);
         } finally {
             if (resultSet != null){
                 try {
                     resultSet.close();
                 } catch (SQLException e){
-                    e.printStackTrace();
+                    Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error closing ResultSet", e);
                 }
             }
             if (psCheckUserExists != null) {
                 try{
                     psCheckUserExists.close();
                 } catch (SQLException e){
-                    e.printStackTrace();
+                    Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error closing psCheckUserExists", e);
                 }
             }
             if (psInsert != null){
                 try{
                     psInsert.close();
                 } catch (SQLException e){
-                    e.printStackTrace();
+                    Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error closing psInsert", e);
                 }
             }
             if (connection != null){
                 try{
                     connection.close();
                 } catch(SQLException e){
-                    e.printStackTrace();
+                    Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error closing connection", e);
                 }
             }
         }
@@ -129,30 +132,29 @@ public class DBUtils {
                 }
             }
         } catch (SQLException e){
-            e.printStackTrace();
+            Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error executing SQL queries", e);
         } finally {
             if (resultSet != null){
                 try {
                     resultSet.close();
                 } catch (SQLException e){
-                    e.printStackTrace();
+                    Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error closing ResultSet", e);
                 }
             }
             if (preparedStatement != null){
                 try {
                     preparedStatement.close();
                 } catch (SQLException e){
-                    e.printStackTrace();
+                    Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error closing PreparedStatement", e);
                 }
             }
             if (connection != null){
                 try{
-                    preparedStatement.close();
+                    connection.close();
                 } catch (SQLException e){
-                    e.printStackTrace();
+                    Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error closing Connection", e);
                 }
             }
         }
     }
-
 }

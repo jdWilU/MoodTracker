@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 
 import java.util.Objects;
 
-// purpler: #a364f8
+// purple: #a364f8
 // red: #fe6969
 // blue: #2cb2ff
 // green: #20e49f
