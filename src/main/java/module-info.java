@@ -14,4 +14,8 @@ module org.example.moodtracker {
 
     opens org.example.moodtracker to javafx.fxml;
     exports org.example.moodtracker;
+    exports org.example.moodtracker.model;
+    opens org.example.moodtracker.model to javafx.fxml;
+    exports org.example.moodtracker.controller;
+    opens org.example.moodtracker.controller to javafx.fxml;
 }

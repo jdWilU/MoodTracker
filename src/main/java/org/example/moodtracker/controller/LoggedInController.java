@@ -1,4 +1,4 @@
-package org.example.moodtracker;
+package org.example.moodtracker.controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -7,6 +7,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import org.example.moodtracker.model.DBUtils;
 
 public class LoggedInController implements Initializable {
 

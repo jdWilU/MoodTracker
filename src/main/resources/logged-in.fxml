@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.moodtracker.LoggedInController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.moodtracker.controller.LoggedInController">
    <children>
       <Label fx:id="label_welcome" layoutX="286.0" layoutY="87.0" text="Logged In" />
       <Button fx:id="button_logout" layoutX="288.0" layoutY="175.0" mnemonicParsing="false" text="Log out" />
