@@ -2,7 +2,7 @@
 
 ## Description
 
-MoodTracker is a simple and intuitive mobile application designed to help users track their moods on a daily basis. With MoodTracker, users can easily record their emotions, thoughts, and activities, allowing them to gain insights into their emotional well-being over time.
+MoodTracker is a simple and intuitive application designed to help users track their moods on a daily basis. With MoodTracker, users can easily record their emotions, thoughts, and activities, allowing them to gain insights into their emotional well-being over time.
 
 ## Features
 
