@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="homepage" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #f0f0f0;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+    <!-- Sidebar Menu -->
+    <VBox alignment="TOP_CENTER" prefHeight="522.0" prefWidth="150.0" style="-fx-background-color: #333333; -fx-padding: 10;">
+        <!-- Logo -->
+            <ImageView fitHeight="53.0" fitWidth="54.0" layoutX="23.0" layoutY="84.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Images/img.png" />
+               </image>
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
+            </ImageView>
+      <Separator prefWidth="200.0">
+         <VBox.margin>
+            <Insets top="15.0" />
+         </VBox.margin>
+      </Separator>
+      <Pane prefHeight="28.0" prefWidth="147.0" style="-fx-background-color: #333333;">
+         <children>
+            <ImageView fitHeight="36.0" fitWidth="30.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Images/icons8-home-64.png" />
+               </image>
+            </ImageView>
+            <Button layoutX="38.0" layoutY="2.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" style="-fx-background-color: #FFFFFF;" text="Homepage" textFill="#333333" />
+         </children>
+         <VBox.margin>
+            <Insets top="15.0" />
+         </VBox.margin>
+      </Pane>
+      <Pane layoutX="20.0" layoutY="111.0" prefHeight="28.0" prefWidth="147.0">
+         <children>
+            <ImageView fitHeight="36.0" fitWidth="30.0" layoutX="1.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Images/icons8-day-30.png" />
+               </image>
+            </ImageView>
+            <Button layoutX="38.0" layoutY="2.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" style="-fx-background-color: #FFFFFF;" text="Daily Entry" />
+         </children>
+         <VBox.margin>
+            <Insets top="20.0" />
+         </VBox.margin>
+      </Pane>
+      <Pane layoutX="20.0" layoutY="189.0" prefHeight="28.0" prefWidth="147.0">
+         <children>
+            <ImageView fitHeight="36.0" fitWidth="30.0" layoutX="3.0" layoutY="-5.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Images/icons8-database-24.png" />
+               </image>
+            </ImageView>
+            <Button layoutX="38.0" layoutY="2.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" style="-fx-background-color: #FFFFFF;" text="Entry List" />
+         </children>
+         <VBox.margin>
+            <Insets top="20.0" />
+         </VBox.margin>
+      </Pane>
+    </VBox>
+
+    <!-- Top Section -->
+    <VBox layoutX="150.0" prefHeight="65.0" prefWidth="650.0" style="-fx-padding: 10;">
+        <!-- User Info -->
+        <Label style="-fx-font-size: 16px; -fx-text-fill: #333333;" text="User's Name" />
+        <!-- Current Date -->
+        <Label style="-fx-font-size: 14px; -fx-text-fill: #666666;" text="Current Date" />
+    </VBox>
+
+    <!-- Right Section (Empty Space) -->
+    <VBox layoutX="600.0" prefWidth="200.0" style="-fx-padding: 10;">
+        <!-- This space can be used for further functionality -->
+    </VBox>
+   <VBox layoutY="522.0" prefHeight="92.0" prefWidth="150.0" style="-fx-background-color: #ced4db;">
+      <children>
+         <Pane prefHeight="28.0" prefWidth="129.0">
+            <children>
+               <ImageView fitHeight="36.0" fitWidth="30.0" layoutX="12.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@Images/icons8-logout-64.png" />
+                  </image>
+               </ImageView>
+               <Button layoutX="51.0" layoutY="2.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" text="Logout" />
+            </children>
+            <VBox.margin>
+               <Insets top="10.0" />
+            </VBox.margin>
+         </Pane>
+         <Pane layoutX="10.0" layoutY="20.0" prefHeight="28.0" prefWidth="169.0">
+            <children>
+               <ImageView fitHeight="36.0" fitWidth="30.0" layoutX="13.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@Images/icons8-close-48.png" />
+                  </image>
+               </ImageView>
+               <Button layoutX="51.0" layoutY="2.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" text="Exit" textFill="#fe6969">
+                  <font>
+                     <Font name="System Bold" size="12.0" />
+                  </font></Button>
+            </children>
+            <VBox.margin>
+               <Insets top="10.0" />
+            </VBox.margin>
+         </Pane>
+      </children></VBox>
+</AnchorPane>
