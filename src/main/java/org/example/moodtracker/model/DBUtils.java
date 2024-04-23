@@ -43,6 +43,7 @@ public class DBUtils {
                 root = loader.load();
                 LoggedInController loggedInController = loader.getController();
                 loggedInController.setUserInformation(username);
+                loggedInController.setCurrentDate();
             } catch (IOException e){
                 Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error loading FXML file: " + fxmlFile, e);
             }
