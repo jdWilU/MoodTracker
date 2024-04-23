@@ -7,8 +7,9 @@
 <?import javafx.scene.text.*?>
 
 <AnchorPane fx:id="homepage" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #f0f0f0;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.moodtracker.controller.LoggedInController">
+   <Pane layoutX="111.0" prefHeight="74.0" prefWidth="488.0" style="-fx-background-color: #FFFFFF;" />
     <!-- Sidebar Menu -->
-    <VBox alignment="TOP_CENTER" prefHeight="318.0" prefWidth="137.0" style="-fx-background-color: #333333; -fx-padding: 10;">
+    <VBox alignment="TOP_CENTER" prefHeight="318.0" prefWidth="117.0" style="-fx-background-color: #FFFFFF; -fx-padding: 10;">
       <Pane prefHeight="42.0" prefWidth="125.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 5;">
          <children>
               <!-- Logo -->
@@ -17,46 +18,58 @@
                         <Image url="@Images/img.png" />
                      </image>
                   </ImageView>
-            <Label layoutX="42.0" layoutY="13.0" prefHeight="17.0" prefWidth="74.0" text="MoodTracker" textFill="#2cb2ff" />
+            <Label layoutX="42.0" layoutY="13.0" prefHeight="17.0" prefWidth="80.0" text="MoodTracker" textFill="#2cb2ff">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
          </children>
       </Pane>
-      <Pane prefHeight="29.0" prefWidth="117.0" style="-fx-background-color: #333333;">
+      <Pane layoutX="20.0" layoutY="116.0" prefHeight="28.0" prefWidth="147.0">
          <children>
-            <ImageView fitHeight="36.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+            <Button fx:id="button_homepage" alignment="CENTER" layoutX="-2.0" layoutY="2.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="97.0" style="-fx-background-color: #2cb2ff; -fx-background-radius: 15;" text="      Homepage" textAlignment="RIGHT" textFill="WHITE">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Button>
+            <ImageView fitHeight="21.0" fitWidth="23.0" layoutX="6.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Images/icons8-home-64.png" />
                </image>
             </ImageView>
-            <Button alignment="CENTER_RIGHT" contentDisplay="CENTER" layoutX="35.0" layoutY="2.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" style="-fx-background-color: #FFFF;" text="Homepage" textFill="#333333">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font></Button>
          </children>
          <VBox.margin>
-            <Insets top="15.0" />
+            <Insets top="20.0" />
          </VBox.margin>
       </Pane>
       <Pane layoutX="20.0" layoutY="111.0" prefHeight="28.0" prefWidth="147.0">
          <children>
-            <ImageView fitHeight="36.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+            <Button fx:id="button_daily_entry" layoutX="-2.0" layoutY="2.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="97.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15; -fx-border-color: #838383; -fx-border-radius: 15;" text="      Daily Entry" textFill="#838383">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Button>
+            <ImageView fitHeight="20.0" fitWidth="17.0" layoutX="9.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@Images/icons8-day-30.png" />
+                  <Image url="@Images/icons8-day-50.png" />
                </image>
             </ImageView>
-            <Button layoutX="35.0" layoutY="2.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" style="-fx-background-color: #FFFFFF;" text="Daily Entry" />
          </children>
          <VBox.margin>
             <Insets top="10.0" />
          </VBox.margin>
       </Pane>
-      <Pane layoutX="20.0" layoutY="189.0" prefHeight="28.0" prefWidth="147.0">
+      <Pane layoutX="20.0" layoutY="116.0" prefHeight="28.0" prefWidth="147.0">
          <children>
-            <ImageView fitHeight="36.0" fitWidth="30.0" layoutX="2.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
+            <Button fx:id="button_table" layoutX="-2.0" layoutY="2.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="97.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15; -fx-border-color: #838383; -fx-border-radius: 15;" text="Table" textFill="#838383">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Button>
+            <ImageView fitHeight="17.0" fitWidth="17.0" layoutX="10.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@Images/icons8-database-24.png" />
+                  <Image url="@Images/icons8-database-32.png" />
                </image>
             </ImageView>
-            <Button layoutX="35.0" layoutY="4.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" style="-fx-background-color: #FFFFFF;" text="Entry List" />
          </children>
          <VBox.margin>
             <Insets top="10.0" />
@@ -65,42 +78,45 @@
     </VBox>
 
     <!-- Top Section -->
-    <VBox layoutX="138.0" prefHeight="65.0" prefWidth="462.0" style="-fx-padding: 10;">
-        <!-- User Info -->
-        <Label fx:id="label_welcome" prefHeight="25.0" prefWidth="216.0" style="-fx-font-size: 16px; -fx-text-fill: #333333;" text="User's Name" />
-        <!-- Current Date -->
-        <Label fx:id="current_date" prefHeight="20.0" prefWidth="233.0" style="-fx-font-size: 14px; -fx-text-fill: #666666;" text="Current Date" />
-    </VBox>
-   <VBox layoutY="313.0" prefHeight="87.0" prefWidth="137.0" style="-fx-background-color: #ced4db;">
+    <VBox layoutX="159.0" layoutY="6.0" prefHeight="52.0" prefWidth="441.0" style="-fx-background-color: #FFFFFF;">
       <children>
-         <Pane prefHeight="27.0" prefWidth="137.0">
+           <!-- User Info -->
+           <Label fx:id="label_welcome" prefHeight="25.0" prefWidth="117.0" style="-fx-font-size: 16px; -fx-text-fill: #333333;" text="User's Name" />
+           <!-- Current Date -->
+           <Label fx:id="current_date" prefHeight="20.0" prefWidth="125.0" style="-fx-font-size: 14px; -fx-text-fill: #666666;" text="Current Date" />
+      </children>
+    </VBox>
+   <VBox layoutY="313.0" prefHeight="90.0" prefWidth="117.0" style="-fx-background-color: #FFFFFF;">
+      <children>
+         <Pane layoutX="10.0" layoutY="20.0" prefHeight="42.0" prefWidth="137.0" style="-fx-background-color: #FFFFFF;">
             <children>
-               <ImageView fitHeight="36.0" fitWidth="30.0" layoutX="9.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
+               <Button fx:id="button_logout" layoutX="5.0" layoutY="21.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="97.0" style="-fx-background-color: #838383; -fx-background-radius: 15;" text="       Logout" textFill="WHITE" />
+               <ImageView fitHeight="21.0" fitWidth="21.0" layoutX="18.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
                   <image>
                      <Image url="@Images/icons8-logout-64.png" />
                   </image>
                </ImageView>
-               <Button fx:id="button_logout" layoutX="42.0" layoutY="1.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" style="-fx-background-color: #FFFFFF;" text="Logout" textFill="#ced4db" />
             </children>
-            <VBox.margin>
-               <Insets top="10.0" />
-            </VBox.margin>
          </Pane>
-         <Pane layoutX="10.0" layoutY="20.0" prefHeight="42.0" prefWidth="137.0" style="-fx-background-color: #fe6969;">
+         <Pane layoutX="10.0" layoutY="20.0" prefHeight="42.0" prefWidth="137.0" style="-fx-background-color: #FFFFFF;">
             <children>
-               <ImageView fitHeight="35.0" fitWidth="30.0" layoutX="10.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+               <Button fx:id="button_close" layoutX="5.0" layoutY="5.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="97.0" style="-fx-background-color: #fe6969; -fx-background-radius: 15;" text="  Exit" textFill="WHITE" />
+               <ImageView fitHeight="17.0" fitWidth="21.0" layoutX="21.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
                   <image>
                      <Image url="@Images/icons8-close-48.png" />
                   </image>
                </ImageView>
-               <Button fx:id="button_close" layoutX="43.0" layoutY="8.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" style="-fx-background-color: #FFFFFF;" text="Exit" textFill="#fe6969">
-                  <font>
-                     <Font name="System Bold" size="12.0" />
-                  </font></Button>
             </children>
             <VBox.margin>
                <Insets top="10.0" />
             </VBox.margin>
          </Pane>
       </children></VBox>
+   <Pane layoutX="113.0" layoutY="60.0" prefHeight="354.0" prefWidth="87.0" style="-fx-background-color: #F0F0F0; -fx-background-radius: 15;" />
+   <Pane layoutX="134.0" layoutY="60.0" prefHeight="338.0" prefWidth="466.0" style="-fx-background-color: #F0F0F0;">
+      <children>
+         <Pane layoutX="6.0" layoutY="20.0" prefHeight="137.0" prefWidth="137.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15;" />
+         <Pane layoutX="171.0" layoutY="20.0" prefHeight="137.0" prefWidth="266.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15;" />
+         <Pane layoutX="5.0" layoutY="176.0" prefHeight="160.0" prefWidth="431.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15;" />
+      </children></Pane>
 </AnchorPane>
