@@ -9,7 +9,7 @@
    <children>
       <ImageView fitHeight="600.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@Images/background.png" />
+            <Image url="@/Images/magicpattern-mesh-gradient-1713952154649.png" />
          </image></ImageView>
       <Pane layoutX="100.0" layoutY="93.0" prefHeight="407.0" prefWidth="600.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15;">
          <children>

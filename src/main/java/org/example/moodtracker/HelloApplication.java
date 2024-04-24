@@ -21,7 +21,7 @@ public class HelloApplication extends Application {
         createDatabase();
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("login.fxml")));
         primaryStage.setTitle("Log In");
-        primaryStage.setScene(new Scene(root, 600, 400));
+        primaryStage.setScene(new Scene(root, 800, 600));
         primaryStage.show();
     }
 
