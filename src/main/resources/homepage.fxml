@@ -81,9 +81,9 @@
     <VBox layoutX="159.0" layoutY="6.0" prefHeight="52.0" prefWidth="441.0" style="-fx-background-color: #FFFFFF;">
       <children>
            <!-- User Info -->
-           <Label fx:id="label_welcome" prefHeight="25.0" prefWidth="117.0" style="-fx-font-size: 16px; -fx-text-fill: #333333;" text="User's Name" />
+           <Label fx:id="label_welcome" prefHeight="25.0" prefWidth="219.0" style="-fx-font-size: 16px; -fx-text-fill: #333333;" text="User's Name" />
            <!-- Current Date -->
-           <Label fx:id="current_date" prefHeight="20.0" prefWidth="125.0" style="-fx-font-size: 14px; -fx-text-fill: #666666;" text="Current Date" />
+           <Label fx:id="current_date" prefHeight="20.0" prefWidth="214.0" style="-fx-font-size: 14px; -fx-text-fill: #666666;" text="Current Date" />
       </children>
     </VBox>
    <VBox layoutY="313.0" prefHeight="90.0" prefWidth="117.0" style="-fx-background-color: #FFFFFF;">
