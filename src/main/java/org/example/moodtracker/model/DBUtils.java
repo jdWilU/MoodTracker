@@ -43,6 +43,7 @@ public class DBUtils {
                 root = loader.load();
                 LoggedInController loggedInController = loader.getController();
                 loggedInController.setUserInformation(username);
+                loggedInController.setCurrentDate();
             } catch (IOException e){
                 Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error loading FXML file: " + fxmlFile, e);
             }
@@ -56,7 +57,7 @@ public class DBUtils {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setTitle(title);
         assert root != null;
-        stage.setScene(new Scene(root, 600, 400));
+        stage.setScene(new Scene(root, 800, 600));
         stage.show();
     }
 
@@ -78,7 +79,7 @@ public class DBUtils {
                     psInsert.setString(3, password);
                     psInsert.executeUpdate();
 
-                    changeScene(event, "logged-in.fxml", "Welcome", username);
+                    changeScene(event, "homepage.fxml", "Welcome", username);
                 }
             }
         } catch (SQLException e) {
@@ -100,7 +101,7 @@ public class DBUtils {
                     while (resultSet.next()) {
                         String retrievedPassword = resultSet.getString("password");
                         if (retrievedPassword.equals(password)) {
-                            changeScene(event, "logged-in.fxml", "Welcome", username);
+                            changeScene(event, "homepage.fxml", "Welcome", username);
                         } else {
                             System.out.println("Passwords do not match!");
                             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -114,4 +115,7 @@ public class DBUtils {
             Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error executing SQL queries", e);
         }
     }
+
+
+
 }
