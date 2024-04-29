@@ -2,18 +2,14 @@
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import org.example.moodtracker.controller.LoggedInController;
 import org.example.moodtracker.model.DBUtils;
 import org.junit.jupiter.api.*;
-import org.sqlite.SQLiteConnection;
 
 import java.io.IOException;
-import java.io.PrintStream;
 import java.sql.*;
 import java.util.concurrent.*;
 import java.sql.Connection;
