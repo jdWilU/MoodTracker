@@ -75,7 +75,6 @@ class DBUtilsTest {
     @Test
     void testCreateDatabase() {
         DBUtils.createDatabase();
-
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);
              Statement statement = connection.createStatement()) {
             // Check if the users table exists
