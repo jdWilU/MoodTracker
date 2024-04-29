@@ -22,6 +22,8 @@ public class tableViewController implements Initializable{
     @FXML
     private Button button_logout;
     @FXML
+    private Button button_profile;
+    @FXML
     private Label label_welcome;
     @FXML
     private Label current_date;
@@ -32,7 +34,7 @@ public class tableViewController implements Initializable{
         button_homepage.setOnAction(event -> DBUtils.changeScene(event, "homepage.fxml", "Home", null));
         button_logout.setOnAction(event -> DBUtils.changeScene(event, "login.fxml", "Log In", null));
         button_close.setOnAction(actionEvent -> UIUtils.closeApp((Stage) button_close.getScene().getWindow()));
-
+        button_profile.setOnAction(event -> DBUtils.changeScene(event,"profile.fxml","Profile",null));
 
         // Set user information and current date
         UIUtils.setUserInformation(label_welcome, "Username Goes Here");
