@@ -10,11 +10,13 @@ import javafx.stage.Stage;
 import org.example.moodtracker.controller.LoggedInController;
 import org.example.moodtracker.model.DBUtils;
 import org.junit.jupiter.api.*;
+import org.sqlite.SQLiteConnection;
 
 import java.io.IOException;
 import java.io.PrintStream;
 import java.sql.*;
 import java.util.concurrent.*;
+import java.sql.Connection;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -39,7 +41,6 @@ class DBUtilsTest {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         DBUtils.createDatabase();
     }
 
@@ -55,6 +56,19 @@ class DBUtilsTest {
 
         if (connection != null) {
             connection.close();
+        }
+    }
+
+    @Test
+    void testDatabaseConnection() {
+        // Attempt to establish a connection to the SQLite database
+        try (Connection connection = DriverManager.getConnection(DATABASE_URL)) {
+            // Check if connection is not null
+            assertNotNull(connection);
+            // Check if the connection is valid
+            assertTrue(connection.isValid(5)); // Timeout in seconds (5 seconds timeout)
+        } catch (SQLException e) {
+            fail("Failed to connect to the database: " + e.getMessage());
         }
     }
 
