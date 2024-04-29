@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="homepage" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #f0f0f0;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.moodtracker.controller.LoggedInController">
+<AnchorPane fx:id="homepage" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #f0f0f0;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.moodtracker.controller.ProfileSettingsController">
     <Pane layoutX="111.0" prefHeight="339.0" prefWidth="690.0" style="-fx-background-color: #FFFFFF;">
         <children>
 
@@ -45,7 +45,7 @@
                 </Button>
                 <ImageView fitHeight="21.0" fitWidth="23.0" layoutX="18.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@Images/icons8-home-64.png" />
+                        <Image url="@Images/icons8-homepage-48.png" />
                     </image>
                 </ImageView>
             </children>

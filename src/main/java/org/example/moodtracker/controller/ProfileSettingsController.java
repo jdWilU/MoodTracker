@@ -28,7 +28,7 @@ public class ProfileSettingsController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        // Button functionality
         button_homepage.setOnAction(event -> DBUtils.changeScene(event,"homepage.fxml", "Home",null));
         button_logout.setOnAction(event -> DBUtils.changeScene(event, "login.fxml", "Log In", null));
         button_table.setOnAction(event -> DBUtils.changeScene(event, "tableView.fxml", "Table View", null));
