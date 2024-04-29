@@ -89,7 +89,7 @@
         </Pane>
       <Pane layoutX="20.0" layoutY="150.0" prefHeight="28.0" prefWidth="147.0">
          <children>
-            <Button alignment="CENTER" layoutX="10.0" layoutY="25.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="97.0" style="-fx-background-color: #2cb2ff; -fx-border-radius: 15; -fx-background-radius: 15;" text=" Profile" textAlignment="RIGHT" textFill="WHITE">
+            <Button fx:id="button_profile" alignment="CENTER" layoutX="10.0" layoutY="25.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="97.0" style="-fx-background-color: #2cb2ff; -fx-border-radius: 15; -fx-background-radius: 15;" text=" Profile" textAlignment="RIGHT" textFill="WHITE">
                <font>
                   <Font size="10.0" />
                </font>
@@ -141,10 +141,30 @@
                   <children>
                      <HBox prefHeight="56.0" prefWidth="574.0">
                         <children>
-                           <Label prefHeight="56.0" prefWidth="111.0" text="Name" />
+                           <Label prefHeight="56.0" prefWidth="111.0" text="Name:" />
                            <Pane prefHeight="200.0" prefWidth="200.0">
                               <children>
-                                 <TextField layoutX="26.0" layoutY="16.0" prefHeight="25.0" prefWidth="304.0" />
+                                 <TextField fx:id="tf_username" layoutX="26.0" layoutY="16.0" prefHeight="25.0" prefWidth="304.0" />
+                              </children>
+                           </Pane>
+                        </children>
+                     </HBox>
+                     <HBox layoutX="10.0" layoutY="10.0" prefHeight="56.0" prefWidth="574.0">
+                        <children>
+                           <Label prefHeight="56.0" prefWidth="111.0" text="Email:" />
+                           <Pane prefHeight="200.0" prefWidth="200.0">
+                              <children>
+                                 <TextField fx:id="tf_email" layoutX="26.0" layoutY="16.0" prefHeight="25.0" prefWidth="304.0" />
+                              </children>
+                           </Pane>
+                        </children>
+                     </HBox>
+                     <HBox layoutX="10.0" layoutY="66.0" prefHeight="56.0" prefWidth="574.0">
+                        <children>
+                           <Label prefHeight="56.0" prefWidth="111.0" text="Password:" />
+                           <Pane prefHeight="200.0" prefWidth="200.0">
+                              <children>
+                                 <TextField fx:id="tf_password" layoutX="26.0" layoutY="16.0" prefHeight="25.0" prefWidth="304.0" />
                               </children>
                            </Pane>
                         </children>
