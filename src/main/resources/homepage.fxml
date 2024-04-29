@@ -117,8 +117,8 @@
    <Pane layoutX="135.0" layoutY="66.0" prefHeight="538.0" prefWidth="87.0" style="-fx-background-color: #F0F0F0; -fx-background-radius: 15;" />
    <Pane layoutX="147.0" layoutY="66.0" prefHeight="538.0" prefWidth="654.0" style="-fx-background-color: #F0F0F0;">
       <children>
-         <Pane layoutX="16.0" layoutY="25.0" prefHeight="227.0" prefWidth="214.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15;" />
-         <Pane layoutX="260.0" layoutY="25.0" prefHeight="227.0" prefWidth="345.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15;" />
-         <Pane layoutX="16.0" layoutY="281.0" prefHeight="240.0" prefWidth="586.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15;" />
+         <Pane fx:id="pane_donut" layoutX="16.0" layoutY="25.0" prefHeight="227.0" prefWidth="214.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15;" />
+         <Pane fx:id="pane_barchart" layoutX="260.0" layoutY="25.0" prefHeight="227.0" prefWidth="345.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15;" />
+         <Pane fx:id="pane_linegraph" layoutX="16.0" layoutY="281.0" prefHeight="240.0" prefWidth="586.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15;" />
       </children></Pane>
 </AnchorPane>

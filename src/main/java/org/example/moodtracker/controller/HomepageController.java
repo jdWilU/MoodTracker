@@ -1,13 +1,23 @@
 package org.example.moodtracker.controller;
 
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
+
 
 import org.example.moodtracker.model.DBUtils;
 import org.example.moodtracker.model.UIUtils;
@@ -24,17 +34,100 @@ public class HomepageController implements Initializable {
     private Label label_welcome;
     @FXML
     private Label current_date;
-
+    @FXML
+    private Pane pane_donut;
+    @FXML
+    private Pane pane_barchart;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        //Create Placeholder Pie Graph
+        createPieChartDummy();
+
+        //Create Placeholder Bar Graph
+        createBarchartDummy();
+
+        //Create Placeholder Line Bar Graph
+
+
+
         button_logout.setOnAction(event -> DBUtils.changeScene(event, "login.fxml", "Log In", null));
         button_close.setOnAction(actionEvent -> UIUtils.closeApp((Stage) button_close.getScene().getWindow()));
         button_table.setOnAction(event -> DBUtils.changeScene(event, "tableView.fxml", "Table View", null));
-
 
         // Set user information and current date
         UIUtils.setUserInformation(label_welcome, "Username Goes Here");
         UIUtils.setCurrentDate(current_date);
     }
+
+
+    //---------------------------Placeholder functions------------------------------------
+
+    public void createPieChartDummy(){
+        // Create dummy data for the pie chart & style the chart
+        PieChart.Data slice1 = new PieChart.Data("Category 1", 15);
+        PieChart.Data slice2 = new PieChart.Data("Category 2", 25);
+        PieChart.Data slice3 = new PieChart.Data("Category 3", 10);
+        PieChart.Data slice4 = new PieChart.Data("Category 3", 30);
+        PieChart.Data slice5 = new PieChart.Data("Category 3", 20);
+
+        // Create a pie chart
+        PieChart pieChart = new PieChart();
+        pieChart.getData().addAll(slice1, slice2, slice3, slice4, slice5);
+        pieChart.setTitle("Donut Graph");
+
+        // Set custom style for the pie chart (to resemble a donut)
+        pieChart.setLabelsVisible(false);
+        pieChart.setLegendVisible(true);
+        pieChart.setStartAngle(90);
+
+        // Add the pie chart to the pane
+        pane_donut.getChildren().add(pieChart);
+
+        // Set the size of the pie chart to match the pane
+        pieChart.setPrefSize(pane_donut.getPrefWidth(), pane_donut.getPrefHeight());
+
+    }
+
+    public void createBarchartDummy(){
+        // Create a CategoryAxis for the X-axis (days of the week)
+        CategoryAxis xAxis = new CategoryAxis();
+        xAxis.setCategories(FXCollections.observableArrayList(
+                "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"
+        ));
+
+        // Create a NumberAxis for the Y-axis (hours)
+        NumberAxis yAxis = new NumberAxis();
+        yAxis.setLabel("Hours");
+
+        // Create a BarChart
+        BarChart<String, Number> barChart = new BarChart<>(xAxis, yAxis);
+        barChart.setTitle("Screen Time");
+
+        // Populate the BarChart with dummy data (screen time in hours)
+        XYChart.Series<String, Number> series = new XYChart.Series<>();
+        series.getData().add(new XYChart.Data<>("Mon", 3));
+        series.getData().add(new XYChart.Data<>("Tue", 4));
+        series.getData().add(new XYChart.Data<>("Wed", 5));
+        series.getData().add(new XYChart.Data<>("Thu", 2));
+        series.getData().add(new XYChart.Data<>("Fri", 6));
+        series.getData().add(new XYChart.Data<>("Sat", 7));
+        series.getData().add(new XYChart.Data<>("Sun", 4));
+
+        // Add the series to the BarChart
+        barChart.getData().add(series);
+
+        // Set preferred width and height of the BarChart
+        barChart.setPrefSize(320, 210);
+
+        // Add the BarChart to the pane_barchart pane
+        pane_barchart.getChildren().add(barChart);
+    }
+
+    public void createLinechartDummy(){
+
+    }
+
+
 }
