@@ -117,6 +117,17 @@
    <Pane layoutX="135.0" layoutY="66.0" prefHeight="538.0" prefWidth="87.0" style="-fx-background-color: #F0F0F0; -fx-background-radius: 15;" />
    <Pane layoutX="147.0" layoutY="66.0" prefHeight="538.0" prefWidth="654.0" style="-fx-background-color: #F0F0F0;">
       <children>
-         <Pane layoutX="16.0" layoutY="25.0" prefHeight="492.0" prefWidth="611.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15;" />
+         <Pane layoutX="16.0" layoutY="25.0" prefHeight="492.0" prefWidth="611.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15;">
+            <children>
+               <TableView prefHeight="492.0" prefWidth="611.0">
+                 <columns>
+                   <TableColumn fx:id="table_date" prefWidth="75.0" text="Date" />
+                   <TableColumn fx:id="table_mood" prefWidth="75.0" text="Mood" />
+                     <TableColumn fx:id="table_activities" prefWidth="107.0" text="Activities" />
+                     <TableColumn fx:id="table_screentime" prefWidth="82.0" text="Screentime" />
+                     <TableColumn fx:id="table_comments" prefWidth="271.0" text="Comments" />
+                 </columns>
+               </TableView>
+            </children></Pane>
       </children></Pane>
 </AnchorPane>
