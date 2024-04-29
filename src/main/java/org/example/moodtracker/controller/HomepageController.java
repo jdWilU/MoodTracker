@@ -19,6 +19,8 @@ public class HomepageController implements Initializable {
     @FXML
     private Button button_close;
     @FXML
+    private Button button_ta
+    @FXML
     private Label label_welcome;
     @FXML
     private Label current_date;
