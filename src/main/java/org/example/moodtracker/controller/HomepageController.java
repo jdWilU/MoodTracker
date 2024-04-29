@@ -18,6 +18,8 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 
+import javafx.scene.chart.LineChart;
+import javafx.scene.paint.Color;
 
 import org.example.moodtracker.model.DBUtils;
 import org.example.moodtracker.model.UIUtils;
@@ -38,6 +40,9 @@ public class HomepageController implements Initializable {
     private Pane pane_donut;
     @FXML
     private Pane pane_barchart;
+    @FXML
+    private Pane pane_linegraph;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -49,7 +54,7 @@ public class HomepageController implements Initializable {
         createBarchartDummy();
 
         //Create Placeholder Line Bar Graph
-
+        createLinechartDummy();
 
 
         button_logout.setOnAction(event -> DBUtils.changeScene(event, "login.fxml", "Log In", null));
@@ -126,8 +131,50 @@ public class HomepageController implements Initializable {
     }
 
     public void createLinechartDummy(){
+        // Create a NumberAxis for the X-axis (days 1 to 25)
+        NumberAxis xAxis = new NumberAxis(1, 25, 1);
+        xAxis.setLabel("Days");
 
+        // Create a NumberAxis for the Y-axis (five-point scale)
+        NumberAxis yAxis = new NumberAxis(1, 5, 1); // Min: 1, Max: 5, Tick Unit: 1
+        yAxis.setLabel("Scale");
+
+        // Create a LineChart
+        LineChart<Number, Number> lineChart = new LineChart<>(xAxis, yAxis);
+        lineChart.setTitle("Scale Values per Day");
+
+        // Populate the LineChart with dummy data (scale values)
+        XYChart.Series<Number, Number> series = new XYChart.Series<>();
+        for (int day = 1; day <= 25; day++) {
+            series.getData().add(new XYChart.Data<>(day, (int) (Math.random() * 5) + 1));
+        }
+        lineChart.getData().add(series);
+
+        // Customize line color based on data point value
+        for (XYChart.Data<Number, Number> data : series.getData()) {
+            double value = data.getYValue().doubleValue();
+            Color lineColor = getColorForValue(value);
+            data.getNode().setStyle("-fx-stroke: " + colorToHex(lineColor) + ";");
+        }
+
+        // Set preferred width and height of the LineChart
+        lineChart.setPrefSize(550, 250);
+
+        pane_linegraph.getChildren().add(lineChart);
+        pane_linegraph.layoutXProperty().bind(pane_linegraph.widthProperty().subtract(lineChart.getPrefWidth()).divide(2));
     }
 
+    // Helper method to get color based on value (red to green gradient)
+    private Color getColorForValue(double value) {
+        double hue = (120.0 - (value - 1.0) * 60.0) / 360.0;
+        return Color.hsb(hue, 1.0, 1.0);
+    }
 
+    // Helper method to convert Color to hexadecimal string
+    private String colorToHex(Color color) {
+        return String.format("#%02X%02X%02X",
+                (int) (color.getRed() * 255),
+                (int) (color.getGreen() * 255),
+                (int) (color.getBlue() * 255));
+    }
 }
