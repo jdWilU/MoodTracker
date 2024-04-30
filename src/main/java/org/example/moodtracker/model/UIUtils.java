@@ -10,7 +10,7 @@ public class UIUtils {
 
     // Method to set user information in a label
     public static void setUserInformation(Label label, String username) {
-        label.setText("Welcome, " + username + " !");
+        label.setText("Welcome, " + username + "!");
     }
 
     // Method to set the current date in a label

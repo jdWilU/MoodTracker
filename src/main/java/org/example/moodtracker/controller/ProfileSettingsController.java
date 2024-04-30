@@ -45,11 +45,22 @@ public class ProfileSettingsController implements Initializable {
         button_table.setOnAction(event -> DBUtils.changeScene(event, "tableView.fxml", "Table View", null));
         button_close.setOnAction(actionEvent -> UIUtils.closeApp((Stage) button_close.getScene().getWindow()));
 
+        // Set user information and current date
         String currentUser = DBUtils.getCurrentUsername();
         if (currentUser != null) {
             UIUtils.setUserInformation(label_welcome, currentUser);
         }
         UIUtils.setCurrentDate(current_date);
+
+        // Retrieve user information
+        UserInfo user = DBUtils.getUserInfo(DBUtils.getCurrentUsername());
+
+        // Populate text fields with user information
+        if (user != null) {
+            tf_username.setText(user.getUsername());
+            tf_email.setText(user.getEmail());
+            tf_password.setText(user.getPassword());
+        }
     }
 
 }

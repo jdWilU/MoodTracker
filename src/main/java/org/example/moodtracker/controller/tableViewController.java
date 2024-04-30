@@ -37,7 +37,10 @@ public class tableViewController implements Initializable{
         button_profile.setOnAction(event -> DBUtils.changeScene(event,"profile.fxml","Profile",null));
 
         // Set user information and current date
-        UIUtils.setUserInformation(label_welcome, "Username Goes Here");
+        String currentUser = DBUtils.getCurrentUsername();
+        if (currentUser != null) {
+            UIUtils.setUserInformation(label_welcome, currentUser);
+        }
         UIUtils.setCurrentDate(current_date);
     }
 }

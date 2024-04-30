@@ -64,6 +64,7 @@ public class HomepageController implements Initializable {
         button_table.setOnAction(event -> DBUtils.changeScene(event, "tableView.fxml", "Table View", null));
         button_profile.setOnAction(event -> DBUtils.changeScene(event,"profile.fxml","Profile",null));
 
+        // Set user information and current date
         String currentUser = DBUtils.getCurrentUsername();
         if (currentUser != null) {
             UIUtils.setUserInformation(label_welcome, currentUser);
