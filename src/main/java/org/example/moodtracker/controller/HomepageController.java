@@ -6,21 +6,17 @@ import javafx.fxml.Initializable;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-
 import javafx.scene.chart.LineChart;
 import javafx.scene.paint.Color;
-
 import org.example.moodtracker.model.DBUtils;
 import org.example.moodtracker.model.UIUtils;
 
@@ -43,7 +39,6 @@ public class HomepageController implements Initializable {
     @FXML
     private Pane pane_linegraph;
 
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -55,7 +50,6 @@ public class HomepageController implements Initializable {
 
         //Create Placeholder Line Bar Graph
         createLinechartDummy();
-
 
         button_logout.setOnAction(event -> DBUtils.changeScene(event, "login.fxml", "Log In", null));
         button_close.setOnAction(actionEvent -> UIUtils.closeApp((Stage) button_close.getScene().getWindow()));
