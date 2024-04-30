@@ -19,7 +19,11 @@ import java.util.logging.Logger;
 
 public class DBUtils {
     private static final String DATABASE_URL = "jdbc:sqlite:moodtracker.db";
-    private static String currentUsername; // Static variable to store the current username
+    private static String currentUsername;
+    private static String currentEmail;
+    private static String currentPassword; // Static variable to store the current username
+
+
 
     // Function to create necessary tables in SQLite database
     public static void createDatabase() {
@@ -80,6 +84,8 @@ public class DBUtils {
                     psInsert.executeUpdate();
 
                     setCurrentUsername(username);
+                    setCurrentEmail(email);
+                    setCurrentPassword(password);
                     changeScene(event, "homepage.fxml", "Welcome", username);
                 }
             }
@@ -142,11 +148,35 @@ public class DBUtils {
         }
     }
 
+    // User details: getters & setters
     public static String getCurrentUsername() {
         return currentUsername;
     }
-
     public static void setCurrentUsername(String username) {
         currentUsername = username;
+    }
+    public static String getCurrentEmail() {
+        return currentEmail;
+    }
+    public static void setCurrentEmail(String email) {
+        currentEmail = email;
+    }
+    public static String getCurrentPassword() {
+        return currentPassword;
+    }
+    public static void setCurrentPassword(String password) {
+        currentPassword = password;
+    }
+
+    public static void updateUserInfo(String username, String newUsername, String newEmail, String newPassword) throws SQLException {
+        String query = "UPDATE users SET username = ?, email = ?, password = ? WHERE username = ?";
+        try (Connection connection = DriverManager.getConnection(DATABASE_URL);
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, newUsername);
+            preparedStatement.setString(2, newEmail);
+            preparedStatement.setString(3, newPassword);
+            preparedStatement.setString(4, username);
+            preparedStatement.executeUpdate();
+        }
     }
 }
