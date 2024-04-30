@@ -128,6 +128,19 @@ public class DBUtils {
         }
     }
 
+    public static int getUserIdByUsername(Connection connection, String username) throws SQLException {
+        int userId = -1;
+        String query = "SELECT id FROM users WHERE username = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                userId = resultSet.getInt("id");
+            }
+        }
+        return userId;
+    }
+
 
 
 }

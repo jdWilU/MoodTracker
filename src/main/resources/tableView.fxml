@@ -119,13 +119,13 @@
       <children>
          <Pane layoutX="16.0" layoutY="25.0" prefHeight="492.0" prefWidth="611.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15;">
             <children>
-               <TableView prefHeight="492.0" prefWidth="611.0">
+               <TableView fx:id="tableView" prefHeight="492.0" prefWidth="611.0">
                  <columns>
-                   <TableColumn fx:id="table_date" prefWidth="75.0" text="Date" />
-                   <TableColumn fx:id="table_mood" prefWidth="75.0" text="Mood" />
-                     <TableColumn fx:id="table_activities" prefWidth="107.0" text="Activities" />
-                     <TableColumn fx:id="table_screentime" prefWidth="82.0" text="Screentime" />
-                     <TableColumn fx:id="table_comments" prefWidth="271.0" text="Comments" />
+                   <TableColumn fx:id="dateColumn" prefWidth="75.0" text="Date" />
+                   <TableColumn fx:id="moodColumn" prefWidth="75.0" text="Mood" />
+                     <TableColumn fx:id="activitiesColumn" prefWidth="107.0" text="Activities" />
+                     <TableColumn fx:id="screenTimeColumn" prefWidth="82.0" text="Screentime" />
+                     <TableColumn fx:id="commentsColumn" prefWidth="271.0" text="Comments" />
                  </columns>
                </TableView>
             </children></Pane>
