@@ -45,8 +45,10 @@ public class ProfileSettingsController implements Initializable {
         button_table.setOnAction(event -> DBUtils.changeScene(event, "tableView.fxml", "Table View", null));
         button_close.setOnAction(actionEvent -> UIUtils.closeApp((Stage) button_close.getScene().getWindow()));
 
-        // Set user information and current date
-        UIUtils.setUserInformation(label_welcome, "Username Goes Here");
+        String currentUser = DBUtils.getCurrentUsername();
+        if (currentUser != null) {
+            UIUtils.setUserInformation(label_welcome, currentUser);
+        }
         UIUtils.setCurrentDate(current_date);
     }
 
