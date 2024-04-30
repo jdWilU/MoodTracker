@@ -4,12 +4,17 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.example.moodtracker.model.DBUtils;
 import org.example.moodtracker.model.UIUtils;
+import org.example.moodtracker.model.UserInfo;
 
 import java.net.URL;
+import java.sql.*;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ProfileSettingsController implements Initializable {
 
@@ -25,6 +30,12 @@ public class ProfileSettingsController implements Initializable {
     private Label label_welcome;
     @FXML
     private Label current_date;
+    @FXML
+    private TextField tf_username;
+    @FXML
+    private TextField tf_email;
+    @FXML
+    private TextField tf_password;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -38,4 +49,5 @@ public class ProfileSettingsController implements Initializable {
         UIUtils.setUserInformation(label_welcome, "Username Goes Here");
         UIUtils.setCurrentDate(current_date);
     }
+
 }
