@@ -5,6 +5,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+
+// Utility Class to populate database with information to be manipulated. Only needs to be run once.
+
 public class PopulateDatabase {
 
     private static final String DATABASE_URL = "jdbc:sqlite:moodtracker.db";

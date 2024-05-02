@@ -1,5 +1,7 @@
 package org.example.moodtracker.controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -10,12 +12,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import org.example.moodtracker.model.DBUtils;
 import org.example.moodtracker.model.UIUtils;
-import org.example.moodtracker.model.MoodEntry; // Assuming you have a MoodEntry model class
+import org.example.moodtracker.model.MoodEntry;
 
 import java.net.URL;
 import java.sql.*;
 import java.util.ResourceBundle;
-
 public class tableViewController implements Initializable {
 
     @FXML
@@ -28,6 +29,8 @@ public class tableViewController implements Initializable {
     private Label label_welcome;
     @FXML
     private Label current_date;
+
+
     @FXML
     private TableView<MoodEntry> tableView;
     @FXML
@@ -37,7 +40,7 @@ public class tableViewController implements Initializable {
     @FXML
     private TableColumn<MoodEntry, String> activitiesColumn;
     @FXML
-    private TableColumn<MoodEntry, Integer> screenTimeColumn;
+    private TableColumn<MoodEntry, Integer > screenTimeColumn;
     @FXML
     private TableColumn<MoodEntry, String> commentsColumn;
 
@@ -56,49 +59,41 @@ public class tableViewController implements Initializable {
         UIUtils.setUserInformation(label_welcome, loggedInUsername);
         UIUtils.setCurrentDate(current_date);
 
-        // Set up table columns
+        // Configure table columns to use properties of MoodEntry
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("entryDate"));
         moodColumn.setCellValueFactory(new PropertyValueFactory<>("mood"));
         activitiesColumn.setCellValueFactory(new PropertyValueFactory<>("activityCategory"));
         screenTimeColumn.setCellValueFactory(new PropertyValueFactory<>("screenTimeHours"));
         commentsColumn.setCellValueFactory(new PropertyValueFactory<>("comments"));
 
-        // Populate table with mood tracking data for the logged-in user
-        populateMoodTrackingTable(loggedInUsername);
+        // Load data into the table view
+        loadData();
     }
 
-    private void populateMoodTrackingTable(String username) {
-        try (Connection connection = DriverManager.getConnection(DATABASE_URL)) {
-            // Retrieve user ID based on username
-            int userId = DBUtils.getUserIdByUsername(connection, username);
+    private void loadData() {
+        ObservableList<MoodEntry> moodEntries = FXCollections.observableArrayList();
 
-            if (userId != -1) {
-                // Prepare SQL query to fetch mood tracking data for the user
-                String selectMoodDataSQL = "SELECT entry_date, mood, activity_category, screen_time_hours, comments " +
-                                           "FROM mood_tracking WHERE user_id = ?";
+        try (Connection conn = DriverManager.getConnection(DATABASE_URL);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT * FROM mood_tracking")) {
 
-                try (PreparedStatement preparedStatement = connection.prepareStatement(selectMoodDataSQL)) {
-                    preparedStatement.setInt(1, userId);
-                    ResultSet resultSet = preparedStatement.executeQuery();
+            while (rs.next()) {
+                String entryDate = rs.getString("entry_date");
+                String mood = rs.getString("mood");
+                String activityCategory = rs.getString("activity_category");
+                int screenTimeHours = rs.getInt("screen_time_hours");
+                String comments = rs.getString("comments");
 
-                    // Clear existing items in the table
-                    tableView.getItems().clear();
-
-                    // Iterate through the result set and add mood entries to the table
-                    while (resultSet.next()) {
-                        String entryDate = resultSet.getString("entry_date");
-                        String mood = resultSet.getString("mood");
-                        String activityCategory = resultSet.getString("activity_category");
-                        int screenTimeHours = resultSet.getInt("screen_time_hours");
-                        String comments = resultSet.getString("comments");
-
-                        MoodEntry moodEntry = new MoodEntry(entryDate, mood, activityCategory, screenTimeHours, comments);
-                        tableView.getItems().add(moodEntry);
-                    }
-                }
+                MoodEntry moodEntry = new MoodEntry(entryDate, mood, activityCategory, screenTimeHours, comments);
+                moodEntries.add(moodEntry);
             }
+
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Error loading data from database: " + e.getMessage());
         }
+
+        // Set the items in the table view
+        tableView.setItems(moodEntries);
     }
+
 }
