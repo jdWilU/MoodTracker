@@ -7,7 +7,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
-import org.example.moodtracker.controller.LoggedInController;
 
 import java.io.IOException;
 import java.sql.*;
@@ -23,13 +22,28 @@ public class DBUtils {
     public static void createDatabase() {
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);
              Statement statement = connection.createStatement()) {
+            // Create User table
             String createUserTableSQL = "CREATE TABLE IF NOT EXISTS users (" +
                     "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                     "username TEXT UNIQUE," +
                     "email TEXT," +
                     "password TEXT)";
             statement.execute(createUserTableSQL);
-            Logger.getLogger(DBUtils.class.getName()).log(Level.INFO, "Database created successfully");
+            Logger.getLogger(DBUtils.class.getName()).log(Level.INFO, "User Database created successfully!");
+
+            // Create mood tracking table
+            String createMoodTableSQL = "CREATE TABLE IF NOT EXISTS mood_tracking (" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "user_id INTEGER," +  // Foreign key to link to users table
+                    "entry_date DATE," +   // Date of the entry
+                    "mood TEXT CHECK (mood IN ('BAD', 'POOR', 'OKAY', 'GOOD', 'GREAT'))," +  // Mood category
+                    "screen_time_hours INTEGER," +  // Screen time in hours
+                    "activity_category TEXT CHECK (activity_category IN ('Exercise', 'Meditation', 'Socializing', 'Sleep ', 'Journaling', 'Hobbies', 'Helping Others'))," +  // Category of activity
+                    "comments TEXT," +  // Additional comments
+                    "FOREIGN KEY(user_id) REFERENCES users(id))";  // Foreign key constraint
+            statement.execute(createMoodTableSQL);
+            Logger.getLogger(DBUtils.class.getName()).log(Level.INFO, "Mood Tracking Table created successfully!");
+
         } catch (SQLException e) {
             Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error creating database", e);
         }
@@ -41,9 +55,7 @@ public class DBUtils {
             try {
                 FXMLLoader loader = new FXMLLoader(DBUtils.class.getClassLoader().getResource(fxmlFile));
                 root = loader.load();
-                LoggedInController loggedInController = loader.getController();
-                loggedInController.setUserInformation(username);
-                loggedInController.setCurrentDate();
+                //HomepageController loggedInController = loader.getController();
             } catch (IOException e){
                 Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error loading FXML file: " + fxmlFile, e);
             }
@@ -114,6 +126,19 @@ public class DBUtils {
         } catch (SQLException e) {
             Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error executing SQL queries", e);
         }
+    }
+
+    public static int getUserIdByUsername(Connection connection, String username) throws SQLException {
+        int userId = -1;
+        String query = "SELECT id FROM users WHERE username = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                userId = resultSet.getInt("id");
+            }
+        }
+        return userId;
     }
 
 

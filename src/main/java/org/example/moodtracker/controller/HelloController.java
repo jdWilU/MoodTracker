@@ -22,9 +22,6 @@ public class HelloController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         button_login.setOnAction(event -> DBUtils.logInUser(event, tf_username.getText(), tf_password.getText()));
-
         button_signup.setOnAction(event -> DBUtils.changeScene(event, "sign-up.fxml", "Sign Up", null));
-
-
     }
 }
