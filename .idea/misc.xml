@@ -9,6 +9,7 @@
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
+        <option value="$PROJECT_DIR$/MoodTracker-main/pom.xml" />
         <option value="$PROJECT_DIR$/pom.xml" />
       </list>
     </option>

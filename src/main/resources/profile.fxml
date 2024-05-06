@@ -169,9 +169,17 @@
                            </Pane>
                         </children>
                      </HBox>
-                     <Button fx:id="button_save" mnemonicParsing="false" prefHeight="9.0" prefWidth="52.0" text="Save" />
                   </children>
                </VBox>
+               <Button fx:id="button_save" layoutX="18.0" layoutY="444.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0" style="-fx-background-color: #20e49f;" text="Save Changes" textFill="WHITE">
+                  <font>
+                     <Font name="System Bold" size="12.0" />
+                  </font></Button>
+               <Button fx:id="button_delete" layoutX="480.0" layoutY="444.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="117.0" style="-fx-background-color: #fe6969;" text="Delete Account" textFill="WHITE">
+                  <font>
+                     <Font name="System Bold" size="12.0" />
+                  </font>
+               </Button>
             </children></Pane>
         </children></Pane>
 </AnchorPane>
