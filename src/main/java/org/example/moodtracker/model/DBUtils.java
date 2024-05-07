@@ -1,5 +1,6 @@
 package org.example.moodtracker.model;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -177,6 +178,26 @@ public class DBUtils {
             preparedStatement.setString(3, newPassword);
             preparedStatement.setString(4, username);
             preparedStatement.executeUpdate();
+        }
+    }
+
+    public static void deleteUser(String username) throws SQLException {
+        // SQL query to delete the user's record from the database
+        String query = "DELETE FROM users WHERE username = ?";
+
+        try (Connection connection = DriverManager.getConnection(DATABASE_URL);
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            // Set the username parameter
+            preparedStatement.setString(1, username);
+
+            // Execute the DELETE query
+            preparedStatement.executeUpdate();
+
+            Logger.getLogger(DBUtils.class.getName()).log(Level.INFO, "User deleted successfully");
+        } catch (SQLException e) {
+            // Log any SQL exceptions that occur
+            Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error deleting user", e);
+            throw e; // Re-throw the exception to be handled by the caller
         }
     }
 }

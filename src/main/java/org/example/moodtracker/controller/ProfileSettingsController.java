@@ -2,10 +2,7 @@ package org.example.moodtracker.controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.example.moodtracker.model.DBUtils;
 import org.example.moodtracker.model.UIUtils;
@@ -13,6 +10,7 @@ import org.example.moodtracker.model.UserInfo;
 
 import java.net.URL;
 import java.sql.*;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,6 +37,8 @@ public class ProfileSettingsController implements Initializable {
     private TextField tf_password;
     @FXML
     private Button button_save;
+    @FXML
+    private Button button_delete;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -49,6 +49,7 @@ public class ProfileSettingsController implements Initializable {
         button_close.setOnAction(actionEvent -> UIUtils.closeApp((Stage) button_close.getScene().getWindow()));
         // Update button functionality
         button_save.setOnAction(event -> updateUser());
+        button_delete.setOnAction(event -> handleDeleteAccount());
 
         // Set user information and current date for top of homepage
         String currentUser = DBUtils.getCurrentUsername();
@@ -98,6 +99,33 @@ public class ProfileSettingsController implements Initializable {
         alert.setHeaderText(null);
         alert.setContentText(content);
         alert.showAndWait();
+    }
+
+    private void handleDeleteAccount() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation");
+        alert.setHeaderText("Delete Account");
+        alert.setContentText("Are you sure you want to delete your account? This action cannot be undone.");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            // User confirmed deletion
+            String username = DBUtils.getCurrentUsername();
+            try {
+                DBUtils.deleteUser(username);
+                // Logout and redirect to login page
+                UIUtils.logout();
+            } catch (SQLException e) {
+                // Handle deletion error
+                Logger.getLogger(ProfileSettingsController.class.getName()).log(Level.SEVERE, "Error deleting user account", e);
+                // Show error message to the user
+                Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                errorAlert.setTitle("Error");
+                errorAlert.setHeaderText("Account Deletion Failed");
+                errorAlert.setContentText("An error occurred while deleting your account. Please try again later.");
+                errorAlert.showAndWait();
+            }
+        }
     }
 
 }
