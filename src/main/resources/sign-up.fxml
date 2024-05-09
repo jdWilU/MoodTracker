@@ -29,7 +29,6 @@
                     </font>
                 </Button>
             <Label layoutX="185.0" layoutY="200.0" text="Password" />
-            <TextField fx:id="tf_password" layoutX="265.0" layoutY="196.0" promptText="Password" />
             <Label layoutX="180.0" layoutY="317.0" text="Already a Member ?" textFill="#828282">
                <font>
                   <Font name="System Bold" size="14.0" />
@@ -40,6 +39,7 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
+                  <PasswordField fx:id="pf_password" layoutX="264.0" layoutY="196.0" promptText="Password" />
             </children></AnchorPane>
          </children></Pane>
    </children>
