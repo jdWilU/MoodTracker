@@ -112,6 +112,7 @@ public class DBUtils {
                 } else {
                     while (resultSet.next()) {
                         String retrievedPassword = resultSet.getString("password");
+
                         if (retrievedPassword.equals(password)) {
                             changeScene(event, "homepage.fxml", "Welcome", username);
                         } else {

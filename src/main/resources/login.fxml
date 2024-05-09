@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
@@ -40,7 +39,6 @@
                       <Label layoutX="74.0" layoutY="113.0" text="Username" />
                       <Label layoutX="73.0" layoutY="153.0" text="Password" />
                       <TextField fx:id="tf_username" layoutX="153.0" layoutY="109.0" promptText="Username" />
-                      <TextField fx:id="tf_password" layoutX="153.0" layoutY="149.0" promptText="Password" />
                       <Button fx:id="button_login" layoutX="109.0" layoutY="200.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="161.0" style="-fx-background-color: #20e49f;" text="Login" textFill="WHITE">
                           <font>
                               <Font name="System Bold" size="12.0" />
@@ -54,6 +52,7 @@
                               <Font name="System Bold" size="12.0" />
                           </font>
                       </Button>
+                        <PasswordField fx:id="pf_password" layoutX="151.0" layoutY="148.0" prefHeight="17.0" prefWidth="150.0" promptText="Password" />
                   </children>
                   </AnchorPane>
                </children></HBox>
