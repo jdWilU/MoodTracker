@@ -21,6 +21,8 @@ import org.example.moodtracker.model.DBUtils;
 import org.example.moodtracker.model.UIUtils;
 import org.example.moodtracker.model.UserSession;
 
+import static org.example.moodtracker.model.UIUtils.setUserInformation;
+
 public class HomepageController implements Initializable {
 
 
@@ -60,9 +62,9 @@ public class HomepageController implements Initializable {
         // Set user information and current date
         // Retrieve the logged-in username from UserSession
         String username = UserSession.getUsername();
-        // Display the username on the homepage
-        label_welcome.setText("Welcome, " + username + "!");
 
+        // Display the username on the homepage
+        setUserInformation(label_welcome, username);
         UIUtils.setCurrentDate(current_date);
     }
 

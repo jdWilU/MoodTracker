@@ -74,38 +74,53 @@ public class tableViewController implements Initializable {
     private void loadData() {
         ObservableList<MoodEntry> moodEntries = FXCollections.observableArrayList();
 
-        // Retrieve the logged-in user's user_id (assuming UserSession is used to store user information)
-        int loggedInUserId = UserSession.getUserId();
+        // Retrieve the logged-in user's username
+        String loggedInUsername = UserSession.getUsername();
 
-        //Check correct user id
-        System.out.println(loggedInUserId);
-
-        if (loggedInUserId > 0) { // Check if user_id is valid (greater than 0)
+        if (loggedInUsername != null && !loggedInUsername.isEmpty()) {
             try (Connection conn = DriverManager.getConnection(DATABASE_URL);
-                 PreparedStatement stmt = conn.prepareStatement(
-                         "SELECT m.* FROM mood_tracking m INNER JOIN users u ON m.user_id = u.user_id WHERE u.user_id = ?")) {
+                 PreparedStatement getUserIdStmt = conn.prepareStatement(
+                         "SELECT user_id FROM users WHERE username = ?");
+                 PreparedStatement getMoodEntriesStmt = conn.prepareStatement(
+                         "SELECT * FROM mood_tracking WHERE user_id = ?")) {
 
-                // Set the user_id parameter in the prepared statement
-                stmt.setInt(1, loggedInUserId);
+                // Set parameter for retrieving user_id based on username
+                getUserIdStmt.setString(1, loggedInUsername);
 
-                try (ResultSet rs = stmt.executeQuery()) {
-                    while (rs.next()) {
-                        String entryDate = rs.getString("entry_date");
-                        String mood = rs.getString("mood");
-                        String activityCategory = rs.getString("activity_category");
-                        int screenTimeHours = rs.getInt("screen_time_hours");
-                        String comments = rs.getString("comments");
-
-                        MoodEntry moodEntry = new MoodEntry(entryDate, mood, activityCategory, screenTimeHours, comments);
-                        moodEntries.add(moodEntry);
+                // Execute query to retrieve user_id
+                int loggedInUserId = -1; // Initialize user_id with default value
+                try (ResultSet userIdResult = getUserIdStmt.executeQuery()) {
+                    if (userIdResult.next()) {
+                        loggedInUserId = userIdResult.getInt("user_id"); // Retrieve user_id
                     }
+                }
+
+                if (loggedInUserId > 0) { // Check if valid user_id is retrieved
+                    // Set parameter for retrieving mood entries based on user_id
+                    getMoodEntriesStmt.setInt(1, loggedInUserId);
+
+                    // Execute query to retrieve mood entries for the logged-in user
+                    try (ResultSet moodEntriesResult = getMoodEntriesStmt.executeQuery()) {
+                        while (moodEntriesResult.next()) {
+                            String entryDate = moodEntriesResult.getString("entry_date");
+                            String mood = moodEntriesResult.getString("mood");
+                            String activityCategory = moodEntriesResult.getString("activity_category");
+                            int screenTimeHours = moodEntriesResult.getInt("screen_time_hours");
+                            String comments = moodEntriesResult.getString("comments");
+
+                            MoodEntry moodEntry = new MoodEntry(entryDate, mood, activityCategory, screenTimeHours, comments);
+                            moodEntries.add(moodEntry);
+                        }
+                    }
+                } else {
+                    System.err.println("User not found or invalid user_id retrieved for the logged-in user.");
                 }
 
             } catch (SQLException e) {
                 System.err.println("Error loading data from database: " + e.getMessage());
             }
         } else {
-            System.err.println("Logged-in user_id is invalid or not available.");
+            System.err.println("Logged-in username is invalid or not available.");
         }
 
         // Set the items in the table view
