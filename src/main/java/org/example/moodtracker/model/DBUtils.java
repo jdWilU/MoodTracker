@@ -91,6 +91,8 @@ public class DBUtils {
                     psInsert.setString(3, password);
                     psInsert.executeUpdate();
 
+                    UserSession.setUsername(username);
+
                     changeScene(event, "homepage.fxml", "Welcome", username);
                 }
             }
@@ -114,6 +116,7 @@ public class DBUtils {
                         String retrievedPassword = resultSet.getString("password");
 
                         if (retrievedPassword.equals(password)) {
+                            UserSession.setUsername(username);
                             changeScene(event, "homepage.fxml", "Welcome", username);
                         } else {
                             System.out.println("Passwords do not match!");
@@ -145,3 +148,4 @@ public class DBUtils {
 
 
 }
+

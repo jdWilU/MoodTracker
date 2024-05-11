@@ -19,8 +19,10 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.paint.Color;
 import org.example.moodtracker.model.DBUtils;
 import org.example.moodtracker.model.UIUtils;
+import org.example.moodtracker.model.UserSession;
 
 public class HomepageController implements Initializable {
+
 
     @FXML
     private Button button_logout;
@@ -56,7 +58,11 @@ public class HomepageController implements Initializable {
         button_table.setOnAction(event -> DBUtils.changeScene(event, "tableView.fxml", "Table View", null));
 
         // Set user information and current date
-        UIUtils.setUserInformation(label_welcome, "Username Goes Here");
+        // Retrieve the logged-in username from UserSession
+        String username = UserSession.getUsername();
+        // Display the username on the homepage
+        label_welcome.setText("Welcome, " + username + "!");
+
         UIUtils.setCurrentDate(current_date);
     }
 
