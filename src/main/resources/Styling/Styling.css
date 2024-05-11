@@ -1,3 +1,26 @@
+
+
+
+
+
+
+
+/*---------------------------Button Styling----------------------------- */
+
+#button_homepage {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 15;
+    -fx-border-color: #838383;
+    -fx-border-radius: 15;
+}
+
+#button_homepage: hover{
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+    -fx-background-color: #838383; /* New background color on hover */
+    -fx-text-fill: white; /* Text color on hover */
+}
+
 /* Styling for Daily Entry Button */
 #button_daily_entry {
     -fx-background-color: #FFFFFF;

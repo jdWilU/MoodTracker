@@ -24,7 +24,7 @@ public class DBUtils {
              Statement statement = connection.createStatement()) {
             // Create User table
             String createUserTableSQL = "CREATE TABLE IF NOT EXISTS users (" +
-                    "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "user_id INTEGER PRIMARY KEY AUTOINCREMENT," +
                     "username TEXT UNIQUE," +
                     "email TEXT," +
                     "password TEXT)";
@@ -40,7 +40,7 @@ public class DBUtils {
                     "screen_time_hours INTEGER," +  // Screen time in hours
                     "activity_category TEXT CHECK (activity_category IN ('Exercise', 'Meditation', 'Socializing', 'Sleep ', 'Journaling', 'Hobbies', 'Helping Others'))," +  // Category of activity
                     "comments TEXT," +  // Additional comments
-                    "FOREIGN KEY(user_id) REFERENCES users(id))";  // Foreign key constraint
+                    "FOREIGN KEY(user_id) REFERENCES users(user_id))";  // Foreign key constraint
             statement.execute(createMoodTableSQL);
             Logger.getLogger(DBUtils.class.getName()).log(Level.INFO, "Mood Tracking Table created successfully!");
 
@@ -55,7 +55,6 @@ public class DBUtils {
             try {
                 FXMLLoader loader = new FXMLLoader(DBUtils.class.getClassLoader().getResource(fxmlFile));
                 root = loader.load();
-                //HomepageController loggedInController = loader.getController();
             } catch (IOException e){
                 Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error loading FXML file: " + fxmlFile, e);
             }
@@ -131,21 +130,5 @@ public class DBUtils {
             Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error executing SQL queries", e);
         }
     }
-
-    public static int getUserIdByUsername(Connection connection, String username) throws SQLException {
-        int userId = -1;
-        String query = "SELECT id FROM users WHERE username = ?";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setString(1, username);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                userId = resultSet.getInt("id");
-            }
-        }
-        return userId;
-    }
-
-
-
 }
 
