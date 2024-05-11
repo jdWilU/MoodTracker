@@ -8,8 +8,6 @@ import javafx.stage.Stage;
 
 import java.util.Objects;
 
-import static org.example.moodtracker.model.DBUtils.createDatabase;
-
 // purple: #a364f8
 // red: #fe6969
 // blue: #2cb2ff

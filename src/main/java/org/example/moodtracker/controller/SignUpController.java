@@ -69,7 +69,7 @@ public class SignUpController implements Initializable {
         if (password.length() < 8) {
             return PasswordStrength.WEAK;
         } else if (password.matches(".*[a-z].*") && password.matches(".*[A-Z].*") &&
-                   password.matches(".*\\d.*") && password.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?].*")) {
+                   password.matches(".*\\d.*") && password.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?].*")) {
             return PasswordStrength.STRONG;
         } else {
             return PasswordStrength.MEDIUM;
