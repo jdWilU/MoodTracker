@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
@@ -20,26 +21,45 @@
                         <Font name="System Bold" size="29.0" />
                     </font></Label>
                 <Label layoutX="186.0" layoutY="113.0" text="Username" />
-                <Label layoutX="184.0" layoutY="156.0" text="Email" />
+                <Label layoutX="184.0" layoutY="155.0" text="Email" />
                 <TextField fx:id="tf_username" layoutX="265.0" layoutY="109.0" promptText="Username" />
-                <TextField fx:id="tf_email" layoutX="264.0" layoutY="152.0" promptText="Email" />
-                <Button fx:id="button_signup" layoutX="219.0" layoutY="255.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="161.0" style="-fx-background-color: #2cb2ff;" text="Sign Up" textFill="WHITE">
+                <TextField fx:id="tf_email" layoutX="264.0" layoutY="151.0" promptText="Email" />
+                <Button fx:id="button_signup" layoutX="219.0" layoutY="277.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="161.0" style="-fx-background-color: #2cb2ff;" text="Sign Up" textFill="WHITE">
                     <font>
                         <Font name="System Bold" size="12.0" />
                     </font>
                 </Button>
-            <Label layoutX="185.0" layoutY="200.0" text="Password" />
-            <Label layoutX="180.0" layoutY="317.0" text="Already a Member ?" textFill="#828282">
+            <Label layoutX="185.0" layoutY="199.0" text="Password" />
+            <Label layoutX="180.0" layoutY="325.0" text="Already a Member ?" textFill="#828282">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Button fx:id="button_login" layoutX="331.0" layoutY="314.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="81.0" style="-fx-background-color: #20e49f;" text="Login" textFill="WHITE">
+            <Button fx:id="button_login" layoutX="331.0" layoutY="322.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="81.0" style="-fx-background-color: #20e49f;" text="Login" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-                  <PasswordField fx:id="pf_password" layoutX="264.0" layoutY="196.0" promptText="Password" />
+                  <PasswordField fx:id="pf_password" layoutX="264.0" layoutY="195.0" promptText="Password" />
+                  <HBox layoutX="184.0" layoutY="240.0" prefHeight="17.0" prefWidth="232.0">
+                     <children>
+                        <ProgressBar fx:id="strengthProgressBar" prefHeight="18.0" prefWidth="155.0" progress="0.0" />
+                        <Label fx:id="strengthLabel" text="Strength" textFill="#828282">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                           <padding>
+                              <Insets left="13.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                  </HBox>
             </children></AnchorPane>
          </children></Pane>
    </children>
