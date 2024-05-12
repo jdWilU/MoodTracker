@@ -31,8 +31,6 @@ public class tableViewController implements Initializable {
     private Label label_welcome;
     @FXML
     private Label current_date;
-
-
     @FXML
     private TableView<MoodEntry> tableView;
     @FXML
