@@ -13,7 +13,6 @@ import javafx.stage.Stage;
 import org.example.moodtracker.model.DBUtils;
 import org.example.moodtracker.model.UIUtils;
 import org.example.moodtracker.model.MoodEntry;
-import org.example.moodtracker.model.UserSession;
 
 import java.net.URL;
 import java.sql.*;
@@ -81,7 +80,8 @@ public class tableViewController implements Initializable {
         ObservableList<MoodEntry> moodEntries = FXCollections.observableArrayList();
 
         // Retrieve the logged-in user's username
-        String loggedInUsername = UserSession.getUsername();
+        String loggedInUsername = DBUtils.getCurrentUsername();
+        System.out.println(loggedInUsername);
 
         if (loggedInUsername != null && !loggedInUsername.isEmpty()) {
             try (Connection conn = DriverManager.getConnection(DATABASE_URL);

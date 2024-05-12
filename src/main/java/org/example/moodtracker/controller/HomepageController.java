@@ -19,9 +19,6 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.paint.Color;
 import org.example.moodtracker.model.DBUtils;
 import org.example.moodtracker.model.UIUtils;
-import org.example.moodtracker.model.UserSession;
-
-import static org.example.moodtracker.model.UIUtils.setUserInformation;
 
 public class HomepageController implements Initializable {
 
