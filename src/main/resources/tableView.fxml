@@ -38,7 +38,7 @@
       </Pane>
       <Pane layoutX="20.0" layoutY="116.0" prefHeight="28.0" prefWidth="147.0">
          <children>
-            <Button fx:id="button_homepage" alignment="CENTER" layoutX="10.0" layoutY="13.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="97.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15; -fx-border-color: #838383; -fx-border-radius: 15;" text="      Homepage" textAlignment="RIGHT" textFill="#838383">
+            <Button fx:id="button_homepage" alignment="CENTER" layoutX="10.0" layoutY="13.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="97.0" styleClass="button_homepage" stylesheets="@Styling/Styling.css" text="      Homepage" textAlignment="RIGHT" textFill="#838383">
                <font>
                   <Font size="10.0" />
                </font>
@@ -55,7 +55,7 @@
       </Pane>
       <Pane layoutX="20.0" layoutY="111.0" prefHeight="28.0" prefWidth="147.0">
          <children>
-            <Button fx:id="button_daily_entry" layoutX="10.0" layoutY="15.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="97.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15; -fx-border-color: #838383; -fx-border-radius: 15;" text="      Daily Entry" textFill="#838383">
+            <Button fx:id="button_daily_entry" layoutX="10.0" layoutY="15.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="97.0" styleClass="button_daily_entry" stylesheets="@Styling/Styling.css" text="      Daily Entry" textFill="#838383">
                <font>
                   <Font size="10.0" />
                </font>

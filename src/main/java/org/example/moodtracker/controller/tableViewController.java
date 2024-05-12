@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import org.example.moodtracker.model.DBUtils;
 import org.example.moodtracker.model.UIUtils;
 import org.example.moodtracker.model.MoodEntry;
+import org.example.moodtracker.model.UserSession;
 
 import java.net.URL;
 import java.sql.*;
@@ -79,23 +80,53 @@ public class tableViewController implements Initializable {
     private void loadData() {
         ObservableList<MoodEntry> moodEntries = FXCollections.observableArrayList();
 
-        try (Connection conn = DriverManager.getConnection(DATABASE_URL);
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT * FROM mood_tracking")) {
+        // Retrieve the logged-in user's username
+        String loggedInUsername = UserSession.getUsername();
 
-            while (rs.next()) {
-                String entryDate = rs.getString("entry_date");
-                String mood = rs.getString("mood");
-                String activityCategory = rs.getString("activity_category");
-                int screenTimeHours = rs.getInt("screen_time_hours");
-                String comments = rs.getString("comments");
+        if (loggedInUsername != null && !loggedInUsername.isEmpty()) {
+            try (Connection conn = DriverManager.getConnection(DATABASE_URL);
+                 PreparedStatement getUserIdStmt = conn.prepareStatement(
+                         "SELECT user_id FROM users WHERE username = ?");
+                 PreparedStatement getMoodEntriesStmt = conn.prepareStatement(
+                         "SELECT * FROM mood_tracking WHERE user_id = ?")) {
 
-                MoodEntry moodEntry = new MoodEntry(entryDate, mood, activityCategory, screenTimeHours, comments);
-                moodEntries.add(moodEntry);
+                // Set parameter for retrieving user_id based on username
+                getUserIdStmt.setString(1, loggedInUsername);
+
+                // Execute query to retrieve user_id
+                int loggedInUserId = -1; // Initialize user_id with default value
+                try (ResultSet userIdResult = getUserIdStmt.executeQuery()) {
+                    if (userIdResult.next()) {
+                        loggedInUserId = userIdResult.getInt("user_id"); // Retrieve user_id
+                    }
+                }
+
+                if (loggedInUserId > 0) { // Check if valid user_id is retrieved
+                    // Set parameter for retrieving mood entries based on user_id
+                    getMoodEntriesStmt.setInt(1, loggedInUserId);
+
+                    // Execute query to retrieve mood entries for the logged-in user
+                    try (ResultSet moodEntriesResult = getMoodEntriesStmt.executeQuery()) {
+                        while (moodEntriesResult.next()) {
+                            String entryDate = moodEntriesResult.getString("entry_date");
+                            String mood = moodEntriesResult.getString("mood");
+                            String activityCategory = moodEntriesResult.getString("activity_category");
+                            int screenTimeHours = moodEntriesResult.getInt("screen_time_hours");
+                            String comments = moodEntriesResult.getString("comments");
+
+                            MoodEntry moodEntry = new MoodEntry(entryDate, mood, activityCategory, screenTimeHours, comments);
+                            moodEntries.add(moodEntry);
+                        }
+                    }
+                } else {
+                    System.err.println("User not found or invalid user_id retrieved for the logged-in user.");
+                }
+
+            } catch (SQLException e) {
+                System.err.println("Error loading data from database: " + e.getMessage());
             }
-
-        } catch (SQLException e) {
-            System.err.println("Error loading data from database: " + e.getMessage());
+        } else {
+            System.err.println("Logged-in username is invalid or not available.");
         }
 
         // Set the items in the table view

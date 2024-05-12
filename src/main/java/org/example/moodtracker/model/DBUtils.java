@@ -30,12 +30,14 @@ public class DBUtils {
     public static void createDatabase() {
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);
              Statement statement = connection.createStatement()) {
+            // Create User table
             String createUserTableSQL = "CREATE TABLE IF NOT EXISTS users (" +
-                    "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "user_id INTEGER PRIMARY KEY AUTOINCREMENT," +
                     "username TEXT UNIQUE," +
                     "email TEXT," +
                     "password TEXT)";
             statement.execute(createUserTableSQL);
+            Logger.getLogger(DBUtils.class.getName()).log(Level.INFO, "User Database created successfully!");
 
             // Create mood tracking table
             String createMoodTableSQL = "CREATE TABLE IF NOT EXISTS mood_tracking (" +
@@ -46,7 +48,7 @@ public class DBUtils {
                     "screen_time_hours INTEGER," +  // Screen time in hours
                     "activity_category TEXT CHECK (activity_category IN ('Exercise', 'Meditation', 'Socializing', 'Sleep ', 'Journaling', 'Hobbies', 'Helping Others'))," +  // Category of activity
                     "comments TEXT," +  // Additional comments
-                    "FOREIGN KEY(user_id) REFERENCES users(id))";  // Foreign key constraint
+                    "FOREIGN KEY(user_id) REFERENCES users(user_id))";  // Foreign key constraint
             statement.execute(createMoodTableSQL);
             Logger.getLogger(DBUtils.class.getName()).log(Level.INFO, "Mood Tracking Table created successfully!");
 
