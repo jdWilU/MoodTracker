@@ -7,45 +7,45 @@
 <?import javafx.scene.text.*?>
 
 <AnchorPane prefHeight="400.0" prefWidth="544.0" style="-fx-background-color: 000000;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.moodtracker.controller.MoodSelectionController">
-    <ImageView fitHeight="527.0" fitWidth="808.0" layoutX="-19.0" layoutY="-54.0" pickOnBounds="true" preserveRatio="true">
-        <image>
-            <Image url="@Images/background.png" />
-        </image>
-    </ImageView>
-    <Pane layoutX="187.0" layoutY="152.0" prefHeight="200.0" prefWidth="200.0">
-        <children>
-            <AnchorPane layoutX="-159.0" layoutY="-124.0" prefHeight="416.0" prefWidth="629.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15;">
-                <children>
-                    <ImageView fitHeight="117.0" fitWidth="120.0" layoutX="497.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
-                        <image>
-                            <Image url="@Images/img.png" />
-                        </image>
-                    </ImageView>
-                    <Label layoutX="14.0" layoutY="59.0" text="Enter your mood by selecting one of the checkboxes below" textFill="#2cb2ff">
-                        <font>
-                            <Font name="System Italic" size="16.0" />
-                        </font>
-                    </Label>
-                    <Label layoutX="14.0" layoutY="20.0" text="How are you feeling right now?" textFill="#2cb2ff">
-                        <font>
-                            <Font name="System Bold" size="27.0" />
-                        </font>
-                    </Label>
-                    <MeshView />
-                    <ImageView fitHeight="85.0" fitWidth="507.0" layoutX="65.0" layoutY="142.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@Images/mood-scale.png" />
-                    </ImageView>
-                    <Button fx:id="button_submit" layoutX="266.0" layoutY="317.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="97.0" style="-fx-background-color: #20e49f;" text="Submit" textFill="WHITE">
-                        <font>
-                            <Font name="System Bold" size="12.0" />
-                        </font>
-                    </Button>
-                    <RadioButton fx:id="rb1" layoutX="102.0" layoutY="233.0" mnemonicParsing="false" toggleGroup="$group"/>
-                    <RadioButton fx:id="rb2" layoutX="205.0" layoutY="233.0" mnemonicParsing="false" toggleGroup="$group"/>
-                    <RadioButton fx:id="rb3" layoutX="306.0" layoutY="232.0" mnemonicParsing="false" toggleGroup="$group"/>
-                    <RadioButton fx:id="rb4" layoutX="408.0" layoutY="231.0" mnemonicParsing="false" toggleGroup="$group"/>
-                    <RadioButton fx:id="rb5" layoutX="510.0" layoutY="231.0" mnemonicParsing="false" toggleGroup="$group"/>
-                </children>
-            </AnchorPane>
-        </children></Pane>
+   <ImageView fitHeight="527.0" fitWidth="808.0" layoutX="-19.0" layoutY="-54.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@Images/background.png" />
+      </image>
+   </ImageView>
+   <Pane layoutX="187.0" layoutY="152.0" prefHeight="200.0" prefWidth="200.0">
+      <children>
+         <AnchorPane layoutX="-159.0" layoutY="-124.0" prefHeight="416.0" prefWidth="629.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15;">
+            <children>
+                <ImageView fitHeight="117.0" fitWidth="120.0" layoutX="497.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@Images/img.png" />
+                    </image>
+                </ImageView>
+                <Label layoutX="14.0" layoutY="59.0" text="Enter your mood by selecting one of the checkboxes below" textFill="#2cb2ff">
+                    <font>
+                        <Font name="System Italic" size="16.0" />
+                    </font>
+               </Label>
+                <Label layoutX="14.0" layoutY="20.0" text="How are you feeling right now?" textFill="#2cb2ff">
+                    <font>
+                        <Font name="System Bold" size="27.0" />
+                    </font>
+                </Label>
+                <MeshView />
+                <ImageView fitHeight="85.0" fitWidth="507.0" layoutX="65.0" layoutY="142.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@Images/mood-scale.png" />
+                </ImageView>
+                <Button fx:id="button_submit" layoutX="266.0" layoutY="317.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="97.0" style="-fx-background-color: #20e49f;" text="Submit" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="12.0" />
+                    </font>
+               </Button>
+               <RadioButton layoutX="102.0" layoutY="233.0" mnemonicParsing="false" />
+               <RadioButton layoutX="205.0" layoutY="233.0" mnemonicParsing="false" />
+               <RadioButton layoutX="306.0" layoutY="232.0" mnemonicParsing="false" />
+               <RadioButton layoutX="408.0" layoutY="231.0" mnemonicParsing="false" />
+               <RadioButton layoutX="510.0" layoutY="231.0" mnemonicParsing="false" />
+            </children>
+         </AnchorPane>
+      </children></Pane>
 </AnchorPane>
