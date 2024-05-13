@@ -12,98 +12,50 @@
             <Image url="@Images/background.png" />
          </image>
       </ImageView>
-      <Pane layoutX="24.0" layoutY="22.0" prefHeight="391.0" prefWidth="565.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15;">
+      <Pane layoutX="65.0" layoutY="56.0" prefHeight="326.0" prefWidth="486.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15;">
          <children>
-            <AnchorPane prefHeight="422.0" prefWidth="524.0" style="-fx-border-style: #000000; -fx-background-radius: 15;">
+            <AnchorPane prefHeight="329.0" prefWidth="486.0" style="-fx-border-style: #000000; -fx-background-radius: 15;">
                <children>
-                  <Slider layoutX="308.0" layoutY="42.0" prefHeight="14.0" prefWidth="238.0" />
-                  <Separator layoutY="160.0" prefHeight="8.0" prefWidth="565.0" style="-fx-background-color: #808080;" />
-                  <Label layoutX="6.0" layoutY="4.0" text="Screen time check in." textFill="#2cb2ff">
+                  <Label layoutX="48.0" layoutY="12.0" text="Screen time check in:" textFill="#2cb2ff">
                      <font>
                         <Font name="System Bold" size="20.0" />
                      </font>
                   </Label>
-                  <Label layoutX="7.0" layoutY="93.0" prefHeight="14.0" prefWidth="312.0" text="Use the slider to estimate your productive" textAlignment="JUSTIFY">
+                  <Label layoutX="26.0" layoutY="60.0" prefHeight="45.0" prefWidth="212.0" text="Estimate your total screen &#10;time today:" textAlignment="JUSTIFY">
                      <font>
                         <Font name="System Italic" size="14.0" />
                      </font>
                   </Label>
-                  <Label layoutX="7.0" layoutY="113.0" text="screen time (hours) today.">
-                     <font>
-                        <Font name="System Italic" size="14.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="318.0" layoutY="115.0" text="0">
+                  <Slider blockIncrement="1.0" layoutX="212.0" layoutY="75.0" majorTickUnit="2.0" max="8.0" minorTickCount="1" prefHeight="14.0" prefWidth="238.0" showTickLabels="true" showTickMarks="true" />
+                  <Label layoutX="424.0" layoutY="58.0">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="372.0" layoutY="115.0" text="2">
+                  <Label layoutX="479.0" layoutY="58.0">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="424.0" layoutY="115.0" text="4">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="479.0" layoutY="115.0" text="6">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="530.0" layoutY="115.0" text="8+">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="7.0" layoutY="39.0" text="Use the slider to estimate your unproductive">
-                     <font>
-                        <Font name="System Italic" size="14.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="7.0" layoutY="56.0" text="screen time (hours) today.">
-                     <font>
-                        <Font name="System Italic" size="14.0" />
-                     </font>
-                  </Label>
-                  <Slider layoutX="308.0" layoutY="96.0" prefHeight="14.0" prefWidth="238.0" />
-                  <Label layoutX="318.0" layoutY="58.0" text="0">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="372.0" layoutY="58.0" text="2">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="424.0" layoutY="58.0" text="4">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="479.0" layoutY="58.0" text="6">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="530.0" layoutY="58.0" text="8+">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                  </Label>
-                  <TextArea layoutX="14.0" layoutY="211.0" prefHeight="120.0" prefWidth="538.0" promptText="Write anything ..." />
-                  <Label layoutX="14.0" layoutY="175.0" text="Journaling:" textFill="#2cb2ff">
+                  <TextArea layoutX="14.0" layoutY="153.0" prefHeight="122.0" prefWidth="455.0" promptText="Write anything ..." />
+                  <Label layoutX="14.0" layoutY="120.0" text="Journaling:" textFill="#2cb2ff">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
                   </Label>
-                  <Button layoutX="251.0" layoutY="348.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="63.0" style="-fx-background-color: #20e49f;" text="Submit" textFill="WHITE">
+                  <Button fx:id="button_submitscreentime" layoutX="212.0" layoutY="285.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="63.0" style="-fx-background-color: #20e49f;" text="Submit" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font></Button>
+                  <Button fx:id="screentime_back" focusTraversable="false" layoutX="7.0" layoutY="12.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="34.0" style="-fx-background-color: transparent; -fx-text-fill: transparent;">
+                     <graphic>
+                        <ImageView fitHeight="23.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@Images/icons8-back-arrow-50.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
                </children>
             </AnchorPane>
          </children>
