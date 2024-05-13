@@ -59,6 +59,7 @@ public class HomepageController implements Initializable {
         button_close.setOnAction(actionEvent -> UIUtils.closeApp((Stage) button_close.getScene().getWindow()));
         button_table.setOnAction(event -> DBUtils.changeScene(event, "tableView.fxml", "Table View", null));
         button_daily_entry.setOnAction(event -> DBUtils.changeScene(event, "mood-tracking-page.fxml", "Mood Tracking", null));
+        button_profile.setOnAction(event -> DBUtils.changeScene(event,"profile.fxml","Profile",null));
 
         // Set user information and current date
         String currentUser = DBUtils.getCurrentUsername();
