@@ -5,14 +5,14 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: 0000000;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.moodtracker.controller.ScreentimeJournalPageController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: 0000000;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.moodtracker.controller.ScreentimeJournalPageController">
    <children>
-      <ImageView fitHeight="480.0" fitWidth="648.0" layoutX="-25.0" layoutY="-43.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="600.0" fitWidth="800.0" layoutX="-8.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Images/background.png" />
          </image>
       </ImageView>
-      <Pane layoutX="65.0" layoutY="56.0" prefHeight="326.0" prefWidth="486.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15;">
+      <Pane layoutX="157.0" layoutY="137.0" prefHeight="326.0" prefWidth="486.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15;">
          <children>
             <AnchorPane prefHeight="329.0" prefWidth="486.0" style="-fx-border-style: #000000; -fx-background-radius: 15;">
                <children>
@@ -47,7 +47,7 @@
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font></Button>
-                  <Button fx:id="screentime_back" focusTraversable="false" layoutX="7.0" layoutY="12.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="34.0" style="-fx-background-color: transparent; -fx-text-fill: transparent;">
+                  <Button fx:id="button_screentime_back" focusTraversable="false" layoutX="7.0" layoutY="12.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="34.0" style="-fx-background-color: transparent; -fx-text-fill: transparent;">
                      <graphic>
                         <ImageView fitHeight="23.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
                            <image>
