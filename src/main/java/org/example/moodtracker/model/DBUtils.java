@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -214,6 +215,23 @@ public class DBUtils {
             // Log any SQL exceptions that occur
             Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error deleting user", e);
             throw e; // Re-throw the exception to be handled by the caller
+        }
+    }
+
+    public static void insertMoodEntries(List<MoodEntry> entries, int userId) {
+        String insertMoodEntrySQL = "INSERT INTO mood_tracking (user_id, entry_date, mood, screen_time_hours, activity_category, comments) VALUES (?, ?, ?, ?, ?, ?)";
+        try (Connection connection = DriverManager.getConnection(DATABASE_URL);
+             PreparedStatement preparedStatement = connection.prepareStatement(insertMoodEntrySQL)) {
+            for (MoodEntry entry : entries) {
+                preparedStatement.setInt(1, userId);
+                preparedStatement.setDate(2, Date.valueOf(LocalDate.now())); // Entry date
+                preparedStatement.setString(3, entry.getMood());
+                // Set other parameters (screen time, activity category, comments) as needed
+                preparedStatement.executeUpdate();
+            }
+            Logger.getLogger(DBUtils.class.getName()).log(Level.INFO, "Mood entries inserted successfully");
+        } catch (SQLException e) {
+            Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error inserting mood entries", e);
         }
     }
 }

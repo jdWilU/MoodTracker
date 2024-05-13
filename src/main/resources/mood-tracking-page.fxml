@@ -34,16 +34,11 @@
             <ImageView fitHeight="85.0" fitWidth="507.0" layoutX="61.0" layoutY="104.0" pickOnBounds="true" preserveRatio="true">
                 <Image url="@Images/mood-scale.png" />
             </ImageView>
-            <Button fx:id="button_moodsubmit" layoutX="279.0" layoutY="237.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="63.0" style="-fx-background-color: #20e49f;" text="Submit" textFill="WHITE">
-                <font>
-                    <Font name="System Bold" size="12.0" />
-                </font>
-            </Button>
-            <RadioButton layoutX="99.0" layoutY="201.0" mnemonicParsing="false" />
-            <RadioButton layoutX="202.0" layoutY="201.0" mnemonicParsing="false" />
-            <RadioButton layoutX="303.0" layoutY="199.0" mnemonicParsing="false" />
-            <RadioButton layoutX="404.0" layoutY="199.0" mnemonicParsing="false" />
-            <RadioButton layoutX="507.0" layoutY="199.0" mnemonicParsing="false" />
+            <RadioButton layoutX="99.0" layoutY="201.0" mnemonicParsing="false" fx:id="badRadioButton" text="Bad" toggleGroup="#{toggleGroup}"/>
+            <RadioButton layoutX="202.0" layoutY="201.0" mnemonicParsing="false" fx:id="poorRadioButton" text="Poor" toggleGroup="#{toggleGroup}"/>
+            <RadioButton layoutX="303.0" layoutY="199.0" mnemonicParsing="false" fx:id="okayRadioButton" text="Okay" toggleGroup="#{toggleGroup}"/>
+            <RadioButton layoutX="404.0" layoutY="199.0" mnemonicParsing="false" fx:id="goodRadioButton" text="Good" toggleGroup="#{toggleGroup}"/>
+            <RadioButton layoutX="507.0" layoutY="199.0" mnemonicParsing="false" fx:id="greatRadioButton" text="Great" toggleGroup="#{toggleGroup}"/>
             <Button fx:id="button_moodback" layoutX="7.0" layoutY="13.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="29.0" style="-fx-background-color: transparent;" textFill="WHITE">
                 <graphic>
                     <ImageView fitHeight="23.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
@@ -53,6 +48,15 @@
                     </ImageView>
                 </graphic>
             </Button>
+         <Button fx:id="button_moodsubmit" layoutX="549.0" layoutY="234.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="39.0" style="-fx-background-color: trasnaprent;">
+            <graphic>
+               <ImageView fitHeight="44.0" fitWidth="40.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@Images/icons8-back-arrow-50.png" />
+                  </image>
+               </ImageView>
+            </graphic>
+         </Button>
         </children>
     </AnchorPane>
 </AnchorPane>

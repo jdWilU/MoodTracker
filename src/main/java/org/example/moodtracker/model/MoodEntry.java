@@ -1,5 +1,9 @@
 package org.example.moodtracker.model;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 public class MoodEntry {
     private String entryDate;
     private String mood;
@@ -53,5 +57,19 @@ public class MoodEntry {
 
     public void setComments(String comments) {
         this.comments = comments;
+    }
+
+    private List<MoodEntry> moodEntries = new ArrayList<>();
+
+    public void addMoodEntry(MoodEntry entry) {
+        moodEntries.add(entry);
+    }
+
+    public List<MoodEntry> getMoodEntries() {
+        return moodEntries;
+    }
+
+    public void clearEntries() {
+        moodEntries.clear();
     }
 }
