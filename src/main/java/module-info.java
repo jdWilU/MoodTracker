@@ -11,6 +11,7 @@ module org.example.moodtracker {
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
     requires java.sql;
+    requires java.desktop;
     requires org.xerial.sqlitejdbc;
 
     opens org.example.moodtracker to javafx.fxml;

@@ -1,5 +1,6 @@
 package org.example.moodtracker.model;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -11,12 +12,20 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.*;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DBUtils {
     private static final String DATABASE_URL = "jdbc:sqlite:moodtracker.db";
+    private static String currentUsername;
+    private static String currentEmail;
+    private static String currentPassword; // Static variable to store the current username
+
+
 
     // Function to create necessary tables in SQLite database
     public static void createDatabase() {
@@ -24,7 +33,7 @@ public class DBUtils {
              Statement statement = connection.createStatement()) {
             // Create User table
             String createUserTableSQL = "CREATE TABLE IF NOT EXISTS users (" +
-                    "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "user_id INTEGER PRIMARY KEY AUTOINCREMENT," +
                     "username TEXT UNIQUE," +
                     "email TEXT," +
                     "password TEXT)";
@@ -38,12 +47,13 @@ public class DBUtils {
                     "entry_date DATE," +   // Date of the entry
                     "mood TEXT CHECK (mood IN ('BAD', 'POOR', 'OKAY', 'GOOD', 'GREAT'))," +  // Mood category
                     "screen_time_hours INTEGER," +  // Screen time in hours
-                    "activity_category TEXT CHECK (activity_category IN ('Exercise', 'Meditation', 'Socializing', 'Sleep ', 'Journaling', 'Hobbies', 'Helping Others'))," +  // Category of activity
+                    "activity_category TEXT ," +  // Category of activity
                     "comments TEXT," +  // Additional comments
-                    "FOREIGN KEY(user_id) REFERENCES users(id))";  // Foreign key constraint
+                    "FOREIGN KEY(user_id) REFERENCES users(user_id))";  // Foreign key constraint
             statement.execute(createMoodTableSQL);
             Logger.getLogger(DBUtils.class.getName()).log(Level.INFO, "Mood Tracking Table created successfully!");
 
+            Logger.getLogger(DBUtils.class.getName()).log(Level.INFO, "Database created successfully");
         } catch (SQLException e) {
             Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error creating database", e);
         }
@@ -91,6 +101,9 @@ public class DBUtils {
                     psInsert.setString(3, password);
                     psInsert.executeUpdate();
 
+                    setCurrentUsername(username);
+                    setCurrentEmail(email);
+                    setCurrentPassword(password);
                     changeScene(event, "homepage.fxml", "Welcome", username);
                 }
             }
@@ -113,6 +126,7 @@ public class DBUtils {
                     while (resultSet.next()) {
                         String retrievedPassword = resultSet.getString("password");
                         if (retrievedPassword.equals(password)) {
+                            setCurrentUsername(username);
                             changeScene(event, "homepage.fxml", "Welcome", username);
                         } else {
                             System.out.println("Passwords do not match!");
@@ -128,19 +142,127 @@ public class DBUtils {
         }
     }
 
-    public static int getUserIdByUsername(Connection connection, String username) throws SQLException {
-        int userId = -1;
-        String query = "SELECT id FROM users WHERE username = ?";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+    public static UserInfo getUserInfo(String username) {
+        String query = "SELECT * FROM users WHERE username = ?";
+        try (Connection connection = DriverManager.getConnection(DATABASE_URL);
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, username);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                userId = resultSet.getInt("id");
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    String retrievedUsername = resultSet.getString("username");
+                    String email = resultSet.getString("email");
+                    String password = resultSet.getString("password");
+                    return new UserInfo(retrievedUsername, email, password);
+                } else {
+                    // Log a warning instead of throwing an exception
+                    Logger.getLogger(DBUtils.class.getName()).log(Level.WARNING, "User not found in the database");
+                    return null; // Return null to indicate user not found
+                }
             }
+        } catch (SQLException e) {
+            // Log any SQL exceptions that occur
+            Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error executing SQL query", e);
+            return null; // Return null to indicate an error occurred
         }
-        return userId;
+    }
+
+    // User details: getters & setters
+    public static String getCurrentUsername() {
+        return currentUsername;
+    }
+    public static void setCurrentUsername(String username) {
+        currentUsername = username;
+    }
+    public static String getCurrentEmail() {
+        return currentEmail;
+    }
+    public static void setCurrentEmail(String email) {
+        currentEmail = email;
+    }
+    public static String getCurrentPassword() {
+        return currentPassword;
+    }
+    public static void setCurrentPassword(String password) {
+        currentPassword = password;
+    }
+
+    public static void updateUserInfo(String username, String newUsername, String newEmail, String newPassword) throws SQLException {
+        String query = "UPDATE users SET username = ?, email = ?, password = ? WHERE username = ?";
+        try (Connection connection = DriverManager.getConnection(DATABASE_URL);
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, newUsername);
+            preparedStatement.setString(2, newEmail);
+            preparedStatement.setString(3, newPassword);
+            preparedStatement.setString(4, username);
+            preparedStatement.executeUpdate();
+        }
+    }
+
+    public static void deleteUser(String username) throws SQLException {
+        // SQL query to delete the user's record from the database
+        String query = "DELETE FROM users WHERE username = ?";
+
+        try (Connection connection = DriverManager.getConnection(DATABASE_URL);
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            // Set the username parameter
+            preparedStatement.setString(1, username);
+
+            // Execute the DELETE query
+            preparedStatement.executeUpdate();
+
+            Logger.getLogger(DBUtils.class.getName()).log(Level.INFO, "User deleted successfully");
+        } catch (SQLException e) {
+            // Log any SQL exceptions that occur
+            Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error deleting user", e);
+            throw e; // Re-throw the exception to be handled by the caller
+        }
+    }
+
+    public static void insertMoodEntries(List<MoodEntry> entries, int userId) {
+        String insertMoodEntrySQL = "INSERT INTO mood_tracking (user_id, entry_date, mood, screen_time_hours, activity_category, comments) VALUES (?, ?, ?, ?, ?, ?)";
+        try (Connection connection = DriverManager.getConnection(DATABASE_URL);
+             PreparedStatement preparedStatement = connection.prepareStatement(insertMoodEntrySQL)) {
+            for (MoodEntry entry : entries) {
+                StringBuilder activityStringBuilder = new StringBuilder();
+                for (String activity : entry.getActivityCategory()) {
+                    activityStringBuilder.append(activity).append(",");
+                }
+                String activityCategory = activityStringBuilder.toString().replaceAll(",$", ""); // Remove trailing comma
+
+                preparedStatement.setInt(1, userId);
+                preparedStatement.setDate(2, java.sql.Date.valueOf(entry.getEntryDate()));
+                preparedStatement.setString(3, entry.getMood());
+                preparedStatement.setInt(4, entry.getScreenTimeHours());
+                preparedStatement.setString(5, activityCategory); // Insert all activities concatenated into a single string
+                preparedStatement.setString(6, entry.getComments());
+                preparedStatement.executeUpdate();
+            }
+            Logger.getLogger(DBUtils.class.getName()).log(Level.INFO, "Mood entries inserted successfully");
+        } catch (SQLException e) {
+            Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error inserting mood entries", e);
+        }
     }
 
 
 
+    public static int getUserId(String username) {
+        String query = "SELECT user_id FROM users WHERE username = ?";
+        try (Connection connection = DriverManager.getConnection(DATABASE_URL);
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, username);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt("user_id");
+                } else {
+                    // Log a warning instead of throwing an exception
+                    Logger.getLogger(DBUtils.class.getName()).log(Level.WARNING, "User not found in the database");
+                    return -1; // Return -1 to indicate user not found
+                }
+            }
+        } catch (SQLException e) {
+            // Log any SQL exceptions that occur
+            Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error executing SQL query", e);
+            return -1; // Return -1 to indicate an error occurred
+        }
+    }
 }

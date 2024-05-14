@@ -16,6 +16,13 @@ import org.example.moodtracker.model.MoodEntry;
 
 import java.net.URL;
 import java.sql.*;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 public class tableViewController implements Initializable {
 
@@ -27,6 +34,8 @@ public class tableViewController implements Initializable {
     private Button button_close;
     @FXML
     private Button button_logout;
+    @FXML
+    private Button button_profile;
     @FXML
     private Label label_welcome;
     @FXML
@@ -57,9 +66,13 @@ public class tableViewController implements Initializable {
         button_close.setOnAction(actionEvent -> UIUtils.closeApp((Stage) button_close.getScene().getWindow()));
         button_daily_entry.setOnAction(event -> DBUtils.changeScene(event, "mood-tracking-page.fxml", "Mood Tracking", null));
 
+        button_profile.setOnAction(event -> DBUtils.changeScene(event,"profile.fxml","Profile",null));
+
         // Set user information and current date
-        String loggedInUsername = "Username Goes Here"; // Replace with actual logged-in username
-        UIUtils.setUserInformation(label_welcome, loggedInUsername);
+        String currentUser = DBUtils.getCurrentUsername();
+        if (currentUser != null) {
+            UIUtils.setUserInformation(label_welcome, currentUser);
+        }
         UIUtils.setCurrentDate(current_date);
 
         // Configure table columns to use properties of MoodEntry
@@ -76,27 +89,69 @@ public class tableViewController implements Initializable {
     private void loadData() {
         ObservableList<MoodEntry> moodEntries = FXCollections.observableArrayList();
 
-        try (Connection conn = DriverManager.getConnection(DATABASE_URL);
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT * FROM mood_tracking")) {
+        String loggedInUsername = DBUtils.getCurrentUsername();
 
-            while (rs.next()) {
-                String entryDate = rs.getString("entry_date");
-                String mood = rs.getString("mood");
-                String activityCategory = rs.getString("activity_category");
-                int screenTimeHours = rs.getInt("screen_time_hours");
-                String comments = rs.getString("comments");
+        if (loggedInUsername != null && !loggedInUsername.isEmpty()) {
+            try (Connection conn = DriverManager.getConnection(DATABASE_URL);
+                 PreparedStatement getUserIdStmt = conn.prepareStatement("SELECT user_id FROM users WHERE username = ?");
+                 PreparedStatement getMoodEntriesStmt = conn.prepareStatement("SELECT * FROM mood_tracking WHERE user_id = ?")) {
 
-                MoodEntry moodEntry = new MoodEntry(entryDate, mood, activityCategory, screenTimeHours, comments);
-                moodEntries.add(moodEntry);
+                getUserIdStmt.setString(1, loggedInUsername);
+
+                int loggedInUserId = -1;
+                try (ResultSet userIdResult = getUserIdStmt.executeQuery()) {
+                    if (userIdResult.next()) {
+                        loggedInUserId = userIdResult.getInt("user_id");
+                    }
+                }
+
+                if (loggedInUserId > 0) {
+                    getMoodEntriesStmt.setInt(1, loggedInUserId);
+
+                    try (ResultSet moodEntriesResult = getMoodEntriesStmt.executeQuery()) {
+                        while (moodEntriesResult.next()) {
+                            long entryDateInMillis = moodEntriesResult.getLong("entry_date");
+                            Instant instant = Instant.ofEpochMilli(entryDateInMillis);
+                            ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(instant, ZoneId.systemDefault());
+                            LocalDate entryDate = zonedDateTime.toLocalDate();
+
+                            String mood = moodEntriesResult.getString("mood");
+                            String activityCategory = moodEntriesResult.getString("activity_category");
+                            int screenTimeHours = moodEntriesResult.getInt("screen_time_hours");
+                            String comments = moodEntriesResult.getString("comments");
+
+                            List<String> activityList = new ArrayList<>();
+                            if (activityCategory != null && !activityCategory.isEmpty()) {
+                                activityList = Arrays.asList(activityCategory.split(","));
+                            }
+
+                            MoodEntry moodEntry = new MoodEntry();
+                            moodEntry.setEntryDate(entryDate);
+                            moodEntry.setSelectedMood(mood);
+                            moodEntry.setSelectedActivities(activityList);
+                            moodEntry.setScreenTime(screenTimeHours);
+                            moodEntry.setJournalEntry(comments);
+
+                            moodEntries.add(moodEntry);
+                        }
+                    }
+                } else {
+                    System.err.println("User not found or invalid user_id retrieved for the logged-in user.");
+                }
+
+            } catch (SQLException e) {
+                System.err.println("Error loading data from database: " + e.getMessage());
             }
-
-        } catch (SQLException e) {
-            System.err.println("Error loading data from database: " + e.getMessage());
+        } else {
+            System.err.println("Logged-in username is invalid or not available.");
         }
 
-        // Set the items in the table view
         tableView.setItems(moodEntries);
     }
+
+
+
+
+
 
 }

@@ -31,6 +31,8 @@ public class HomepageController implements Initializable {
     @FXML
     private Button button_daily_entry;
     @FXML
+    private Button button_profile;
+    @FXML
     private Label label_welcome;
     @FXML
     private Label current_date;
@@ -57,9 +59,13 @@ public class HomepageController implements Initializable {
         button_close.setOnAction(actionEvent -> UIUtils.closeApp((Stage) button_close.getScene().getWindow()));
         button_table.setOnAction(event -> DBUtils.changeScene(event, "tableView.fxml", "Table View", null));
         button_daily_entry.setOnAction(event -> DBUtils.changeScene(event, "mood-tracking-page.fxml", "Mood Tracking", null));
+        button_profile.setOnAction(event -> DBUtils.changeScene(event,"profile.fxml","Profile",null));
 
         // Set user information and current date
-        UIUtils.setUserInformation(label_welcome, "Username Goes Here");
+        String currentUser = DBUtils.getCurrentUsername();
+        if (currentUser != null) {
+            UIUtils.setUserInformation(label_welcome, currentUser);
+        }
         UIUtils.setCurrentDate(current_date);
     }
 
