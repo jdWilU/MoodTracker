@@ -31,6 +31,8 @@ public class HomepageController implements Initializable {
     @FXML
     private Button button_profile;
     @FXML
+    private Button button_achievement;
+    @FXML
     private Label label_welcome;
     @FXML
     private Label current_date;
@@ -56,6 +58,7 @@ public class HomepageController implements Initializable {
         button_logout.setOnAction(event -> DBUtils.changeScene(event, "login.fxml", "Log In", null));
         button_close.setOnAction(actionEvent -> UIUtils.closeApp((Stage) button_close.getScene().getWindow()));
         button_table.setOnAction(event -> DBUtils.changeScene(event, "tableView.fxml", "Table View", null));
+        button_achievement.setOnAction(event -> DBUtils.changeScene(event, "achievementsPage.fxml", "Achievements Page", null));
 
         // Set user information and current date
         String currentUser = DBUtils.getCurrentUsername();
