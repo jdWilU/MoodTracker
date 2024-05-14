@@ -12,6 +12,7 @@ module org.example.moodtracker {
     requires com.almasb.fxgl.all;
     requires java.sql;
     requires java.desktop;
+    requires org.xerial.sqlitejdbc;
 
     opens org.example.moodtracker to javafx.fxml;
     exports org.example.moodtracker;

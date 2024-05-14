@@ -34,11 +34,17 @@
             <ImageView fitHeight="85.0" fitWidth="507.0" layoutX="61.0" layoutY="104.0" pickOnBounds="true" preserveRatio="true">
                 <Image url="@Images/mood-scale.png" />
             </ImageView>
-            <RadioButton layoutX="99.0" layoutY="201.0" mnemonicParsing="false" fx:id="badRadioButton" text="Bad" toggleGroup="#{toggleGroup}"/>
-            <RadioButton layoutX="202.0" layoutY="201.0" mnemonicParsing="false" fx:id="poorRadioButton" text="Poor" toggleGroup="#{toggleGroup}"/>
-            <RadioButton layoutX="303.0" layoutY="199.0" mnemonicParsing="false" fx:id="okayRadioButton" text="Okay" toggleGroup="#{toggleGroup}"/>
-            <RadioButton layoutX="404.0" layoutY="199.0" mnemonicParsing="false" fx:id="goodRadioButton" text="Good" toggleGroup="#{toggleGroup}"/>
-            <RadioButton layoutX="507.0" layoutY="199.0" mnemonicParsing="false" fx:id="greatRadioButton" text="Great" toggleGroup="#{toggleGroup}"/>
+            <RadioButton fx:id="badRadioButton" layoutX="99.0" layoutY="201.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="10.0" style="-fx-text-fill: transparent;" text="BAD">
+            <toggleGroup>
+               <ToggleGroup fx:id="moodToggleGroup" />
+            </toggleGroup></RadioButton>
+            <RadioButton fx:id="poorRadioButton" layoutX="202.0" layoutY="201.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="16.0" style="-fx-text-fill: transparent;" text="POOR" toggleGroup="$moodToggleGroup">
+            <font>
+               <Font name="AdobeHeitiStd-Regular" size="12.0" />
+            </font></RadioButton>
+            <RadioButton fx:id="okayRadioButton" layoutX="303.0" layoutY="199.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="22.0" style="-fx-text-fill: transparent;" text="OKAY" toggleGroup="$moodToggleGroup" />
+            <RadioButton fx:id="goodRadioButton" layoutX="404.0" layoutY="199.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="16.0" style="-fx-text-fill: transparent;" text="GOOD" toggleGroup="$moodToggleGroup" />
+            <RadioButton fx:id="greatRadioButton" layoutX="507.0" layoutY="199.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="18.0" style="-fx-text-fill: transparent;" text="GREAT" toggleGroup="$moodToggleGroup" />
             <Button fx:id="button_moodback" layoutX="7.0" layoutY="13.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="29.0" style="-fx-background-color: transparent;" textFill="WHITE">
                 <graphic>
                     <ImageView fitHeight="23.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">

@@ -1,13 +1,21 @@
 package org.example.moodtracker.controller;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
 import org.example.moodtracker.model.DBUtils;
 import org.example.moodtracker.model.MoodEntry;
 
-import java.awt.event.ActionEvent;
+import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class MoodSelectionController implements Initializable {
@@ -17,20 +25,33 @@ public class MoodSelectionController implements Initializable {
     @FXML
     private Button button_moodsubmit;
     @FXML
-    private MoodEntry moodEntry;
+    private ToggleGroup moodToggleGroup;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         button_moodback.setOnAction(event -> DBUtils.changeScene(event, "homepage.fxml", "Homepage",null));
-        button_moodsubmit.setOnAction(event -> DBUtils.changeScene(event, "activity.fxml","Activity Page",null));
+        button_moodsubmit.setOnAction(event -> moodSubmit(event));
     }
 
     @FXML
-    private void NextButtonClick(ActionEvent event) {
-        // Collect mood entry data
-        MoodEntry entry = new MoodEntry(entryDate, screenTimeHours, activityCategory, comments);
-        // Add the entry to the mood entry manager
-        moodEntry.addMoodEntry(entry);
-        // Navigate to the next page
+    private void moodSubmit(ActionEvent event) {
+        RadioButton selectedRadioButton = (RadioButton) moodToggleGroup.getSelectedToggle();
+        if (selectedRadioButton != null) {
+            String selectedMood = selectedRadioButton.getText();
+
+            MoodEntry moodEntry = MoodEntry.getInstance();
+            moodEntry.setSelectedMood(selectedMood);
+            MoodEntry.setMoodEntry(moodEntry);
+
+            DBUtils.changeScene(event, "activity.fxml", "Activity Page", null);
+        } else {
+            // Show an alert if no mood is selected
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Please select a mood.");
+            alert.show();
+        }
     }
+
+
 }

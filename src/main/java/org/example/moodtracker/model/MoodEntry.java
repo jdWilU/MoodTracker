@@ -1,75 +1,81 @@
 package org.example.moodtracker.model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class MoodEntry {
-    private String entryDate;
+    private static MoodEntry moodEntry;
+
+    private LocalDate entryDate;
     private String mood;
-    private String activityCategory;
+    private List<String> activityCategory;
     private int screenTimeHours;
     private String comments;
 
-    public MoodEntry(String entryDate, String mood, String activityCategory, int screenTimeHours, String comments) {
-        this.entryDate = entryDate;
-        this.mood = mood;
-        this.activityCategory = activityCategory;
-        this.screenTimeHours = screenTimeHours;
+    public MoodEntry() {
+        // Initialize the activity list
+        activityCategory = new ArrayList<>();
+    }
+
+    public static MoodEntry getInstance() {
+        if (moodEntry == null) {
+            moodEntry = new MoodEntry();
+        }
+        return moodEntry;
+    }
+
+    public void setSelectedMood(String selectedMood) {
+        this.mood = selectedMood;
+    }
+
+    public void setSelectedActivities(List<String> selectedActivities) {
+        if (selectedActivities != null) {
+            for (String activity : selectedActivities) {
+                activityCategory.add(activity);
+            }
+        }
+    }
+
+
+    public void setScreenTime(int screenTime) {
+        this.screenTimeHours = screenTime;
+    }
+
+    public void setJournalEntry(String comments) {
         this.comments = comments;
     }
 
-    public String getEntryDate() {
-        return entryDate;
+    public static MoodEntry getMoodEntry() {
+        return moodEntry;
     }
 
-    public void setEntryDate(String entryDate) {
-        this.entryDate = entryDate;
+    public static void setMoodEntry(MoodEntry entry) {
+        moodEntry = entry;
     }
 
     public String getMood() {
         return mood;
     }
 
-    public void setMood(String mood) {
-        this.mood = mood;
-    }
-
-    public String getActivityCategory() {
+    public List<String> getActivityCategory() {
         return activityCategory;
-    }
-
-    public void setActivityCategory(String activityCategory) {
-        this.activityCategory = activityCategory;
     }
 
     public int getScreenTimeHours() {
         return screenTimeHours;
     }
 
-    public void setScreenTimeHours(int screenTimeHours) {
-        this.screenTimeHours = screenTimeHours;
-    }
-
     public String getComments() {
         return comments;
     }
 
-    public void setComments(String comments) {
-        this.comments = comments;
+    public LocalDate getEntryDate() {
+        return entryDate;
     }
 
-    private List<MoodEntry> moodEntries = new ArrayList<>();
-
-    public void addMoodEntry(MoodEntry entry) {
-        moodEntries.add(entry);
+    public void setEntryDate(LocalDate entryDate) {
+        this.entryDate = entryDate;
     }
 
-    public List<MoodEntry> getMoodEntries() {
-        return moodEntries;
-    }
-
-    public void clearEntries() {
-        moodEntries.clear();
-    }
 }

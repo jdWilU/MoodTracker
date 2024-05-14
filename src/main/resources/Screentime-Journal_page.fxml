@@ -7,7 +7,7 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: 0000000;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.moodtracker.controller.ScreentimeJournalPageController">
    <children>
-      <ImageView fitHeight="600.0" fitWidth="800.0" layoutX="-8.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="600.0" fitWidth="852.0" layoutX="-8.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Images/background.png" />
          </image>
@@ -26,7 +26,7 @@
                         <Font name="System Italic" size="14.0" />
                      </font>
                   </Label>
-                  <Slider blockIncrement="1.0" layoutX="212.0" layoutY="75.0" majorTickUnit="2.0" max="8.0" minorTickCount="1" prefHeight="14.0" prefWidth="238.0" showTickLabels="true" showTickMarks="true" />
+                  <Slider fx:id="screentimeSlider" blockIncrement="1.0" layoutX="212.0" layoutY="75.0" majorTickUnit="2.0" max="8.0" minorTickCount="1" prefHeight="14.0" prefWidth="238.0" showTickLabels="true" showTickMarks="true" />
                   <Label layoutX="424.0" layoutY="58.0">
                      <font>
                         <Font name="System Bold" size="12.0" />
@@ -37,17 +37,17 @@
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <TextArea layoutX="14.0" layoutY="153.0" prefHeight="122.0" prefWidth="455.0" promptText="Write anything ..." />
+                  <TextArea fx:id="taJournalEntry" layoutX="14.0" layoutY="153.0" prefHeight="122.0" prefWidth="455.0" promptText="Write anything ..." />
                   <Label layoutX="14.0" layoutY="120.0" text="Journaling:" textFill="#2cb2ff">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
                   </Label>
-                  <Button fx:id="button_submitscreentime" layoutX="212.0" layoutY="285.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="63.0" style="-fx-background-color: #20e49f;" text="Submit" textFill="WHITE">
+                  <Button fx:id="buttonSubmit" layoutX="212.0" layoutY="285.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="63.0" style="-fx-background-color: #20e49f;" text="Submit" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font></Button>
-                  <Button fx:id="button_screentime_back" focusTraversable="false" layoutX="7.0" layoutY="12.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="34.0" style="-fx-background-color: transparent; -fx-text-fill: transparent;">
+                  <Button fx:id="buttonScreentimeBack" focusTraversable="false" layoutX="7.0" layoutY="12.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="34.0" style="-fx-background-color: transparent; -fx-text-fill: transparent;">
                      <graphic>
                         <ImageView fitHeight="23.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
                            <image>

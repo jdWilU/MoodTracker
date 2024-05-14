@@ -47,7 +47,7 @@ public class DBUtils {
                     "entry_date DATE," +   // Date of the entry
                     "mood TEXT CHECK (mood IN ('BAD', 'POOR', 'OKAY', 'GOOD', 'GREAT'))," +  // Mood category
                     "screen_time_hours INTEGER," +  // Screen time in hours
-                    "activity_category TEXT CHECK (activity_category IN ('Exercise', 'Meditation', 'Socializing', 'Sleep ', 'Journaling', 'Hobbies', 'Helping Others'))," +  // Category of activity
+                    "activity_category TEXT ," +  // Category of activity
                     "comments TEXT," +  // Additional comments
                     "FOREIGN KEY(user_id) REFERENCES users(user_id))";  // Foreign key constraint
             statement.execute(createMoodTableSQL);
@@ -223,15 +223,46 @@ public class DBUtils {
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);
              PreparedStatement preparedStatement = connection.prepareStatement(insertMoodEntrySQL)) {
             for (MoodEntry entry : entries) {
+                StringBuilder activityStringBuilder = new StringBuilder();
+                for (String activity : entry.getActivityCategory()) {
+                    activityStringBuilder.append(activity).append(",");
+                }
+                String activityCategory = activityStringBuilder.toString().replaceAll(",$", ""); // Remove trailing comma
+
                 preparedStatement.setInt(1, userId);
-                preparedStatement.setDate(2, Date.valueOf(LocalDate.now())); // Entry date
+                preparedStatement.setDate(2, java.sql.Date.valueOf(entry.getEntryDate()));
                 preparedStatement.setString(3, entry.getMood());
-                // Set other parameters (screen time, activity category, comments) as needed
+                preparedStatement.setInt(4, entry.getScreenTimeHours());
+                preparedStatement.setString(5, activityCategory); // Insert all activities concatenated into a single string
+                preparedStatement.setString(6, entry.getComments());
                 preparedStatement.executeUpdate();
             }
             Logger.getLogger(DBUtils.class.getName()).log(Level.INFO, "Mood entries inserted successfully");
         } catch (SQLException e) {
             Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error inserting mood entries", e);
+        }
+    }
+
+
+
+    public static int getUserId(String username) {
+        String query = "SELECT user_id FROM users WHERE username = ?";
+        try (Connection connection = DriverManager.getConnection(DATABASE_URL);
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, username);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt("user_id");
+                } else {
+                    // Log a warning instead of throwing an exception
+                    Logger.getLogger(DBUtils.class.getName()).log(Level.WARNING, "User not found in the database");
+                    return -1; // Return -1 to indicate user not found
+                }
+            }
+        } catch (SQLException e) {
+            // Log any SQL exceptions that occur
+            Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error executing SQL query", e);
+            return -1; // Return -1 to indicate an error occurred
         }
     }
 }
