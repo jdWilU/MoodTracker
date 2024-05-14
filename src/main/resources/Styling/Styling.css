@@ -1,8 +1,26 @@
 
+/*---------------------------Graph Styling----------------------------- */
 
+/* Define custom colors for PieChart segments */
+.chart-pie-color0 {
+    -fx-pie-color: #20e49f; /* Green for GREAT mood */
+}
 
+.chart-pie-color1 {
+    -fx-pie-color: #2cb2ff; /* Yellow for GOOD mood */
+}
 
+.chart-pie-color2 {
+    -fx-pie-color: #838383; /* Blue for OKAY mood */
+}
 
+.chart-pie-color3 {
+    -fx-pie-color: #a364f8; /* Yellow for POOR mood */
+}
+
+.chart-pie-color4 {
+    -fx-pie-color: #fe6969; /* Yellow for BAD mood */
+}
 
 
 /*---------------------------Button Styling----------------------------- */

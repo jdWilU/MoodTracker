@@ -1,6 +1,5 @@
 package org.example.moodtracker.model;
 
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -12,8 +11,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -215,5 +214,26 @@ public class DBUtils {
             Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error deleting user", e);
             throw e; // Re-throw the exception to be handled by the caller
         }
+    }
+
+
+    public static Map<String, Integer> getMoodCountsForUser(String username) throws SQLException {
+        String query = "SELECT mood, COUNT(*) AS count FROM mood_tracking WHERE user_id = (SELECT user_id FROM users WHERE username = ?) GROUP BY mood";
+        Map<String, Integer> moodCounts = new HashMap<>();
+
+        try (Connection connection = DriverManager.getConnection(DATABASE_URL);
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setString(1, username);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                String mood = resultSet.getString("mood");
+                int count = resultSet.getInt("count");
+                moodCounts.put(mood, count);
+            }
+        }
+
+        return moodCounts;
     }
 }
