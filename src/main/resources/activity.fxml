@@ -1,27 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Circle?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="activity" prefHeight="568.0" prefWidth="641.0" style="-fx-background-color: #f0f0f0;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.moodtracker.controller.ActivityController">
-    <Pane layoutX="20.0" layoutY="34.0" prefHeight="500.0" prefWidth="600.0" style="-fx-background-color: #FFFFFF;">
+<AnchorPane fx:id="activity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #f0f0f0;" stylesheets="Styling" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.moodtracker.controller.ActivityController">
+
+    <ImageView fitHeight="613.0" fitWidth="828.0" pickOnBounds="true" preserveRatio="true">
+        <image>
+            <Image url="@Images/background.png" />
+        </image>
+    </ImageView>
+    <Pane layoutX="109.0" layoutY="57.0" prefHeight="477.0" prefWidth="600.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15;">
         <children>
-            <Label layoutX="172.0" layoutY="30.0" style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Select Completed Activities" />
-            <GridPane hgap="15.0" layoutX="84.0" layoutY="86.0" vgap="15.0">
+            <Label layoutX="172.0" layoutY="30.0" style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Select Completed Activities" textFill="#2cb2ff" />
+         <Button fx:id="button_activityback" layoutX="6.0" layoutY="11.0" mnemonicParsing="false" style="-fx-background-color: transparent;">
+            <graphic>
+               <ImageView fitHeight="26.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@Images/icons8-back-arrow-50.png" />
+                  </image>
+               </ImageView>
+            </graphic>
+         </Button>
+         <Button fx:id="button_activitynext" layoutX="537.0" layoutY="420.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="49.0" style="-fx-background-color: transparent;">
+            <graphic>
+               <ImageView fitHeight="44.0" fitWidth="40.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@Images/icons8-back-arrow-50.png" />
+                  </image>
+               </ImageView>
+            </graphic>
+         </Button>
+            <GridPane hgap="15.0" layoutX="59.0" layoutY="93.0" vgap="15.0">
                 <!-- Button for Activity 1 -->
-                <Button fx:id="btnIcon1" onMouseClicked="#handleIconClick" style="-fx-background-color: transparent; -fx-padding: 10;" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                    <graphic>
-                        <VBox alignment="CENTER">
+                <Button fx:id="Sports" maxHeight="80.0" maxWidth="80.0" minHeight="80.0" minWidth="80.0" onAction="#handleActivityButtonClick" prefHeight="77.0" prefWidth="80.0" style="-fx-background-color: transparent; -fx-padding: 10; -fx-text-fill: transparent; -fx-background-radius: 40;" text="Sports" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                    <styleClass>
+                        <String fx:value="activity-button" />
+                    </styleClass>
+               <graphic>
+                        <VBox alignment="CENTER" prefHeight="60.0" prefWidth="60.0">
                             <ImageView fitHeight="50" fitWidth="50" preserveRatio="true">
                                 <Image url="@Images/sports.png" />
                                 <clip>
@@ -31,11 +52,14 @@
                             <Label style="-fx-font-size: 12px;" text="Sports" />
                         </VBox>
                     </graphic>
+               <font>
+                  <Font size="2.0" />
+               </font>
                 </Button>
                 <!-- Example for Activity 2 -->
-                <Button fx:id="btnIcon2" onMouseClicked="#handleIconClick" style="-fx-background-color: transparent; -fx-padding: 10;" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                <Button fx:id="Study" minHeight="80.0" minWidth="80.0" onAction="#handleActivityButtonClick" prefHeight="80.0" prefWidth="80.0" style="-fx-background-color: transparent; -fx-padding: 10; -fx-text-fill: transparent;" text="Study" GridPane.columnIndex="1" GridPane.rowIndex="0">
                     <graphic>
-                        <VBox alignment="CENTER">
+                        <VBox alignment="CENTER" prefHeight="60.0" prefWidth="60.0">
                             <ImageView fitHeight="50" fitWidth="50" preserveRatio="true">
                                 <Image url="@Images/study.png" />
                                 <clip>
@@ -45,11 +69,14 @@
                             <Label style="-fx-font-size: 12px;" text="Study" />
                         </VBox>
                     </graphic>
+               <font>
+                  <Font size="1.0" />
+               </font>
                 </Button>
                 <!-- Example for Activity 3 -->
-                <Button fx:id="btnIcon3" onMouseClicked="#handleIconClick" style="-fx-background-color: transparent; -fx-padding: 10;" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                <Button fx:id="Yoga" minHeight="80.0" minWidth="80.0" onAction="#handleActivityButtonClick" prefHeight="80.0" prefWidth="80.0" style="-fx-background-color: transparent; -fx-padding: 10; -fx-text-fill: transparent;" text="Yoga" GridPane.columnIndex="2" GridPane.rowIndex="0">
                     <graphic>
-                        <VBox alignment="CENTER">
+                        <VBox alignment="CENTER" prefHeight="60.0" prefWidth="60.0">
                             <ImageView fitHeight="50" fitWidth="50" preserveRatio="true">
                                 <Image url="@Images/yoga.png" />
                                 <clip>
@@ -59,25 +86,31 @@
                             <Label style="-fx-font-size: 12px;" text="Yoga" />
                         </VBox>
                     </graphic>
+               <font>
+                  <Font size="3.0" />
+               </font>
                 </Button>
                 <!-- Example for Activity 4 -->
-                <Button fx:id="btnIcon4" onMouseClicked="#handleIconClick" style="-fx-background-color: transparent; -fx-padding: 10;" GridPane.columnIndex="3" GridPane.rowIndex="0">
+                <Button fx:id="Gym" minHeight="80.0" minWidth="80.0" onAction="#handleActivityButtonClick" prefHeight="80.0" prefWidth="80.0" style="-fx-background-color: transparent; -fx-padding: 10; -fx-text-fill: transparent;" text="Exercise" GridPane.columnIndex="3" GridPane.rowIndex="0">
                     <graphic>
-                        <VBox alignment="CENTER">
+                        <VBox alignment="CENTER" prefHeight="60.0" prefWidth="60.0">
                             <ImageView fitHeight="50" fitWidth="50" preserveRatio="true">
                                 <Image url="@Images/gym.png" />
                                 <clip>
                                     <Circle centerX="25" centerY="25" radius="25" />
                                 </clip>
                             </ImageView>
-                            <Label style="-fx-font-size: 12px;" text="Gym" />
+                            <Label style="-fx-font-size: 12px;" text="Exercise" />
                         </VBox>
                     </graphic>
+               <font>
+                  <Font size="1.0" />
+               </font>
                 </Button>
                 <!-- Example for Activity 5 -->
-                <Button fx:id="btnIcon5" onMouseClicked="#handleIconClick" style="-fx-background-color: transparent; -fx-padding: 10;" GridPane.columnIndex="4" GridPane.rowIndex="0">
+                <Button fx:id="Relax" minHeight="80.0" minWidth="80.0" onAction="#handleActivityButtonClick" prefHeight="80.0" prefWidth="80.0" style="-fx-background-color: transparent; -fx-padding: 10; -fx-text-fill: transparent;" text="Relax" GridPane.columnIndex="4" GridPane.rowIndex="0">
                     <graphic>
-                        <VBox alignment="CENTER">
+                        <VBox alignment="CENTER" prefHeight="60.0" prefWidth="60.0">
                             <ImageView fitHeight="50" fitWidth="50" preserveRatio="true">
                                 <Image url="@Images/relax.png" />
                                 <clip>
@@ -87,11 +120,14 @@
                             <Label style="-fx-font-size: 12px;" text="Relax" />
                         </VBox>
                     </graphic>
+               <font>
+                  <Font size="1.0" />
+               </font>
                 </Button>
                 <!-- Example for Activity 6 -->
-                <Button fx:id="btnIcon6" onMouseClicked="#handleIconClick" style="-fx-background-color: transparent; -fx-padding: 10;" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                <Button fx:id="Shopping" minHeight="80.0" minWidth="80.0" onAction="#handleActivityButtonClick" prefHeight="80.0" prefWidth="80.0" style="-fx-background-color: transparent; -fx-padding: 10; -fx-text-fill: transparent;" text="Shopping" GridPane.columnIndex="0" GridPane.rowIndex="1">
                     <graphic>
-                        <VBox alignment="CENTER">
+                        <VBox alignment="CENTER" prefHeight="60.0" prefWidth="60.0">
                             <ImageView fitHeight="50" fitWidth="50" preserveRatio="true">
                                 <Image url="@Images/shopping.png" />
                                 <clip>
@@ -101,25 +137,31 @@
                             <Label style="-fx-font-size: 12px;" text="Shopping" />
                         </VBox>
                     </graphic>
+               <font>
+                  <Font size="1.0" />
+               </font>
                 </Button>
                 <!-- Example for Activity 7 -->
-                <Button fx:id="btnIcon7" onMouseClicked="#handleIconClick" style="-fx-background-color: transparent; -fx-padding: 10;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                <Button fx:id="Music" minHeight="80.0" minWidth="80.0" onAction="#handleActivityButtonClick" prefHeight="80.0" prefWidth="80.0" style="-fx-background-color: transparent; -fx-padding: 10; -fx-text-fill: transparent;" text="Music" GridPane.columnIndex="1" GridPane.rowIndex="1">
                     <graphic>
-                        <VBox alignment="CENTER">
+                        <VBox alignment="CENTER" prefHeight="60.0" prefWidth="60.0">
                             <ImageView fitHeight="50" fitWidth="50" preserveRatio="true">
                                 <Image url="@Images/music.png" />
                                 <clip>
                                     <Circle centerX="25" centerY="25" radius="25" />
                                 </clip>
                             </ImageView>
-                            <Label style="-fx-font-size: 12px;" text="Listen Music" />
+                            <Label style="-fx-font-size: 12px;" text="Music" />
                         </VBox>
                     </graphic>
+               <font>
+                  <Font size="1.0" />
+               </font>
                 </Button>
                 <!-- Example for Activity 8 -->
-                <Button fx:id="btnIcon8" onMouseClicked="#handleIconClick" style="-fx-background-color: transparent; -fx-padding: 10;" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                <Button fx:id="btnIcon8" minHeight="80.0" minWidth="80.0" onAction="#handleActivityButtonClick" prefHeight="80.0" prefWidth="80.0" style="-fx-background-color: transparent; -fx-padding: 10; -fx-text-fill: transparent;" text="TV" GridPane.columnIndex="2" GridPane.rowIndex="1">
                     <graphic>
-                        <VBox alignment="CENTER">
+                        <VBox alignment="CENTER" prefHeight="60.0" prefWidth="60.0">
                             <ImageView fitHeight="50" fitWidth="50" preserveRatio="true">
                                 <Image url="@Images/tv.png" />
                                 <clip>
@@ -129,11 +171,14 @@
                             <Label style="-fx-font-size: 12px;" text="Watch TV" />
                         </VBox>
                     </graphic>
+               <font>
+                  <Font size="1.0" />
+               </font>
                 </Button>
                 <!-- Example for Activity 9 -->
-                <Button fx:id="btnIcon9" onMouseClicked="#handleIconClick" style="-fx-background-color: transparent; -fx-padding: 10;" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                <Button fx:id="btnIcon9" minHeight="80.0" minWidth="80.0" onAction="#handleActivityButtonClick" prefHeight="80.0" prefWidth="80.0" style="-fx-background-color: transparent; -fx-padding: 10; -fx-text-fill: transparent;" text="Laundry" GridPane.columnIndex="3" GridPane.rowIndex="1">
                     <graphic>
-                        <VBox alignment="CENTER">
+                        <VBox alignment="CENTER" prefHeight="60.0" prefWidth="60.0">
                             <ImageView fitHeight="50" fitWidth="50" preserveRatio="true">
                                 <Image url="@Images/laundry.png" />
                                 <clip>
@@ -143,11 +188,14 @@
                             <Label style="-fx-font-size: 12px;" text="Laundry" />
                         </VBox>
                     </graphic>
+               <font>
+                  <Font size="1.0" />
+               </font>
                 </Button>
                 <!-- Example for Activity 10 -->
-                <Button fx:id="btnIcon10" onMouseClicked="#handleIconClick" style="-fx-background-color: transparent; -fx-padding: 10;" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                <Button fx:id="btnIcon10" minHeight="80.0" minWidth="80.0" onAction="#handleActivityButtonClick" prefHeight="80.0" prefWidth="80.0" style="-fx-background-color: transparent; -fx-padding: 10; -fx-text-fill: transparent;" text="Gaming" GridPane.columnIndex="4" GridPane.rowIndex="1">
                     <graphic>
-                        <VBox alignment="CENTER">
+                        <VBox alignment="CENTER" prefHeight="60.0" prefWidth="60.0">
                             <ImageView fitHeight="50" fitWidth="50" preserveRatio="true">
                                 <Image url="@Images/gaming.png" />
                                 <clip>
@@ -157,11 +205,14 @@
                             <Label style="-fx-font-size: 12px;" text="Gaming" />
                         </VBox>
                     </graphic>
+               <font>
+                  <Font size="1.0" />
+               </font>
                 </Button>
                 <!-- Example for Activity 11 -->
-                <Button fx:id="btnIcon11" onMouseClicked="#handleIconClick" style="-fx-background-color: transparent; -fx-padding: 10;" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                <Button fx:id="btnIcon11" minHeight="80.0" minWidth="80.0" onAction="#handleActivityButtonClick" prefHeight="80.0" prefWidth="80.0" style="-fx-background-color: transparent; -fx-padding: 10; -fx-text-fill: transparent;" text="Family" GridPane.columnIndex="0" GridPane.rowIndex="2">
                     <graphic>
-                        <VBox alignment="CENTER">
+                        <VBox alignment="CENTER" prefHeight="60.0" prefWidth="60.0">
                             <ImageView fitHeight="50" fitWidth="50" preserveRatio="true">
                                 <Image url="@Images/family.png" />
                                 <clip>
@@ -171,11 +222,17 @@
                             <Label style="-fx-font-size: 12px;" text="Family Time" />
                         </VBox>
                     </graphic>
+               <font>
+                  <Font size="1.0" />
+               </font>
                 </Button>
                 <!-- Example for Activity 12 -->
-                <Button fx:id="btnIcon12" onMouseClicked="#handleIconClick" style="-fx-background-color: transparent; -fx-padding: 10;" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                    <graphic>
-                        <VBox alignment="CENTER">
+                <Button fx:id="btnIcon12" minHeight="80.0" minWidth="80.0" onAction="#handleActivityButtonClick" prefHeight="80.0" prefWidth="80.0" style="-fx-background-color: transparent; -fx-padding: 10; -fx-text-fill: transparent;" text="Cook" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <font>
+                  <Font size="1.0" />
+               </font>
+               <graphic>
+                        <VBox alignment="CENTER" prefHeight="60.0" prefWidth="60.0">
                             <ImageView fitHeight="50" fitWidth="50" preserveRatio="true">
                                 <Image url="@Images/cooking.png" />
                                 <clip>
@@ -184,12 +241,11 @@
                             </ImageView>
                             <Label style="-fx-font-size: 12px;" text="Cook" />
                         </VBox>
-                    </graphic>
-                </Button>
+               </graphic></Button>
                 <!-- Example for Activity 13 -->
-                <Button fx:id="btnIcon13" onMouseClicked="#handleIconClick" style="-fx-background-color: transparent; -fx-padding: 10;" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                <Button fx:id="btnIcon13" minHeight="80.0" minWidth="80.0" onAction="#handleActivityButtonClick" prefHeight="80.0" prefWidth="80.0" style="-fx-background-color: transparent; -fx-padding: 10; -fx-text-fill: transparent;" text="Cleaning" GridPane.columnIndex="2" GridPane.rowIndex="2">
                     <graphic>
-                        <VBox alignment="CENTER">
+                        <VBox alignment="CENTER" prefHeight="60.0" prefWidth="60.0">
                             <ImageView fitHeight="50" fitWidth="50" preserveRatio="true">
                                 <Image url="@Images/cleaning.png" />
                                 <clip>
@@ -199,11 +255,14 @@
                             <Label style="-fx-font-size: 12px;" text="Cleaning" />
                         </VBox>
                     </graphic>
+               <font>
+                  <Font size="1.0" />
+               </font>
                 </Button>
                 <!-- Example for Activity 14 -->
-                <Button fx:id="btnIcon14" onMouseClicked="#handleIconClick" style="-fx-background-color: transparent; -fx-padding: 10;" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                <Button fx:id="btnIcon14" minHeight="80.0" minWidth="80.0" onAction="#handleActivityButtonClick" prefHeight="80.0" prefWidth="80.0" style="-fx-background-color: transparent; -fx-padding: 10; -fx-text-fill: transparent;" text="Eat" GridPane.columnIndex="3" GridPane.rowIndex="2">
                     <graphic>
-                        <VBox alignment="CENTER">
+                        <VBox alignment="CENTER" prefHeight="60.0" prefWidth="60.0">
                             <ImageView fitHeight="50" fitWidth="50" preserveRatio="true">
                                 <Image url="@Images/eat.png" />
                                 <clip>
@@ -213,11 +272,14 @@
                             <Label style="-fx-font-size: 12px;" text="Eat" />
                         </VBox>
                     </graphic>
+               <font>
+                  <Font size="1.0" />
+               </font>
                 </Button>
                 <!-- Example for Activity 15 -->
-                <Button fx:id="btnIcon15" onMouseClicked="#handleIconClick" style="-fx-background-color: transparent; -fx-padding: 10;" GridPane.columnIndex="4" GridPane.rowIndex="2">
+                <Button fx:id="btnIcon15" minHeight="80.0" minWidth="80.0" onAction="#handleActivityButtonClick" prefHeight="80.0" prefWidth="80.0" style="-fx-background-color: transparent; -fx-padding: 10; -fx-text-fill: transparent;" text="Walk" GridPane.columnIndex="4" GridPane.rowIndex="2">
                     <graphic>
-                        <VBox alignment="CENTER">
+                        <VBox alignment="CENTER" prefHeight="60.0" prefWidth="60.0">
                             <ImageView fitHeight="50" fitWidth="50" preserveRatio="true">
                                 <Image url="@Images/walk.png" />
                                 <clip>
@@ -227,28 +289,27 @@
                             <Label style="-fx-font-size: 12px;" text="Walk" />
                         </VBox>
                     </graphic>
+               <font>
+                  <Font size="1.0" />
+               </font>
                 </Button>
                 <columnConstraints>
-                    <ColumnConstraints />
-                    <ColumnConstraints />
-                    <ColumnConstraints />
-                    <ColumnConstraints />
-                    <ColumnConstraints />
+                    <ColumnConstraints maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
+                    <ColumnConstraints maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
+                    <ColumnConstraints maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
+                    <ColumnConstraints maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
+                    <ColumnConstraints maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
                 </columnConstraints>
                 <rowConstraints>
-                    <RowConstraints />
-                    <RowConstraints />
-                    <RowConstraints />
+                    <RowConstraints maxHeight="80.0" minHeight="80.0" prefHeight="80.0" />
+                    <RowConstraints maxHeight="80.0" minHeight="80.0" prefHeight="80.0" />
+                    <RowConstraints maxHeight="80.0" minHeight="80.0" prefHeight="80.0" />
                 </rowConstraints>
-
-
-
+      
+      
+      
                 <!-- Continue to add more buttons as needed -->
             </GridPane>
-            <HBox layoutX="195.0" layoutY="433.0" prefHeight="40.0" prefWidth="210.0" spacing="50">
-                <Button fx:id="backButton" prefHeight="40.0" prefWidth="80.0" style="-fx-background-color: lightgray;" text="BACK" />
-                <Button fx:id="nextButton" prefHeight="40.0" prefWidth="80.0" style="-fx-background-color: green; -fx-text-fill: white;" text="NEXT" />
-            </HBox>
         </children>
     </Pane>
 </AnchorPane>

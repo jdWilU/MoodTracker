@@ -25,6 +25,8 @@ public class HomepageController implements Initializable {
     @FXML
     private Button button_table;
     @FXML
+    private Button button_daily_entry;
+    @FXML
     private Button button_profile;
     @FXML
     private Label label_welcome;
@@ -45,6 +47,8 @@ public class HomepageController implements Initializable {
         mood_Pie.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
         System.out.println("Loaded Stylesheets: " + mood_Pie.getStylesheets());
 
+        button_daily_entry.setOnAction(event -> DBUtils.changeScene(event, "mood-tracking-page.fxml", "Mood Tracking", null));
+        button_profile.setOnAction(event -> DBUtils.changeScene(event,"profile.fxml","Profile",null));
 
         // Set user information and current date
         String currentUser = DBUtils.getCurrentUsername();

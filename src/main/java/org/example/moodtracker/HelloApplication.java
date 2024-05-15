@@ -8,6 +8,8 @@ import javafx.stage.Stage;
 
 import java.util.Objects;
 
+import static org.example.moodtracker.model.DBUtils.createDatabase;
+
 // purple: #a364f8
 // red: #fe6969
 // blue: #2cb2ff
@@ -16,7 +18,7 @@ import java.util.Objects;
 public class HelloApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
-        //createDatabase();
+        createDatabase();
 
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("login.fxml")));
         primaryStage.setTitle("Log In");
