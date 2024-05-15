@@ -18,7 +18,8 @@ import static org.example.moodtracker.model.DBUtils.createDatabase;
 public class HelloApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
-        createDatabase();
+        //createDatabase();
+
 
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("login.fxml")));
         primaryStage.setTitle("Log In");
