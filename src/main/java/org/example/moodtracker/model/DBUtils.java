@@ -264,47 +264,29 @@ public class DBUtils {
         return screenTimeData;
     }
 
-    public static int getMoodRatingForDate(String username, String date) throws SQLException {
-        int moodRating = 1; // Default mood rating if not found
+    public static Map<String, String> getMoodDataForUser(String username) throws SQLException {
+        String query = "SELECT entry_date, mood FROM mood_tracking WHERE user_id = (SELECT user_id FROM users WHERE username = ?) ORDER BY entry_date";
+        Map<String, String> moodData = new HashMap<>();
 
-        try (Connection conn = DriverManager.getConnection(DATABASE_URL);
-             PreparedStatement pstmt = conn.prepareStatement("SELECT mood FROM mood_tracking WHERE user_id = ? AND entry_date = ?")) {
-            pstmt.setString(1, username);
-            pstmt.setString(2, date);
+        try (Connection connection = DriverManager.getConnection(DATABASE_URL);
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
-            try (ResultSet rs = pstmt.executeQuery()) {
-                if (rs.next()) {
-                    // Retrieve the mood rating string from the 'mood' column
-                    String mood = rs.getString("mood");
+            preparedStatement.setString(1, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
 
-                    // Map the mood rating string to integer values
-                    switch (mood.toUpperCase()) {
-                        case "BAD":
-                            moodRating = 1;
-                            break;
-                        case "POOR":
-                            moodRating = 2;
-                            break;
-                        case "OKAY":
-                            moodRating = 3;
-                            break;
-                        case "GOOD":
-                            moodRating = 4;
-                            break;
-                        case "GREAT":
-                            moodRating = 5;
-                            break;
-                        default:
-                            moodRating = 1; // Default to 1 for unknown or unhandled mood ratings
-                            break;
-                    }
-                }
+            while (resultSet.next()) {
+                String date = resultSet.getString("entry_date"); // Read date directly as a string
+                String moodRating = resultSet.getString("mood");
+
+                moodData.put(date, moodRating);
             }
+        } catch (SQLException e) {
+            Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error fetching mood data", e);
+            throw e;
         }
 
-        return moodRating;
+        return moodData;
     }
-
 
     public static void insertMoodEntries(List<MoodEntry> entries, int userId) {
         String insertMoodEntrySQL = "INSERT INTO mood_tracking (user_id, entry_date, mood, screen_time_hours, activity_category, comments) VALUES (?, ?, ?, ?, ?, ?)";

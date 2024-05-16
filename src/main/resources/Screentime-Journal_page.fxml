@@ -7,7 +7,7 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: 0000000;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.moodtracker.controller.ScreentimeJournalPageController">
    <children>
-      <ImageView fitHeight="600.0" fitWidth="852.0" layoutX="-8.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="600.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Images/background.png" />
          </image>

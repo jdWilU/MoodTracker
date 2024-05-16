@@ -8,6 +8,7 @@ import javafx.scene.chart.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 import org.example.moodtracker.model.DBUtils;
 import org.example.moodtracker.model.UIUtils;
 
@@ -15,6 +16,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -218,7 +220,7 @@ public class HomepageController implements Initializable {
     }
 
     private void initializeMoodFluctuationsLineChart(String currentUser) throws SQLException {
-        // Fetch mood fluctuations data for the last 14 days
+        // Fetch mood data for the last 14 days
         ObservableList<XYChart.Data<String, Number>> moodData = FXCollections.observableArrayList();
         ObservableList<String> dates = FXCollections.observableArrayList();
 
@@ -231,9 +233,21 @@ public class HomepageController implements Initializable {
         // Set x-axis categories
         xAxisDates.setCategories(dates);
 
+        // Get mood data for the user
+        Map<String, String> moodEntries = DBUtils.getMoodDataForUser(currentUser);
+
+        // Map mood strings to corresponding ratings
+        Map<String, Integer> moodRatings = new HashMap<>();
+        moodRatings.put("BAD", 1);
+        moodRatings.put("POOR", 2);
+        moodRatings.put("OKAY", 3);
+        moodRatings.put("GOOD", 4);
+        moodRatings.put("GREAT", 5);
+
         // Populate moodData with mood fluctuations for each date
         for (String date : dates) {
-            int moodRating = DBUtils.getMoodRatingForDate(currentUser, date); // Method to fetch mood rating for a specific date
+            String moodString = moodEntries.getOrDefault(date, "BAD"); // Default mood to "BAD" if no entry found for the date
+            int moodRating = moodRatings.getOrDefault(moodString.toUpperCase(), 1); // Default to 1 if mood string not found
             moodData.add(new XYChart.Data<>(date, moodRating));
         }
 
@@ -243,31 +257,42 @@ public class HomepageController implements Initializable {
         lineChartMoodFluctuations.getData().add(series);
 
         // Customize chart appearance
-        yAxisMoodRatings.setLowerBound(1);
-        yAxisMoodRatings.setUpperBound(5);
-        yAxisMoodRatings.setTickUnit(1);
+        yAxisMoodRatings.setLowerBound(1); // Set lower bound to "BAD"
+        yAxisMoodRatings.setUpperBound(5); // Set upper bound to "GREAT"
+        yAxisMoodRatings.setTickUnit(1); // Set tick unit to 1
+
+        // Customize Y-axis tick labels to show mood strings
+        yAxisMoodRatings.setTickLabelFormatter(new StringConverter<Number>() {
+            @Override
+            public String toString(Number object) {
+                int moodRating = object.intValue();
+                switch (moodRating) {
+                    case 1:
+                        return "BAD";
+                    case 2:
+                        return "POOR";
+                    case 3:
+                        return "OKAY";
+                    case 4:
+                        return "GOOD";
+                    case 5:
+                        return "GREAT";
+                    default:
+                        return "";
+                }
+            }
+
+            @Override
+            public Number fromString(String string) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+        });
 
         lineChartMoodFluctuations.setCreateSymbols(true); // Show symbols for data points
-        lineChartMoodFluctuations.setLegendVisible(true);
+        lineChartMoodFluctuations.setLegendVisible(false); // Remove the legend
     }
 
 
-    private int mapMoodToValue(int moodRating) {
-        switch (moodRating) {
-            case 1:
-                return 1; // Bad
-            case 2:
-                return 2; // Poor
-            case 3:
-                return 3; // Okay
-            case 4:
-                return 4; // Good
-            case 5:
-                return 5; // Great
-            default:
-                return 0; // Handle unknown mood ratings
-        }
-    }
 
 
 }

@@ -24,6 +24,8 @@ public class ProfileSettingsController implements Initializable {
     @FXML
     private Button button_homepage;
     @FXML
+    private Button button_daily_entry;
+    @FXML
     private Button button_close;
     @FXML
     private Label label_welcome;
@@ -47,6 +49,8 @@ public class ProfileSettingsController implements Initializable {
         button_logout.setOnAction(event -> DBUtils.changeScene(event, "login.fxml", "Log In", null));
         button_table.setOnAction(event -> DBUtils.changeScene(event, "tableView.fxml", "Table View", null));
         button_close.setOnAction(actionEvent -> UIUtils.closeApp((Stage) button_close.getScene().getWindow()));
+        button_daily_entry.setOnAction(event -> DBUtils.changeScene(event, "mood-tracking-page.fxml", "Mood Tracking", null));
+
         // Update button functionality
         button_save.setOnAction(event -> updateUser());
         button_delete.setOnAction(event -> handleDeleteAccount());

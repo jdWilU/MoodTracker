@@ -139,7 +139,7 @@
             </children></Pane>
          <Pane fx:id="pane_barchart" layoutX="260.0" layoutY="25.0" prefHeight="227.0" prefWidth="345.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15;">
             <children>
-               <BarChart fx:id="screenTime_BarChart" prefHeight="188.0" prefWidth="345.0" title="Weekly Screen Time">
+               <BarChart fx:id="screenTime_BarChart" prefHeight="188.0" prefWidth="345.0" title="Daily Screen Time">
                   <xAxis>
                      <CategoryAxis />
                   </xAxis>
