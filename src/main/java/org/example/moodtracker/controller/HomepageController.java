@@ -112,7 +112,6 @@ public class HomepageController implements Initializable {
 
         // Load external CSS file for styling PieChart
         String cssPath = "/Styling/Styling.css"; // Path relative to the resources directory
-        mood_Pie.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
 
         // Set the Y-axis bounds
         screenTimeYAxis.setAutoRanging(false);
@@ -150,7 +149,6 @@ public class HomepageController implements Initializable {
             System.err.println("Error fetching mood data: " + e.getMessage());
         }
     }
-
 
     private void initializeScreenTimeBarChart(String currentUser) throws SQLException {
         // Get screen time data for the current user
@@ -292,8 +290,6 @@ public class HomepageController implements Initializable {
         lineChartMoodFluctuations.setCreateSymbols(true); // Show symbols for data points
         lineChartMoodFluctuations.setLegendVisible(false); // Remove the legend
     }
-
-
-
-
 }
+
+

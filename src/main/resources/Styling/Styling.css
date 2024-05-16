@@ -66,17 +66,3 @@
     -fx-background-color: #838383; /* New background color on hover */
     -fx-text-fill: white; /* Text color on hover */
 }
-
-/* Styling for the doughnut chart */
-.chart-pie-color0, .chart-pie-color1, .chart-pie-color2, .chart-pie-color3, .chart-pie-color4 {
-    -fx-pie-color: #FFF1C9, #F7B7A3, #EA5F89, #9B3192, #57167e; /* Define colors for each mood */
-}
-
-.doughnut-chart {
-    -fx-padding: 5;
-    -fx-border-width: 2;
-    -fx-border-color: #ffffff; /* Border color */
-    -fx-background-color: transparent; /* Transparent background */
-    -fx-background-insets: 0;
-    -fx-border-radius: 50%; /* Set border radius to create the doughnut effect */
-}
