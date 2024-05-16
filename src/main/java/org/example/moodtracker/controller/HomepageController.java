@@ -112,6 +112,8 @@ public class HomepageController implements Initializable {
 
         // Load external CSS file for styling PieChart
         String cssPath = "/Styling/Styling.css"; // Path relative to the resources directory
+        mood_Pie.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
+        System.out.println("Loaded Stylesheets: " + mood_Pie.getStylesheets());
 
         // Set the Y-axis bounds
         screenTimeYAxis.setAutoRanging(false);

@@ -154,7 +154,7 @@
          </Pane>
          <Pane fx:id="pane_linegraph" layoutX="16.0" layoutY="281.0" prefHeight="240.0" prefWidth="586.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15;">
             <children>
-               <LineChart fx:id="lineChartMoodFluctuations" prefHeight="240.0" prefWidth="586.0">
+               <LineChart fx:id="lineChartMoodFluctuations" prefHeight="240.0" prefWidth="586.0" title="Fortnightly Mood Fluctuations">
                   <xAxis>
                      <CategoryAxis fx:id="xAxisDates" />
                   </xAxis>
