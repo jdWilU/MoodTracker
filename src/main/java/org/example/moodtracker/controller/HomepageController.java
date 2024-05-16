@@ -121,35 +121,34 @@ public class HomepageController implements Initializable {
         screenTimeYAxis.setTickUnit(1);
     }
 
-    private void initializeMoodPieChart(String currentUser) throws SQLException {
-        // Get mood data for the current user
-        Map<String, Integer> moodCounts = DBUtils.getMoodCountsForUser(currentUser);
+    private void initializeMoodPieChart(String currentUser) {
+        try {
+            // Get mood data for the current user
+            Map<String, Integer> moodCounts = DBUtils.getMoodCountsForUser(currentUser);
 
-        // Clear existing PieChart data
-        mood_Pie.getData().clear();
+            // Clear existing PieChart data
+            mood_Pie.getData().clear();
 
-        // Populate PieChart with mood data
-        int colorIndex = 0;
-        for (Map.Entry<String, Integer> entry : moodCounts.entrySet()) {
-            String mood = entry.getKey();
-            int count = entry.getValue();
+            // Populate PieChart with mood data
+            int colorIndex = 0;
+            for (Map.Entry<String, Integer> entry : moodCounts.entrySet()) {
+                String mood = entry.getKey();
+                int count = entry.getValue();
 
-            // Create PieChart.Data item
-            PieChart.Data data = new PieChart.Data(mood, count);
+                // Create PieChart.Data item
+                PieChart.Data data = new PieChart.Data(mood, count);
+                // Add data to PieChart (this initializes the Node)
+                mood_Pie.getData().add(data);
 
-            // Add data to PieChart (this initializes the Node)
-            mood_Pie.getData().add(data);
+                if (data.getNode() != null) {
+                    data.getNode().getStyleClass().add("chart-pie-color" + colorIndex);
+                }
 
-            // Apply style class to the Node of the PieChart.Data
-            if (data.getNode() != null) {
-                data.getNode().getStyleClass().add("chart-pie-color" + colorIndex);
+                colorIndex++; // Increment color index for next mood
             }
-
-            colorIndex++; // Increment color index for next mood
+        } catch (SQLException e) {
+            System.err.println("Error fetching mood data: " + e.getMessage());
         }
-
-        // Apply doughnut chart CSS styling
-        mood_Pie.getStyleClass().add("doughnut-chart");
     }
 
 
@@ -186,8 +185,6 @@ public class HomepageController implements Initializable {
             int screenTimeHours = entry.getValue();
             series.getData().add(new XYChart.Data<>(dayLabel, screenTimeHours));
         }
-
-
 
         // Add the series to the BarChart
         screenTime_BarChart.getData().add(series);
