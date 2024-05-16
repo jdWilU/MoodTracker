@@ -198,7 +198,6 @@ public class HomepageController implements Initializable {
 
     }
 
-
     private Map<String, Integer> filterDataByWeek(Map<String, Integer> data) {
         // Calculate the end date of the week
         LocalDate endDate = currentStartDate.plusDays(6);
@@ -216,7 +215,6 @@ public class HomepageController implements Initializable {
                 filteredData.put(date, entry.getValue());
             }
         }
-
         return filteredData;
     }
 
@@ -292,8 +290,4 @@ public class HomepageController implements Initializable {
         lineChartMoodFluctuations.setCreateSymbols(true); // Show symbols for data points
         lineChartMoodFluctuations.setLegendVisible(false); // Remove the legend
     }
-
-
-
-
 }
