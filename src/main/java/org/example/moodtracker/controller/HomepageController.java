@@ -15,10 +15,8 @@ import org.example.moodtracker.model.UIUtils;
 
 import java.net.URL;
 import java.sql.SQLException;
-import java.time.Instant;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -39,6 +37,10 @@ public class HomepageController implements Initializable {
     @FXML
     private Button button_profile;
     @FXML
+    private Button button_previous_week;
+    @FXML
+    private Button button_next_week;
+    @FXML
     private Label label_welcome;
     @FXML
     private Label current_date;
@@ -46,6 +48,14 @@ public class HomepageController implements Initializable {
     private PieChart mood_Pie;
     @FXML
     private BarChart<String, Number> screenTime_BarChart;
+    @FXML
+    private Label dateRangeLabel;  // Label for displaying date range
+
+    // NumberAxis for Y-axis
+    @FXML
+    private NumberAxis screenTimeYAxis;
+
+    private LocalDate currentStartDate = LocalDate.now().minusDays(6); // Start date of the current week
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -54,12 +64,6 @@ public class HomepageController implements Initializable {
         button_table.setOnAction(event -> DBUtils.changeScene(event, "tableView.fxml", "Table View", null));
         button_profile.setOnAction(event -> DBUtils.changeScene(event, "profile.fxml", "Profile", null));
         button_daily_entry.setOnAction(event -> DBUtils.changeScene(event, "mood-tracking-page.fxml", "Mood Tracking", null));
-        button_profile.setOnAction(event -> DBUtils.changeScene(event, "profile.fxml", "Profile", null));
-
-        // Load external CSS file for styling PieChart
-        String cssPath = "/Styling/Styling.css"; // Path relative to the resources directory
-        mood_Pie.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
-        System.out.println("Loaded Stylesheets: " + mood_Pie.getStylesheets());
 
         // Set user information and current date
         String currentUser = DBUtils.getCurrentUsername();
@@ -70,11 +74,46 @@ public class HomepageController implements Initializable {
             try {
                 initializeMoodPieChart(currentUser);
                 initializeScreenTimeBarChart(currentUser);
-
             } catch (SQLException e) {
                 Logger.getLogger(HomepageController.class.getName()).log(Level.SEVERE, "Error fetching data", e);
             }
         }
+
+        // Button functionality for navigating weeks
+        button_previous_week.setOnAction(event -> {
+            currentStartDate = currentStartDate.minusWeeks(1);
+            button_next_week.setVisible(true); // Show the "Next Week" button
+            try {
+                initializeScreenTimeBarChart(currentUser);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+
+        button_next_week.setOnAction(event -> {
+            currentStartDate = currentStartDate.plusWeeks(1);
+            if (currentStartDate.equals(LocalDate.now().minusDays(6))) {
+                button_next_week.setVisible(false); // Hide the "Next Week" button if the current week is reached
+            }
+            try {
+                initializeScreenTimeBarChart(currentUser);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+
+        // Initially hide the "Next Week" button
+        button_next_week.setVisible(false);
+
+        // Load external CSS file for styling PieChart
+        String cssPath = "/Styling/Styling.css"; // Path relative to the resources directory
+        mood_Pie.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
+
+        // Set the Y-axis bounds
+        screenTimeYAxis.setAutoRanging(false);
+        screenTimeYAxis.setLowerBound(0);
+        screenTimeYAxis.setUpperBound(8);
+        screenTimeYAxis.setTickUnit(1);
     }
 
     private void initializeMoodPieChart(String currentUser) throws SQLException {
@@ -109,7 +148,7 @@ public class HomepageController implements Initializable {
         // Get screen time data for the current user
         Map<String, Integer> screenTimeData = DBUtils.getScreenTimeDataForUser(currentUser);
 
-        // Filter data to only include the last seven days
+        // Filter data to include only the current week starting from currentStartDate
         Map<String, Integer> filteredData = filterDataByWeek(screenTimeData);
 
         // Clear existing BarChart data
@@ -130,13 +169,14 @@ public class HomepageController implements Initializable {
                         LinkedHashMap::new
                 ));
 
-        // Add sorted screen time data to the series
+        // Add sorted screen time data to the series with days of the week as labels
         for (Map.Entry<String, Integer> entry : sortedData.entrySet()) {
-            String date = entry.getKey();
-            int screenTimeHours = entry.getValue();
+            LocalDate date = LocalDate.parse(entry.getKey());
+            DayOfWeek dayOfWeek = date.getDayOfWeek();
+            String dayLabel = dayOfWeek.toString();
 
-            // Add the date and screen time hours to the series
-            series.getData().add(new XYChart.Data<>(date, screenTimeHours));
+            int screenTimeHours = entry.getValue();
+            series.getData().add(new XYChart.Data<>(dayLabel, screenTimeHours));
         }
 
         // Add the series to the BarChart
@@ -145,42 +185,29 @@ public class HomepageController implements Initializable {
         // Remove the legend
         screenTime_BarChart.setLegendVisible(false);
 
-        // Adjust the bar width to fit all entries on the graph
-        int numEntries = sortedData.size();
-        if (numEntries > 10) {
-            // Reduce the bar width for better visibility
-            screenTime_BarChart.setBarGap(0);
-            screenTime_BarChart.setCategoryGap(1);
-        }
+        // Update the date range label
+        LocalDate endDate = currentStartDate.plusDays(6);
+        dateRangeLabel.setText(currentStartDate + " - " + endDate);
     }
 
     private Map<String, Integer> filterDataByWeek(Map<String, Integer> data) {
-        // Get the current date
-        LocalDate currentDate = LocalDate.now();
-
-        // Calculate the start date of the week (6 days ago since we want to include today)
-        LocalDate startDate = currentDate.minusDays(6);
+        // Calculate the end date of the week
+        LocalDate endDate = currentStartDate.plusDays(6);
 
         // Create a new map to store filtered data
         Map<String, Integer> filteredData = new LinkedHashMap<>();
 
-        // Iterate through the original data and add entries within the last seven days to the filtered data
+        // Iterate through the original data and add entries within the current week
         for (Map.Entry<String, Integer> entry : data.entrySet()) {
             String date = entry.getKey(); // Assuming date is in a format compatible with LocalDate
             LocalDate entryDate = LocalDate.parse(date); // Parse the date string to LocalDate
 
-            // Check if the entry date is within the last seven days (inclusive)
-            if (!entryDate.isBefore(startDate) && !entryDate.isAfter(currentDate)) {
+            // Check if the entry date is within the current week (inclusive)
+            if (!entryDate.isBefore(currentStartDate) && !entryDate.isAfter(endDate)) {
                 filteredData.put(date, entry.getValue());
             }
         }
 
         return filteredData;
     }
-
-
-
-
-
-
 }
