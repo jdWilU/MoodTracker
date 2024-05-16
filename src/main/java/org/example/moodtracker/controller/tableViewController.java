@@ -1,5 +1,4 @@
 package org.example.moodtracker.controller;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -16,14 +15,12 @@ import org.example.moodtracker.model.MoodEntry;
 
 import java.net.URL;
 import java.sql.*;
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
+
 public class tableViewController implements Initializable {
 
     @FXML
@@ -41,18 +38,17 @@ public class tableViewController implements Initializable {
     @FXML
     private TableView<MoodEntry> tableView;
     @FXML
-    private TableColumn<MoodEntry, String> dateColumn;
+    private TableColumn<MoodEntry, LocalDate> dateColumn;
     @FXML
     private TableColumn<MoodEntry, String> moodColumn;
     @FXML
     private TableColumn<MoodEntry, String> activitiesColumn;
     @FXML
-    private TableColumn<MoodEntry, Integer > screenTimeColumn;
+    private TableColumn<MoodEntry, Integer> screenTimeColumn;
     @FXML
     private TableColumn<MoodEntry, String> commentsColumn;
 
     private static final String DATABASE_URL = "jdbc:sqlite:moodtracker.db";
-
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -60,8 +56,7 @@ public class tableViewController implements Initializable {
         button_homepage.setOnAction(event -> DBUtils.changeScene(event, "homepage.fxml", "Home", null));
         button_logout.setOnAction(event -> DBUtils.changeScene(event, "login.fxml", "Log In", null));
         button_close.setOnAction(actionEvent -> UIUtils.closeApp((Stage) button_close.getScene().getWindow()));
-
-        button_profile.setOnAction(event -> DBUtils.changeScene(event,"profile.fxml","Profile",null));
+        button_profile.setOnAction(event -> DBUtils.changeScene(event, "profile.fxml", "Profile", null));
 
         // Set user information and current date
         String currentUser = DBUtils.getCurrentUsername();
@@ -105,10 +100,8 @@ public class tableViewController implements Initializable {
 
                     try (ResultSet moodEntriesResult = getMoodEntriesStmt.executeQuery()) {
                         while (moodEntriesResult.next()) {
-                            long entryDateInMillis = moodEntriesResult.getLong("entry_date");
-                            Instant instant = Instant.ofEpochMilli(entryDateInMillis);
-                            ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(instant, ZoneId.systemDefault());
-                            LocalDate entryDate = zonedDateTime.toLocalDate();
+                            String entryDateString = moodEntriesResult.getString("entry_date");
+                            LocalDate entryDate = LocalDate.parse(entryDateString); // Directly parse the date string
 
                             String mood = moodEntriesResult.getString("mood");
                             String activityCategory = moodEntriesResult.getString("activity_category");
@@ -143,10 +136,5 @@ public class tableViewController implements Initializable {
 
         tableView.setItems(moodEntries);
     }
-
-
-
-
-
 
 }

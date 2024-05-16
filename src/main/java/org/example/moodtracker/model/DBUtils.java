@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.sql.*;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
@@ -240,6 +241,31 @@ public class DBUtils {
         return moodCounts;
     }
 
+    public static Map<String, Integer> getScreenTimeDataForUser(String username) throws SQLException {
+        String query = "SELECT entry_date, screen_time_hours FROM mood_tracking WHERE user_id = (SELECT user_id FROM users WHERE username = ?) ORDER BY entry_date";
+        Map<String, Integer> screenTimeData = new HashMap<>();
+
+        try (Connection connection = DriverManager.getConnection(DATABASE_URL);
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setString(1, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                String date = resultSet.getString("entry_date"); // Read date directly as a string
+                int screenTimeHours = resultSet.getInt("screen_time_hours");
+                screenTimeData.put(date, screenTimeHours);
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error fetching screen time data", e);
+            throw e;
+        }
+
+        return screenTimeData;
+    }
+
+
+
     public static void insertMoodEntries(List<MoodEntry> entries, int userId) {
         String insertMoodEntrySQL = "INSERT INTO mood_tracking (user_id, entry_date, mood, screen_time_hours, activity_category, comments) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);
@@ -252,7 +278,9 @@ public class DBUtils {
                 String activityCategory = activityStringBuilder.toString().replaceAll(",$", ""); // Remove trailing comma
 
                 preparedStatement.setInt(1, userId);
-                preparedStatement.setDate(2, java.sql.Date.valueOf(entry.getEntryDate()));
+                // Convert LocalDate to yyyy-mm-dd format
+                String formattedDate = entry.getEntryDate().format(DateTimeFormatter.ISO_LOCAL_DATE);
+                preparedStatement.setString(2, formattedDate);
                 preparedStatement.setString(3, entry.getMood());
                 preparedStatement.setInt(4, entry.getScreenTimeHours());
                 preparedStatement.setString(5, activityCategory); // Insert all activities concatenated into a single string
@@ -264,6 +292,7 @@ public class DBUtils {
             Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error inserting mood entries", e);
         }
     }
+
 
 
 
