@@ -198,8 +198,7 @@ public class HomepageController implements Initializable {
         // Add sorted screen time data to the series with days of the week as labels
         for (Map.Entry<String, Integer> entry : sortedData.entrySet()) {
             LocalDate date = LocalDate.parse(entry.getKey());
-            String dayLabel = date.getDayOfWeek().toString().substring(0, 1) +
-                    date.getDayOfWeek().toString().substring(1, 2).toLowerCase(); // Convert the second letter to lowercase
+            String dayLabel = date.getDayOfWeek().toString().substring(0, 1).toUpperCase() + date.getDayOfWeek().toString().substring(1, 3).toLowerCase(); // Concatenate first letter in uppercase with last two letters in lowercase
             int screenTimeHours = entry.getValue();
             XYChart.Data<String, Number> data = new XYChart.Data<>(dayLabel, screenTimeHours);
 
@@ -223,6 +222,8 @@ public class HomepageController implements Initializable {
             });
             series.getData().add(data);
         }
+
+
 
         // Add the series to the BarChart
         screenTime_BarChart.getData().add(series);
@@ -322,9 +323,12 @@ public class HomepageController implements Initializable {
         lineChartMoodFluctuations.getData().add(series);
 
         // Customize chart appearance
-        yAxisMoodRatings.setLowerBound(1); // Set lower bound to "BAD"
-        yAxisMoodRatings.setUpperBound(5); // Set upper bound to "GREAT"
-        yAxisMoodRatings.setTickUnit(1); // Set tick unit to 1
+        yAxisMoodRatings.setAutoRanging(false); // Disable auto-ranging
+        yAxisMoodRatings.setLowerBound(0); // Set lower bound to "BAD"
+        yAxisMoodRatings.setUpperBound(6); // Set upper bound to "GREAT"
+        yAxisMoodRatings.setTickUnit(0.5); // Set tick unit to 1
+        yAxisMoodRatings.setTickLabelGap(10); // Adjust gap between tick labels and axis
+        yAxisMoodRatings.setTickMarkVisible(false); // Hide tick marks
 
         // Customize Y-axis tick labels to show mood strings
         yAxisMoodRatings.setTickLabelFormatter(new StringConverter<Number>() {
@@ -361,6 +365,11 @@ public class HomepageController implements Initializable {
 
         lineChartMoodFluctuations.setLegendVisible(false); // Remove the legend
     }
+
+
+
+
+
 
 
 }
