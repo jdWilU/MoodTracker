@@ -134,7 +134,7 @@
       <children>
          <Pane fx:id="pane_donut" layoutX="16.0" layoutY="25.0" prefHeight="227.0" prefWidth="214.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15;">
             <children>
-               <PieChart fx:id="mood_Pie" layoutX="7.0" layoutY="37.0" prefHeight="169.0" prefWidth="200.0" />
+               <PieChart fx:id="mood_Pie" layoutX="7.0" layoutY="37.0" prefHeight="169.0" prefWidth="200.0" styleClass="doughnut-chart" stylesheets="@Styling/Styling.css" />
                <Label layoutX="14.0" layoutY="14.0" text="Entered Moods" textFill="#838383" />
             </children></Pane>
          <Pane fx:id="pane_barchart" layoutX="260.0" layoutY="25.0" prefHeight="227.0" prefWidth="345.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15;">

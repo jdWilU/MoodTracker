@@ -147,7 +147,11 @@ public class HomepageController implements Initializable {
 
             colorIndex++; // Increment color index for next mood
         }
+
+        // Apply doughnut chart CSS styling
+        mood_Pie.getStyleClass().add("doughnut-chart");
     }
+
 
     private void initializeScreenTimeBarChart(String currentUser) throws SQLException {
         // Get screen time data for the current user

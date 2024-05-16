@@ -26,7 +26,7 @@
                         <Font name="System Italic" size="14.0" />
                      </font>
                   </Label>
-                  <Slider fx:id="screentimeSlider" blockIncrement="1.0" layoutX="212.0" layoutY="75.0" majorTickUnit="2.0" max="8.0" minorTickCount="1" prefHeight="14.0" prefWidth="238.0" showTickLabels="true" showTickMarks="true" />
+                  <Slider fx:id="screentimeSlider" blockIncrement="1.0" layoutX="212.0" layoutY="75.0" majorTickUnit="2.0" max="24.0" minorTickCount="1" prefHeight="14.0" prefWidth="238.0" showTickLabels="true" showTickMarks="true" />
                   <Label layoutX="424.0" layoutY="58.0">
                      <font>
                         <Font name="System Bold" size="12.0" />
