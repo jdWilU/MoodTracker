@@ -1,12 +1,10 @@
 package org.example.moodtracker.controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.chart.BarChart;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.PieChart;
-import javafx.scene.chart.XYChart;
+import javafx.scene.chart.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
@@ -49,11 +47,15 @@ public class HomepageController implements Initializable {
     @FXML
     private BarChart<String, Number> screenTime_BarChart;
     @FXML
-    private Label dateRangeLabel;  // Label for displaying date range
-
-    // NumberAxis for Y-axis
+    private Label dateRangeLabel;
     @FXML
     private NumberAxis screenTimeYAxis;
+    @FXML
+    private LineChart<String, Number> lineChartMoodFluctuations;
+    @FXML
+    private CategoryAxis xAxisDates;
+    @FXML
+    private NumberAxis yAxisMoodRatings;
 
     private LocalDate currentStartDate = LocalDate.now().minusDays(6); // Start date of the current week
 
@@ -74,6 +76,7 @@ public class HomepageController implements Initializable {
             try {
                 initializeMoodPieChart(currentUser);
                 initializeScreenTimeBarChart(currentUser);
+                initializeMoodFluctuationsLineChart(currentUser);
             } catch (SQLException e) {
                 Logger.getLogger(HomepageController.class.getName()).log(Level.SEVERE, "Error fetching data", e);
             }
@@ -112,7 +115,7 @@ public class HomepageController implements Initializable {
         // Set the Y-axis bounds
         screenTimeYAxis.setAutoRanging(false);
         screenTimeYAxis.setLowerBound(0);
-        screenTimeYAxis.setUpperBound(8);
+        screenTimeYAxis.setUpperBound(16);
         screenTimeYAxis.setTickUnit(1);
     }
 
@@ -172,12 +175,13 @@ public class HomepageController implements Initializable {
         // Add sorted screen time data to the series with days of the week as labels
         for (Map.Entry<String, Integer> entry : sortedData.entrySet()) {
             LocalDate date = LocalDate.parse(entry.getKey());
-            DayOfWeek dayOfWeek = date.getDayOfWeek();
-            String dayLabel = dayOfWeek.toString();
-
+            String dayLabel = date.getDayOfWeek().toString().substring(0, 1) +
+                    date.getDayOfWeek().toString().substring(1, 2).toLowerCase(); // Convert the second letter to lowercase
             int screenTimeHours = entry.getValue();
             series.getData().add(new XYChart.Data<>(dayLabel, screenTimeHours));
         }
+
+
 
         // Add the series to the BarChart
         screenTime_BarChart.getData().add(series);
@@ -188,7 +192,9 @@ public class HomepageController implements Initializable {
         // Update the date range label
         LocalDate endDate = currentStartDate.plusDays(6);
         dateRangeLabel.setText(currentStartDate + " - " + endDate);
+
     }
+
 
     private Map<String, Integer> filterDataByWeek(Map<String, Integer> data) {
         // Calculate the end date of the week
@@ -210,4 +216,58 @@ public class HomepageController implements Initializable {
 
         return filteredData;
     }
+
+    private void initializeMoodFluctuationsLineChart(String currentUser) throws SQLException {
+        // Fetch mood fluctuations data for the last 14 days
+        ObservableList<XYChart.Data<String, Number>> moodData = FXCollections.observableArrayList();
+        ObservableList<String> dates = FXCollections.observableArrayList();
+
+        // Populate dates list with the last 14 days
+        for (int i = 13; i >= 0; i--) {
+            LocalDate date = LocalDate.now().minusDays(i);
+            dates.add(date.toString());
+        }
+
+        // Set x-axis categories
+        xAxisDates.setCategories(dates);
+
+        // Populate moodData with mood fluctuations for each date
+        for (String date : dates) {
+            int moodRating = DBUtils.getMoodRatingForDate(currentUser, date); // Method to fetch mood rating for a specific date
+            moodData.add(new XYChart.Data<>(date, moodRating));
+        }
+
+        // Create series and add data to the line chart
+        XYChart.Series<String, Number> series = new XYChart.Series<>(moodData);
+        series.setName("Mood Fluctuations");
+        lineChartMoodFluctuations.getData().add(series);
+
+        // Customize chart appearance
+        yAxisMoodRatings.setLowerBound(1);
+        yAxisMoodRatings.setUpperBound(5);
+        yAxisMoodRatings.setTickUnit(1);
+
+        lineChartMoodFluctuations.setCreateSymbols(true); // Show symbols for data points
+        lineChartMoodFluctuations.setLegendVisible(true);
+    }
+
+
+    private int mapMoodToValue(int moodRating) {
+        switch (moodRating) {
+            case 1:
+                return 1; // Bad
+            case 2:
+                return 2; // Poor
+            case 3:
+                return 3; // Okay
+            case 4:
+                return 4; // Good
+            case 5:
+                return 5; // Great
+            default:
+                return 0; // Handle unknown mood ratings
+        }
+    }
+
+
 }

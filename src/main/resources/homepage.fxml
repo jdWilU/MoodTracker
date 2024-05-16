@@ -144,7 +144,7 @@
                      <CategoryAxis />
                   </xAxis>
                   <yAxis>
-                     <NumberAxis fx:id="screenTimeYAxis" lowerBound="0" upperBound="8" tickUnit="1" label="Hours"/>
+                     <NumberAxis fx:id="screenTimeYAxis" label="Hours" lowerBound="0" tickUnit="1" upperBound="16" />
                   </yAxis>
                </BarChart>
                <Button fx:id="button_previous_week" layoutX="14.0" layoutY="188.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="80.0" style="-fx-background-radius: 15; -fx-background-color: #FFFFFF; -fx-border-color: #838383; -fx-border-radius: 15;" text="Last week" />
@@ -152,7 +152,18 @@
                <Label fx:id="dateRangeLabel" layoutX="108.0" layoutY="193.0" text="Date Range" />
             </children>
          </Pane>
-         <Pane fx:id="pane_linegraph" layoutX="16.0" layoutY="281.0" prefHeight="240.0" prefWidth="586.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15;" />
+         <Pane fx:id="pane_linegraph" layoutX="16.0" layoutY="281.0" prefHeight="240.0" prefWidth="586.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15;">
+            <children>
+               <LineChart fx:id="lineChartMoodFluctuations" prefHeight="240.0" prefWidth="586.0">
+                  <xAxis>
+                     <CategoryAxis fx:id="xAxisDates" />
+                  </xAxis>
+                  <yAxis>
+                     <NumberAxis fx:id="yAxisMoodRatings" lowerBound="1" tickUnit="1" upperBound="5" />
+                  </yAxis>
+               </LineChart>
+            </children>
+         </Pane>
       </children>
    </Pane>
 </AnchorPane>

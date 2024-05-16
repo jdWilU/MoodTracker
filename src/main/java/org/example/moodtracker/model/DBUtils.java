@@ -264,6 +264,46 @@ public class DBUtils {
         return screenTimeData;
     }
 
+    public static int getMoodRatingForDate(String username, String date) throws SQLException {
+        int moodRating = 1; // Default mood rating if not found
+
+        try (Connection conn = DriverManager.getConnection(DATABASE_URL);
+             PreparedStatement pstmt = conn.prepareStatement("SELECT mood FROM mood_tracking WHERE user_id = ? AND entry_date = ?")) {
+            pstmt.setString(1, username);
+            pstmt.setString(2, date);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    // Retrieve the mood rating string from the 'mood' column
+                    String mood = rs.getString("mood");
+
+                    // Map the mood rating string to integer values
+                    switch (mood.toUpperCase()) {
+                        case "BAD":
+                            moodRating = 1;
+                            break;
+                        case "POOR":
+                            moodRating = 2;
+                            break;
+                        case "OKAY":
+                            moodRating = 3;
+                            break;
+                        case "GOOD":
+                            moodRating = 4;
+                            break;
+                        case "GREAT":
+                            moodRating = 5;
+                            break;
+                        default:
+                            moodRating = 1; // Default to 1 for unknown or unhandled mood ratings
+                            break;
+                    }
+                }
+            }
+        }
+
+        return moodRating;
+    }
 
 
     public static void insertMoodEntries(List<MoodEntry> entries, int userId) {
@@ -293,9 +333,6 @@ public class DBUtils {
         }
     }
 
-
-
-
     public static int getUserId(String username) {
         String query = "SELECT user_id FROM users WHERE username = ?";
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);
@@ -316,4 +353,7 @@ public class DBUtils {
             return -1; // Return -1 to indicate an error occurred
         }
     }
+
+
+
 }
