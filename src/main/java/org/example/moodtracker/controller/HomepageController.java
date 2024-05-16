@@ -130,27 +130,41 @@ public class HomepageController implements Initializable {
             // Clear existing PieChart data
             mood_Pie.getData().clear();
 
+            // Define the custom colors from the CSS file
+            String[] customColors = {
+                    "#20e49f", // Green for GREAT mood
+                    "#2cb2ff", // Blue for GOOD mood
+                    "#838383", // Gray for OKAY mood
+                    "#a364f8", // Purple for POOR mood
+                    "#fe6969"  // Red for BAD mood
+            };
+
             // Populate PieChart with mood data
-            int colorIndex = 0;
+            int index = 0;
             for (Map.Entry<String, Integer> entry : moodCounts.entrySet()) {
                 String mood = entry.getKey();
                 int count = entry.getValue();
 
                 // Create PieChart.Data item
                 PieChart.Data data = new PieChart.Data(mood, count);
+
                 // Add data to PieChart (this initializes the Node)
                 mood_Pie.getData().add(data);
 
+                // Apply style class to the Node of the PieChart.Data
                 if (data.getNode() != null) {
-                    data.getNode().getStyleClass().add("chart-pie-color" + colorIndex);
+                    // Set the custom color defined in the CSS
+                    data.getNode().setStyle("-fx-pie-color: " + customColors[index] + ";");
                 }
 
-                colorIndex++; // Increment color index for next mood
+                index++; // Move to the next custom color
             }
         } catch (SQLException e) {
             System.err.println("Error fetching mood data: " + e.getMessage());
         }
     }
+
+
 
     private void initializeScreenTimeBarChart(String currentUser) throws SQLException {
         // Get screen time data for the current user
