@@ -134,12 +134,15 @@
       <children>
          <Pane fx:id="pane_donut" layoutX="16.0" layoutY="25.0" prefHeight="227.0" prefWidth="214.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15;">
             <children>
-               <PieChart fx:id="mood_Pie" layoutX="7.0" layoutY="37.0" prefHeight="169.0" prefWidth="200.0" styleClass="doughnut-chart" stylesheets="@Styling/Styling.css" />
-               <Label layoutX="14.0" layoutY="14.0" text="Entered Moods" textFill="#838383" />
+               <PieChart fx:id="mood_Pie" animated="false" labelsVisible="false" layoutX="7.0" layoutY="37.0" legendVisible="true" prefHeight="179.0" prefWidth="200.0" stylesheets="@Styling/Styling.css" />
+               <Label layoutX="60.0" layoutY="14.0" text="Entered Moods" textFill="#838383">
+                  <font>
+                     <Font size="14.0" />
+                  </font></Label>
             </children></Pane>
          <Pane fx:id="pane_barchart" layoutX="260.0" layoutY="25.0" prefHeight="227.0" prefWidth="345.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15;">
             <children>
-               <BarChart fx:id="screenTime_BarChart" prefHeight="188.0" prefWidth="345.0" title="Daily Screen Time">
+               <BarChart fx:id="screenTime_BarChart" layoutY="35.0" prefHeight="153.0" prefWidth="345.0">
                   <xAxis>
                      <CategoryAxis />
                   </xAxis>
@@ -147,14 +150,29 @@
                      <NumberAxis fx:id="screenTimeYAxis" label="Hours" lowerBound="0" tickUnit="1" upperBound="16" />
                   </yAxis>
                </BarChart>
-               <Button fx:id="button_previous_week" layoutX="14.0" layoutY="188.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="80.0" style="-fx-background-radius: 15; -fx-background-color: #FFFFFF; -fx-border-color: #838383; -fx-border-radius: 15;" text="Last week" />
-               <Button fx:id="button_next_week" layoutX="251.0" layoutY="188.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="80.0" style="-fx-background-radius: 15; -fx-background-color: #FFFFFF; -fx-border-color: #838383; -fx-border-radius: 15;" text="Next week" />
-               <Label fx:id="dateRangeLabel" layoutX="108.0" layoutY="193.0" text="Date Range" />
+               <Button fx:id="button_previous_week" layoutX="14.0" layoutY="165.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="117.0" style="-fx-background-radius: 15; -fx-background-color: #FFFFFF; -fx-border-color: #838383; -fx-border-radius: 15;" textFill="#838383">
+                  <font>
+                     <Font size="10.0" />
+                  </font>
+                  <graphic>
+                     <ImageView fitHeight="32.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true" />
+                  </graphic></Button>
+               <Label fx:id="dateRangeLabel" layoutX="108.0" layoutY="193.0" text="Date Range" textFill="#838383" />
+               <Label layoutX="118.0" layoutY="14.0" text="Daily Screen Time" textFill="#838383">
+                  <font>
+                     <Font size="14.0" />
+                  </font>
+               </Label>
+               <Button fx:id="button_next_week" layoutX="272.0" layoutY="194.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="62.0" style="-fx-background-radius: 15; -fx-background-color: #FFFFFF; -fx-border-color: #838383; -fx-border-radius: 15;" textFill="#838383">
+                  <font>
+                     <Font size="10.0" />
+                  </font>
+               </Button>
             </children>
          </Pane>
-         <Pane fx:id="pane_linegraph" layoutX="16.0" layoutY="281.0" prefHeight="240.0" prefWidth="586.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15;">
+         <Pane fx:id="pane_linegraph" layoutX="16.0" layoutY="281.0" prefHeight="227.0" prefWidth="586.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15;">
             <children>
-               <LineChart fx:id="lineChartMoodFluctuations" prefHeight="240.0" prefWidth="586.0" title="Fortnightly Mood Fluctuations">
+               <LineChart fx:id="lineChartMoodFluctuations" layoutY="32.0" prefHeight="208.0" prefWidth="586.0">
                   <xAxis>
                      <CategoryAxis fx:id="xAxisDates" />
                   </xAxis>
@@ -162,6 +180,11 @@
                      <NumberAxis fx:id="yAxisMoodRatings" lowerBound="1" tickUnit="1" upperBound="5" />
                   </yAxis>
                </LineChart>
+               <Label layoutX="200.0" layoutY="14.0" text="Fortnightly Mood Fluctuations" textFill="#838383">
+                  <font>
+                     <Font size="14.0" />
+                  </font>
+               </Label>
             </children>
          </Pane>
       </children>

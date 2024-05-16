@@ -4,9 +4,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.chart.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import org.example.moodtracker.model.DBUtils;
@@ -132,11 +135,12 @@ public class HomepageController implements Initializable {
 
             // Define the custom colors from the CSS file
             String[] customColors = {
-                    "#20e49f", // Green for GREAT mood
-                    "#2cb2ff", // Blue for GOOD mood
                     "#838383", // Gray for OKAY mood
+                    "#20e49f", // Green for GREAT mood
+                    "#fe6969",  // Red for BAD mood
                     "#a364f8", // Purple for POOR mood
-                    "#fe6969"  // Red for BAD mood
+                    "#2cb2ff", // Blue for GOOD mood
+
             };
 
             // Populate PieChart with mood data
@@ -155,16 +159,16 @@ public class HomepageController implements Initializable {
                 if (data.getNode() != null) {
                     // Set the custom color defined in the CSS
                     data.getNode().setStyle("-fx-pie-color: " + customColors[index] + ";");
+
                 }
 
                 index++; // Move to the next custom color
             }
+
         } catch (SQLException e) {
             System.err.println("Error fetching mood data: " + e.getMessage());
         }
     }
-
-
 
     private void initializeScreenTimeBarChart(String currentUser) throws SQLException {
         // Get screen time data for the current user
@@ -197,7 +201,27 @@ public class HomepageController implements Initializable {
             String dayLabel = date.getDayOfWeek().toString().substring(0, 1) +
                     date.getDayOfWeek().toString().substring(1, 2).toLowerCase(); // Convert the second letter to lowercase
             int screenTimeHours = entry.getValue();
-            series.getData().add(new XYChart.Data<>(dayLabel, screenTimeHours));
+            XYChart.Data<String, Number> data = new XYChart.Data<>(dayLabel, screenTimeHours);
+
+            // Set color based on screen time
+            String color;
+            if (screenTimeHours <= 1) {
+                color = "#20e49f"; // Green
+            } else if (screenTimeHours == 2) {
+                color = "#2cb2ff"; // Blue
+            } else if (screenTimeHours >= 3 && screenTimeHours <= 4) {
+                color = "#838383"; // Gray
+            } else if (screenTimeHours >= 5 && screenTimeHours <= 6) {
+                color = "#a364f8"; // Purple
+            } else {
+                color = "#fe6969"; // Red
+            }
+
+            // Set color dynamically and add data to series
+            data.nodeProperty().addListener((observable, oldValue, node) -> {
+                node.setStyle("-fx-bar-fill: " + color + ";");
+            });
+            series.getData().add(data);
         }
 
         // Add the series to the BarChart
@@ -209,8 +233,8 @@ public class HomepageController implements Initializable {
         // Update the date range label
         LocalDate endDate = currentStartDate.plusDays(6);
         dateRangeLabel.setText(currentStartDate + " - " + endDate);
-
     }
+
 
 
     private Map<String, Integer> filterDataByWeek(Map<String, Integer> data) {
@@ -251,19 +275,45 @@ public class HomepageController implements Initializable {
         // Get mood data for the user
         Map<String, String> moodEntries = DBUtils.getMoodDataForUser(currentUser);
 
-        // Map mood strings to corresponding ratings
-        Map<String, Integer> moodRatings = new HashMap<>();
-        moodRatings.put("BAD", 1);
-        moodRatings.put("POOR", 2);
-        moodRatings.put("OKAY", 3);
-        moodRatings.put("GOOD", 4);
-        moodRatings.put("GREAT", 5);
+        // Map mood strings to corresponding ratings and colors
+        Map<String, String> moodColors = new HashMap<>();
+        moodColors.put("BAD", "#fe6969");   // Red
+        moodColors.put("POOR", "#a364f8");  // Purple
+        moodColors.put("OKAY", "#838383");  // Gray
+        moodColors.put("GOOD", "#2cb2ff");  // Blue
+        moodColors.put("GREAT", "#20e49f"); // Green
 
         // Populate moodData with mood fluctuations for each date
         for (String date : dates) {
             String moodString = moodEntries.getOrDefault(date, "BAD"); // Default mood to "BAD" if no entry found for the date
-            int moodRating = moodRatings.getOrDefault(moodString.toUpperCase(), 1); // Default to 1 if mood string not found
-            moodData.add(new XYChart.Data<>(date, moodRating));
+            String moodColor = moodColors.getOrDefault(moodString.toUpperCase(), "#fe6969"); // Default to red if mood color not found
+
+            int moodRating = 0;
+            switch (moodString.toUpperCase()) {
+                case "GREAT":
+                    moodRating = 5;
+                    break;
+                case "GOOD":
+                    moodRating = 4;
+                    break;
+                case "OKAY":
+                    moodRating = 3;
+                    break;
+                case "POOR":
+                    moodRating = 2;
+                    break;
+                case "BAD":
+                    moodRating = 1;
+                    break;
+            }
+
+            XYChart.Data<String, Number> data = new XYChart.Data<>(date, moodRating);
+            moodData.add(data);
+
+            // Customize the symbol (circle) for this data point
+            Circle circle = new Circle(5); // Define the size of the circle
+            circle.setFill(Color.web(moodColor)); // Set the color based on mood
+            data.setNode(circle);
         }
 
         // Create series and add data to the line chart
@@ -303,9 +353,16 @@ public class HomepageController implements Initializable {
             }
         });
 
-        lineChartMoodFluctuations.setCreateSymbols(true); // Show symbols for data points
+        // Customize line chart appearance
+        Node line = series.getNode().lookup(".chart-series-line");
+        if (line != null) {
+            line.setStyle("-fx-stroke: #838383;");
+        }
+
         lineChartMoodFluctuations.setLegendVisible(false); // Remove the legend
     }
+
+
 }
 
 
