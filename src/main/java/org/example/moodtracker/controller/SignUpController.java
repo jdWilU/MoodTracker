@@ -1,10 +1,12 @@
 package org.example.moodtracker.controller;
+import io.github.palexdev.materialfx.controls.MFXPasswordField;
+import io.github.palexdev.materialfx.controls.MFXTextField;
+
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Label;
@@ -20,11 +22,11 @@ public class SignUpController implements Initializable {
     @FXML
     private Button button_login;
     @FXML
-    private TextField tf_username;
+    private MFXTextField mfx_username;
     @FXML
-    private TextField tf_email;
+    private MFXTextField mfx_email;
     @FXML
-    private PasswordField pf_password;
+    private MFXPasswordField mxf_password;
     @FXML
     private ProgressBar strengthProgressBar;
     @FXML
@@ -34,16 +36,16 @@ public class SignUpController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Set action for sign up button
         button_signup.setOnAction(event -> {
-            if (!tf_username.getText().trim().isEmpty() && !tf_email.getText().trim().isEmpty() && !pf_password.getText().trim().isEmpty()) {
+            if (!mfx_username.getText().trim().isEmpty() && !mfx_email.getText().trim().isEmpty() && !mxf_password.getText().trim().isEmpty()) {
                 // Check password strength and sign up user
-                PasswordStrength strength = calculatePasswordStrength(pf_password.getText());
+                PasswordStrength strength = calculatePasswordStrength(mxf_password.getText());
                 if (strength != null) {
                     if (strength == PasswordStrength.WEAK) {
                         Alert alert = new Alert(Alert.AlertType.WARNING);
                         alert.setContentText("Password is too weak. Please choose a stronger password.");
                         alert.show();
                     } else {
-                        DBUtils.signUpUser(event, tf_username.getText(), tf_email.getText(), pf_password.getText());
+                        DBUtils.signUpUser(event, mfx_username.getText(), mfx_email.getText(), mxf_password.getText());
                     }
                 }
             } else {
@@ -58,7 +60,7 @@ public class SignUpController implements Initializable {
         button_login.setOnAction(event -> DBUtils.changeScene(event, "login.fxml", "Log In", null));
 
         // Update password strength indicator as password is typed
-        pf_password.textProperty().addListener((observable, oldValue, newValue) -> {
+        mxf_password.textProperty().addListener((observable, oldValue, newValue) -> {
             PasswordStrength strength = calculatePasswordStrength(newValue);
             updatePasswordStrengthIndicator(strength);
         });

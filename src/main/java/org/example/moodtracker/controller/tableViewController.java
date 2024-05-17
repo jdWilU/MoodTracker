@@ -1,13 +1,17 @@
 package org.example.moodtracker.controller;
+
+import io.github.palexdev.materialfx.controls.MFXTableColumn;
+import io.github.palexdev.materialfx.controls.MFXTableView;
+import io.github.palexdev.materialfx.controls.cell.MFXTableRowCell;
+import io.github.palexdev.materialfx.filter.IntegerFilter;
+import io.github.palexdev.materialfx.filter.StringFilter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import org.example.moodtracker.model.DBUtils;
 import org.example.moodtracker.model.UIUtils;
@@ -16,10 +20,7 @@ import org.example.moodtracker.model.MoodEntry;
 import java.net.URL;
 import java.sql.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class tableViewController implements Initializable {
 
@@ -38,17 +39,7 @@ public class tableViewController implements Initializable {
     @FXML
     private Label current_date;
     @FXML
-    private TableView<MoodEntry> tableView;
-    @FXML
-    private TableColumn<MoodEntry, LocalDate> dateColumn;
-    @FXML
-    private TableColumn<MoodEntry, String> moodColumn;
-    @FXML
-    private TableColumn<MoodEntry, String> activitiesColumn;
-    @FXML
-    private TableColumn<MoodEntry, Integer> screenTimeColumn;
-    @FXML
-    private TableColumn<MoodEntry, String> commentsColumn;
+    private MFXTableView<MoodEntry> MFXTableView;
 
     private static final String DATABASE_URL = "jdbc:sqlite:moodtracker.db";
 
@@ -68,16 +59,39 @@ public class tableViewController implements Initializable {
         }
         UIUtils.setCurrentDate(current_date);
 
-        // Configure table columns to use properties of MoodEntry
-        dateColumn.setCellValueFactory(new PropertyValueFactory<>("entryDate"));
-        moodColumn.setCellValueFactory(new PropertyValueFactory<>("mood"));
-        activitiesColumn.setCellValueFactory(new PropertyValueFactory<>("activityCategory"));
-        screenTimeColumn.setCellValueFactory(new PropertyValueFactory<>("screenTimeHours"));
-        commentsColumn.setCellValueFactory(new PropertyValueFactory<>("comments"));
+        // Set up the MaterialFX table
+        setupMFXTable();
 
         // Load data into the table view
         loadData();
     }
+
+    private void setupMFXTable() {
+        MFXTableColumn<MoodEntry> dateColumn = new MFXTableColumn<>("Date", true, Comparator.comparing(MoodEntry::getEntryDate));
+        MFXTableColumn<MoodEntry> moodColumn = new MFXTableColumn<>("Mood", true, Comparator.comparing(MoodEntry::getMood));
+        MFXTableColumn<MoodEntry> activitiesColumn = new MFXTableColumn<>("Activities", true, Comparator.comparing(entry -> String.join(",", entry.getActivityCategory())));
+        MFXTableColumn<MoodEntry> screenTimeColumn = new MFXTableColumn<>("Screen Time", true, Comparator.comparingInt(MoodEntry::getScreenTimeHours));
+        MFXTableColumn<MoodEntry> commentsColumn = new MFXTableColumn<>("Comments", true, Comparator.comparing(MoodEntry::getComments));
+
+        dateColumn.setRowCellFactory(entry -> new MFXTableRowCell<>(MoodEntry::getEntryDate));
+        moodColumn.setRowCellFactory(entry -> new MFXTableRowCell<>(MoodEntry::getMood));
+        activitiesColumn.setRowCellFactory(entry -> new MFXTableRowCell<>(MoodEntry -> String.join(",", entry.getActivityCategory())));
+        screenTimeColumn.setRowCellFactory(entry -> new MFXTableRowCell<>(MoodEntry::getScreenTimeHours) {{
+            setAlignment(Pos.CENTER_RIGHT);
+        }});
+        commentsColumn.setRowCellFactory(entry -> new MFXTableRowCell<>(MoodEntry::getComments));
+
+        MFXTableView.getTableColumns().addAll(dateColumn, moodColumn, activitiesColumn, screenTimeColumn, commentsColumn);
+
+        MFXTableView.getFilters().addAll(
+            new StringFilter<>("Date", entry -> entry.getEntryDate().toString()),  // Convert LocalDate to String
+            new StringFilter<>("Mood", MoodEntry::getMood),
+            new StringFilter<>("Activities", entry -> String.join(",", entry.getActivityCategory())),
+            new IntegerFilter<>("Screen Time", MoodEntry::getScreenTimeHours),
+            new StringFilter<>("Comments", MoodEntry::getComments)
+        );
+    }
+
 
     private void loadData() {
         ObservableList<MoodEntry> moodEntries = FXCollections.observableArrayList();
@@ -137,7 +151,6 @@ public class tableViewController implements Initializable {
             System.err.println("Logged-in username is invalid or not available.");
         }
 
-        tableView.setItems(moodEntries);
+        MFXTableView.setItems(moodEntries);
     }
-
 }
