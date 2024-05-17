@@ -15,7 +15,7 @@
          <children>
             <AnchorPane prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <Label layoutX="32.0" layoutY="16.0" text="Achievements!" textFill="#2cb2ff">
+                  <Label layoutX="66.0" layoutY="14.0" text="Achievements!" textFill="#2cb2ff">
                      <font>
                         <Font name="System Bold" size="27.0" />
                      </font>
@@ -97,6 +97,15 @@
                            </children></Pane>
                      </children>
                   </GridPane>
+                  <Button fx:id="buttonAchievementBack" layoutX="9.0" layoutY="14.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="24.0" style="-fx-background-color: transparent;">
+                     <graphic>
+                        <ImageView fitHeight="35.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@Images/icons8-back-arrow-50.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
                </children></AnchorPane>
          </children></Pane>
    </children>
