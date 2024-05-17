@@ -24,7 +24,7 @@ public class SignUpController implements Initializable {
     @FXML
     private MFXTextField mfx_username;
     @FXML
-    private TextField tf_email;
+    private MFXTextField mfx_email;
     @FXML
     private MFXPasswordField mxf_password;
     @FXML
@@ -36,7 +36,7 @@ public class SignUpController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Set action for sign up button
         button_signup.setOnAction(event -> {
-            if (!mfx_username.getText().trim().isEmpty() && !tf_email.getText().trim().isEmpty() && !mxf_password.getText().trim().isEmpty()) {
+            if (!mfx_username.getText().trim().isEmpty() && !mfx_email.getText().trim().isEmpty() && !mxf_password.getText().trim().isEmpty()) {
                 // Check password strength and sign up user
                 PasswordStrength strength = calculatePasswordStrength(mxf_password.getText());
                 if (strength != null) {
@@ -45,7 +45,7 @@ public class SignUpController implements Initializable {
                         alert.setContentText("Password is too weak. Please choose a stronger password.");
                         alert.show();
                     } else {
-                        DBUtils.signUpUser(event, mfx_username.getText(), tf_email.getText(), mxf_password.getText());
+                        DBUtils.signUpUser(event, mfx_username.getText(), mfx_email.getText(), mxf_password.getText());
                     }
                 }
             } else {
