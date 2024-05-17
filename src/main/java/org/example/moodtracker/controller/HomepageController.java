@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.chart.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
@@ -137,10 +138,9 @@ public class HomepageController implements Initializable {
             String[] customColors = {
                     "#838383", // Gray for OKAY mood
                     "#20e49f", // Green for GREAT mood
-                    "#fe6969",  // Red for BAD mood
+                    "#fe6969", // Red for BAD mood
                     "#a364f8", // Purple for POOR mood
                     "#2cb2ff", // Blue for GOOD mood
-
             };
 
             // Populate PieChart with mood data
@@ -159,11 +159,18 @@ public class HomepageController implements Initializable {
                 if (data.getNode() != null) {
                     // Set the custom color defined in the CSS
                     data.getNode().setStyle("-fx-pie-color: " + customColors[index] + ";");
-
                 }
 
                 index++; // Move to the next custom color
             }
+
+            // Adjust the radius of the PieChart
+            double radius = Math.min(mood_Pie.getWidth(), mood_Pie.getHeight()) / 2;
+            mood_Pie.setPrefWidth(radius * 5);
+            mood_Pie.setPrefHeight(radius * 5);
+
+            // Apply the CSS stylesheet
+            mood_Pie.getStylesheets().add(getClass().getResource("/Styling/Styling.css").toExternalForm());
 
         } catch (SQLException e) {
             System.err.println("Error fetching mood data: " + e.getMessage());
