@@ -9,6 +9,7 @@ import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.*;
 
 import java.time.format.DateTimeFormatter;
@@ -59,26 +60,28 @@ public class DBUtils {
         }
     }
 
-    public static void changeScene(ActionEvent event, String fxmlFile, String title, String username){
+    public static void changeScene(ActionEvent event, String fxmlFile, String title, String username) {
         Parent root = null;
-        if (username != null){
-            try {
-                FXMLLoader loader = new FXMLLoader(DBUtils.class.getClassLoader().getResource(fxmlFile));
-                root = loader.load();
-                //HomepageController loggedInController = loader.getController();
-            } catch (IOException e){
-                Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error loading FXML file: " + fxmlFile, e);
+        try {
+            URL resource = DBUtils.class.getClassLoader().getResource(fxmlFile);
+            if (resource == null) {
+                System.err.println("Resource is null! Check the file path: " + fxmlFile);
+                return;
             }
-        } else {
-            try {
-                root = FXMLLoader.load(Objects.requireNonNull(DBUtils.class.getClassLoader().getResource(fxmlFile)));
-            } catch(IOException e){
-                Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error loading FXML file: " + fxmlFile, e);
-            }
+            System.out.println("Loading FXML from: " + resource);
+            FXMLLoader loader = new FXMLLoader(resource);
+            root = loader.load();
+        } catch (IOException e) {
+            Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error loading FXML file: " + fxmlFile, e);
         }
+
+        if (root == null) {
+            System.err.println("Root is null, cannot change scene. Check FXML file: " + fxmlFile);
+            return;
+        }
+
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setTitle(title);
-        assert root != null;
         stage.setScene(new Scene(root, 800, 600));
         stage.show();
     }

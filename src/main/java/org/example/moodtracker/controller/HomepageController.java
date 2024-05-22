@@ -60,11 +60,12 @@ public class HomepageController implements Initializable {
     private CategoryAxis xAxisDates;
     @FXML
     private NumberAxis yAxisMoodRatings;
-
+    @FXML
     private LocalDate currentStartDate = LocalDate.now().minusDays(6); // Start date of the current week
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         button_logout.setOnAction(event -> DBUtils.changeScene(event, "login.fxml", "Log In", null));
         button_close.setOnAction(actionEvent -> UIUtils.closeApp((Stage) button_close.getScene().getWindow()));
         button_table.setOnAction(event -> DBUtils.changeScene(event, "tableView.fxml", "Table View", null));

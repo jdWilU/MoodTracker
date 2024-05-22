@@ -43,7 +43,7 @@
           <ImageView fitHeight="21.0" fitWidth="23.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
              <Image url="@Images/icons8-homepage-48.png" />
           </ImageView>
-          <MFXButton layoutX="30.0" layoutY="8.0" prefHeight="25.0" prefWidth="80.0" style="-fx-background-color: #FFFFFF; -fx-border-radius: 15; -fx-background-radius: 15; -fx-border-color: #838383;" styleClass="mfx-button" stylesheets="@Styling/MFXStyling/css/MFXButton.css" text="Homepage" textFill="WHITE">
+          <MFXButton fx:id="button_homepage" layoutX="30.0" layoutY="8.0" prefHeight="25.0" prefWidth="80.0" style="-fx-background-color: #FFFFFF; -fx-border-radius: 15; -fx-background-radius: 15; -fx-border-color: #838383;" styleClass="mfx-button" stylesheets="@Styling/MFXStyling/css/MFXButton.css" text="Homepage" textFill="WHITE">
              <font>
                 <Font size="10.0" />
              </font>
@@ -84,33 +84,25 @@
     </VBox>
    <VBox layoutX="1.0" layoutY="503.0" prefHeight="98.0" prefWidth="137.0" style="-fx-background-color: #FFFFFF;">
       <Pane layoutX="10.0" layoutY="20.0" prefHeight="42.0" prefWidth="137.0" style="-fx-background-color: #FFFFFF;">
-         <Button fx:id="button_logout" layoutX="20.0" layoutY="23.0" mnemonicParsing="false" prefHeight="25.0"
-                 prefWidth="97.0" style="-fx-background-color: #838383; -fx-background-radius: 15;" text="       Logout"
-                 textFill="WHITE"/>
-         <ImageView fitHeight="21.0" fitWidth="21.0" layoutX="33.0" layoutY="25.0" pickOnBounds="true"
-                    preserveRatio="true">
-            <Image url="@Images/icons8-logout-64.png"/>
+         <Button fx:id="button_logout" layoutX="20.0" layoutY="23.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="97.0" style="-fx-background-color: #838383; -fx-background-radius: 15;" text="       Logout" textFill="WHITE" />
+         <ImageView fitHeight="21.0" fitWidth="21.0" layoutX="33.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@Images/icons8-logout-64.png" />
          </ImageView>
       </Pane>
       <Pane layoutX="10.0" layoutY="20.0" prefHeight="42.0" prefWidth="137.0" style="-fx-background-color: #FFFFFF;">
          <VBox.margin>
-            <Insets top="10.0"/>
+            <Insets top="10.0" />
          </VBox.margin>
-         <Button fx:id="button_close" layoutX="20.0" layoutY="9.0" mnemonicParsing="false" prefHeight="25.0"
-                 prefWidth="97.0" style="-fx-background-color: #fe6969; -fx-background-radius: 15;" text="  Exit"
-                 textFill="WHITE"/>
-         <ImageView fitHeight="17.0" fitWidth="21.0" layoutX="36.0" layoutY="13.0" pickOnBounds="true"
-                    preserveRatio="true">
-            <Image url="@Images/icons8-close-48.png"/>
+         <Button fx:id="button_close" layoutX="20.0" layoutY="9.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="97.0" style="-fx-background-color: #fe6969; -fx-background-radius: 15;" text="  Exit" textFill="WHITE" />
+         <ImageView fitHeight="17.0" fitWidth="21.0" layoutX="36.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@Images/icons8-close-48.png" />
          </ImageView>
       </Pane>
    </VBox>
    <Pane layoutX="135.0" layoutY="66.0" prefHeight="538.0" prefWidth="87.0" style="-fx-background-color: #F0F0F0; -fx-background-radius: 15;" />
    <Pane layoutX="147.0" layoutY="66.0" prefHeight="538.0" prefWidth="654.0" style="-fx-background-color: #F0F0F0;">
-      <Pane layoutX="16.0" layoutY="25.0" prefHeight="492.0" prefWidth="611.0"
-            style="-fx-background-color: #FFFFFF; -fx-background-radius: 15;">
-         <MFXTableView fx:id="MFXTableView" prefHeight="492.0" prefWidth="611.0"
-                       stylesheets="@Styling/MFXStyling/css/MFXTableView.css"/>
+      <Pane layoutX="16.0" layoutY="25.0" prefHeight="492.0" prefWidth="611.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15;">
+         <MFXTableView fx:id="MFXTableView" prefHeight="492.0" prefWidth="611.0" stylesheets="@Styling/MFXStyling/css/MFXTableView.css" />
       </Pane>
    </Pane>
 </AnchorPane>
