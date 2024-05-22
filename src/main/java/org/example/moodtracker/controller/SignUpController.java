@@ -5,18 +5,18 @@ import io.github.palexdev.materialfx.controls.MFXTextField;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import org.example.moodtracker.model.DBUtils;
-
+import javafx.event.ActionEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class SignUpController implements Initializable {
+    @FXML
+    private Label errorLabel ;
     @FXML
     private Button button_signup;
     @FXML
@@ -32,6 +32,14 @@ public class SignUpController implements Initializable {
     @FXML
     private Label strengthLabel;
 
+        @FXML
+    public void handleSignUp(ActionEvent event) {
+        String username = mfx_username.getText();
+        String email = mfx_email.getText();
+        String password = mxf_password.getText();
+        DBUtils.signUpUser(event, username, email, password, errorLabel);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Set action for sign up button
@@ -41,18 +49,14 @@ public class SignUpController implements Initializable {
                 PasswordStrength strength = calculatePasswordStrength(mxf_password.getText());
                 if (strength != null) {
                     if (strength == PasswordStrength.WEAK) {
-                        Alert alert = new Alert(Alert.AlertType.WARNING);
-                        alert.setContentText("Password is too weak. Please choose a stronger password.");
-                        alert.show();
+                        errorLabel.setText("Password is too weak. Please choose a stronger password.");
                     } else {
-                        DBUtils.signUpUser(event, mfx_username.getText(), mfx_email.getText(), mxf_password.getText());
+                        DBUtils.signUpUser(event, mfx_username.getText(), mfx_email.getText(), mxf_password.getText(), errorLabel);
                     }
                 }
             } else {
                 System.out.println("Please fill in all information");
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("Please fill in all information to sign up");
-                alert.show();
+                errorLabel.setText("Please fill in all information to sign up");
             }
         });
 

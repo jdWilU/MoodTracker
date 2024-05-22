@@ -1,19 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import io.github.palexdev.materialfx.controls.MFXPasswordField?>
-<?import io.github.palexdev.materialfx.controls.MFXTextField?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ProgressBar?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.text.Font?>
+<?import io.github.palexdev.materialfx.controls.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.moodtracker.controller.SignUpController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.moodtracker.controller.SignUpController">
    <children>
       <ImageView fitHeight="600.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -27,17 +21,17 @@
                     <font>
                         <Font name="System Bold" size="24.0" />
                     </font></Label>
-                <Button fx:id="button_signup" layoutX="219.0" layoutY="312.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="161.0" style="-fx-background-color: #2cb2ff;" text="Sign Up" textFill="WHITE">
+                <Button fx:id="button_signup" layoutX="221.0" layoutY="329.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="161.0" style="-fx-background-color: #2cb2ff;" text="Sign Up" textFill="WHITE">
                     <font>
                         <Font name="System Bold" size="12.0" />
                     </font>
                 </Button>
-            <Label layoutX="169.0" layoutY="354.0" text="Already a Member ?" textFill="#828282">
+            <Label layoutX="176.0" layoutY="368.0" text="Already a Member ?" textFill="#828282">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Button fx:id="button_login" layoutX="335.0" layoutY="350.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="81.0" style="-fx-background-color: #20e49f;" text="Login" textFill="WHITE">
+            <Button fx:id="button_login" layoutX="342.0" layoutY="364.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="81.0" style="-fx-background-color: #20e49f;" text="Login" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -64,6 +58,10 @@
                   <MFXPasswordField fx:id="mxf_password" layoutX="203.0" layoutY="200.0" prefHeight="49.0" prefWidth="194.0" promptText="Password" styleClass="mfx-password-field" stylesheets="@Styling/MFXStyling/css/MFXPasswordField.css" />
                   <MFXTextField fx:id="mfx_email" layoutX="204.0" layoutY="134.0" prefHeight="49.0" prefWidth="194.0" promptText="Email" styleClass="mfx-text-field" stylesheets="@Styling/MFXStyling/css/MFXTextField.css" />
                   <MFXTextField fx:id="mfx_username" layoutX="204.0" layoutY="70.0" prefHeight="49.0" prefWidth="194.0" promptText="Username" styleClass="mfx-text-field" stylesheets="@Styling/MFXStyling/css/MFXTextField.css" />
+                  <Label fx:id="errorLabel" layoutX="141.0" layoutY="298.0" prefHeight="25.0" prefWidth="334.0" style="-fx-text-fill: #e73d3d" text="" textAlignment="CENTER">
+                     <font>
+                        <Font size="11.0" />
+                     </font></Label>
             </children></AnchorPane>
          </children></Pane>
    </children>

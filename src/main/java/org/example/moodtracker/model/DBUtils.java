@@ -5,7 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -16,7 +16,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -86,7 +85,7 @@ public class DBUtils {
         stage.show();
     }
 
-    public static void signUpUser(ActionEvent event, String username, String email, String password) {
+    public static void signUpUser(ActionEvent event, String username, String email, String password, Label errorLabel) {
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);
              PreparedStatement psCheckUserExists = connection.prepareStatement("SELECT * FROM users WHERE username = ?");
              PreparedStatement psInsert = connection.prepareStatement("INSERT INTO users (username, email, password) VALUES (?, ?, ?)")) {
@@ -95,9 +94,7 @@ public class DBUtils {
             try (ResultSet resultSet = psCheckUserExists.executeQuery()) {
                 if (resultSet.isBeforeFirst()) {
                     System.out.println("User already exists!");
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setContentText("You cannot use this username.");
-                    alert.show();
+                    errorLabel.setText("You cannot use this username.");
                 } else {
                     psInsert.setString(1, username);
                     psInsert.setString(2, email);
@@ -112,19 +109,18 @@ public class DBUtils {
             }
         } catch (SQLException e) {
             Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error executing SQL queries", e);
+            errorLabel.setText("An error occurred while signing up.");
         }
     }
 
-    public static void logInUser(ActionEvent event, String username, String password) {
+    public static void logInUser(ActionEvent event, String username, String password, Label errorLabel) {
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT password FROM users WHERE username = ?")) {
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT password FROM users WHERE username = ?")) {
             preparedStatement.setString(1, username);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (!resultSet.isBeforeFirst()) {
                     System.out.println("User not found in the database");
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setContentText("Provided credentials are incorrect!");
-                    alert.show();
+                    errorLabel.setText("Password or Username are Incorrect!");
                 } else {
                     while (resultSet.next()) {
                         String retrievedPassword = resultSet.getString("password");
@@ -133,15 +129,14 @@ public class DBUtils {
                             changeScene(event, "homepage.fxml", "Welcome", username);
                         } else {
                             System.out.println("Passwords do not match!");
-                            Alert alert = new Alert(Alert.AlertType.ERROR);
-                            alert.setContentText("The provided credentials are incorrect!");
-                            alert.show();
+                            errorLabel.setText("Password or Username are Incorrect!");
                         }
                     }
                 }
             }
         } catch (SQLException e) {
             Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error executing SQL queries", e);
+            errorLabel.setText("An error occurred while logging in.");
         }
     }
 

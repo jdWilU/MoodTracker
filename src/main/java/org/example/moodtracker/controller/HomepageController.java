@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 
 public class HomepageController implements Initializable {
 
+
     @FXML
     private Button button_logout;
     @FXML
@@ -62,6 +63,8 @@ public class HomepageController implements Initializable {
     private NumberAxis yAxisMoodRatings;
     @FXML
     private LocalDate currentStartDate = LocalDate.now().minusDays(6); // Start date of the current week
+
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
