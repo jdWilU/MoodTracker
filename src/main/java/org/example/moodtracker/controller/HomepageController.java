@@ -1,5 +1,6 @@
 package org.example.moodtracker.controller;
 
+import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -8,7 +9,6 @@ import javafx.scene.Node;
 import javafx.scene.chart.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
@@ -18,7 +18,6 @@ import org.example.moodtracker.model.UIUtils;
 
 import java.net.URL;
 import java.sql.SQLException;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -35,17 +34,17 @@ public class HomepageController implements Initializable {
     @FXML
     private Button button_close;
     @FXML
-    private Button button_table;
+    private MFXButton mfx_button_table;
     @FXML
-    private Button button_daily_entry;
+    private MFXButton button_daily_entry;
     @FXML
-    private Button button_profile;
+    private MFXButton button_profile;
     @FXML
     private Button button_previous_week;
     @FXML
     private Button button_next_week;
     @FXML
-    private Button button_achievement;
+    private MFXButton button_achievement;
     @FXML
     private Label label_welcome;
     @FXML
@@ -70,8 +69,9 @@ public class HomepageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         button_logout.setOnAction(event -> DBUtils.changeScene(event, "login.fxml", "Log In", null));
+        mfx_button_table.setOnAction(event -> DBUtils.changeScene(event, "login.fxml", "log In", null));
         button_close.setOnAction(actionEvent -> UIUtils.closeApp((Stage) button_close.getScene().getWindow()));
-        button_table.setOnAction(event -> DBUtils.changeScene(event, "tableView.fxml", "Table View", null));
+        mfx_button_table.setOnAction(event -> DBUtils.changeScene(event, "tableView.fxml", "Table View", null));
         button_profile.setOnAction(event -> DBUtils.changeScene(event, "profile.fxml", "Profile", null));
         button_daily_entry.setOnAction(event -> DBUtils.changeScene(event, "mood-tracking-page.fxml", "Mood Tracking", null));
         button_achievement.setOnAction(event -> DBUtils.changeScene(event, "achievementsPage.fxml", "Achievements", null));

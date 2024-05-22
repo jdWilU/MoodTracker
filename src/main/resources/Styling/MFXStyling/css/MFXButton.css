@@ -22,7 +22,7 @@
 
 .mfx-button {
   -fx-font-family: "Open Sans Regular";
-  -fx-text-fill: -mfx-text-he;
+  -fx-text-fill: -mfx-text-me;
 }
 
 .mfx-button:armed,

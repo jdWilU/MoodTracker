@@ -1,5 +1,6 @@
 package org.example.moodtracker.controller;
 
+import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTableColumn;
 import io.github.palexdev.materialfx.controls.MFXTableView;
 import io.github.palexdev.materialfx.controls.cell.MFXTableRowCell;
@@ -25,15 +26,17 @@ import java.util.*;
 public class tableViewController implements Initializable {
 
     @FXML
-    private Button button_homepage;
+    private MFXButton button_homepage;
     @FXML
     private Button button_close;
     @FXML
     private Button button_logout;
     @FXML
-    private Button button_profile;
+    private MFXButton button_profile;
     @FXML
-    private Button button_daily_entry;
+    private MFXButton button_daily_entry;
+    @FXML
+    private MFXButton button_achievement;
     @FXML
     private Label label_welcome;
     @FXML
@@ -51,6 +54,7 @@ public class tableViewController implements Initializable {
         button_close.setOnAction(actionEvent -> UIUtils.closeApp((Stage) button_close.getScene().getWindow()));
         button_profile.setOnAction(event -> DBUtils.changeScene(event, "profile.fxml", "Profile", null));
         button_daily_entry.setOnAction(event -> DBUtils.changeScene(event, "mood-tracking-page.fxml", "Mood Tracking", null));
+        button_achievement.setOnAction(event -> DBUtils.changeScene(event, "achievementsPage.fxml", "Achievements", null));
 
         // Set user information and current date
         String currentUser = DBUtils.getCurrentUsername();
