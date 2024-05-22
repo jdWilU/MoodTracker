@@ -19,10 +19,7 @@ import org.example.moodtracker.model.UIUtils;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -34,7 +31,7 @@ public class HomepageController implements Initializable {
     @FXML
     private Button button_close;
     @FXML
-    private MFXButton mfx_button_table;
+    private MFXButton button_table;
     @FXML
     private MFXButton button_daily_entry;
     @FXML
@@ -69,12 +66,12 @@ public class HomepageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         button_logout.setOnAction(event -> DBUtils.changeScene(event, "login.fxml", "Log In", null));
-        mfx_button_table.setOnAction(event -> DBUtils.changeScene(event, "login.fxml", "log In", null));
         button_close.setOnAction(actionEvent -> UIUtils.closeApp((Stage) button_close.getScene().getWindow()));
-        mfx_button_table.setOnAction(event -> DBUtils.changeScene(event, "tableView.fxml", "Table View", null));
+        button_table.setOnAction(event -> DBUtils.changeScene(event, "tableView.fxml", "Table View", null));
         button_profile.setOnAction(event -> DBUtils.changeScene(event, "profile.fxml", "Profile", null));
         button_daily_entry.setOnAction(event -> DBUtils.changeScene(event, "mood-tracking-page.fxml", "Mood Tracking", null));
         button_achievement.setOnAction(event -> DBUtils.changeScene(event, "achievementsPage.fxml", "Achievements", null));
+
 
         // Set user information and current date
         String currentUser = DBUtils.getCurrentUsername();
@@ -173,7 +170,7 @@ public class HomepageController implements Initializable {
             mood_Pie.setPrefHeight(radius * 5);
 
             // Apply the CSS stylesheet
-            mood_Pie.getStylesheets().add(getClass().getResource("/Styling/Styling.css").toExternalForm());
+            mood_Pie.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/Styling/Styling.css")).toExternalForm());
 
         } catch (SQLException e) {
             System.err.println("Error fetching mood data: " + e.getMessage());
@@ -227,9 +224,7 @@ public class HomepageController implements Initializable {
             }
 
             // Set color dynamically and add data to series
-            data.nodeProperty().addListener((observable, oldValue, node) -> {
-                node.setStyle("-fx-bar-fill: " + color + ";");
-            });
+            data.nodeProperty().addListener((observable, oldValue, node) -> node.setStyle("-fx-bar-fill: " + color + ";"));
             series.getData().add(data);
         }
 
@@ -299,24 +294,14 @@ public class HomepageController implements Initializable {
             String moodString = moodEntries.getOrDefault(date, "BAD"); // Default mood to "BAD" if no entry found for the date
             String moodColor = moodColors.getOrDefault(moodString.toUpperCase(), "#fe6969"); // Default to red if mood color not found
 
-            int moodRating = 0;
-            switch (moodString.toUpperCase()) {
-                case "GREAT":
-                    moodRating = 5;
-                    break;
-                case "GOOD":
-                    moodRating = 4;
-                    break;
-                case "OKAY":
-                    moodRating = 3;
-                    break;
-                case "POOR":
-                    moodRating = 2;
-                    break;
-                case "BAD":
-                    moodRating = 1;
-                    break;
-            }
+            int moodRating = switch (moodString.toUpperCase()) {
+                case "GREAT" -> 5;
+                case "GOOD" -> 4;
+                case "OKAY" -> 3;
+                case "POOR" -> 2;
+                case "BAD" -> 1;
+                default -> 0;
+            };
 
             XYChart.Data<String, Number> data = new XYChart.Data<>(date, moodRating);
             moodData.add(data);
@@ -341,24 +326,18 @@ public class HomepageController implements Initializable {
         yAxisMoodRatings.setTickMarkVisible(false); // Hide tick marks
 
         // Customize Y-axis tick labels to show mood strings
-        yAxisMoodRatings.setTickLabelFormatter(new StringConverter<Number>() {
+        yAxisMoodRatings.setTickLabelFormatter(new StringConverter<>() {
             @Override
             public String toString(Number object) {
                 int moodRating = object.intValue();
-                switch (moodRating) {
-                    case 1:
-                        return "BAD";
-                    case 2:
-                        return "POOR";
-                    case 3:
-                        return "OKAY";
-                    case 4:
-                        return "GOOD";
-                    case 5:
-                        return "GREAT";
-                    default:
-                        return "";
-                }
+                return switch (moodRating) {
+                    case 1 -> "BAD";
+                    case 2 -> "POOR";
+                    case 3 -> "OKAY";
+                    case 4 -> "GOOD";
+                    case 5 -> "GREAT";
+                    default -> "";
+                };
             }
 
             @Override

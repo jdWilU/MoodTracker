@@ -27,7 +27,7 @@ public class ProfileSettingsController implements Initializable {
     @FXML
     private MFXButton button_daily_entry;
     @FXML
-    private MFXButton button_achievements;
+    private MFXButton button_achievement;
     @FXML
     private Button button_close;
     @FXML
@@ -53,7 +53,7 @@ public class ProfileSettingsController implements Initializable {
         button_table.setOnAction(event -> DBUtils.changeScene(event, "tableView.fxml", "Table View", null));
         button_close.setOnAction(actionEvent -> UIUtils.closeApp((Stage) button_close.getScene().getWindow()));
         button_daily_entry.setOnAction(event -> DBUtils.changeScene(event, "mood-tracking-page.fxml", "Mood Tracking", null));
-        button_achievements.setOnAction(event -> DBUtils.changeScene(event, "achievementsPage.fxml", "Achievements", null));
+        button_achievement.setOnAction(event -> DBUtils.changeScene(event, "achievementsPage.fxml", "Achievements", null));
 
         // Update button functionality
         button_save.setOnAction(event -> updateUser());

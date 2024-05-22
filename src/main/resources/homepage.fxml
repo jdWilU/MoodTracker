@@ -82,7 +82,7 @@
                   <Font size="10.0" />
                </font>
             </MFXButton>
-            <MFXButton fx:id="mfx_button_table" layoutX="32.0" layoutY="91.0" prefHeight="25.0" prefWidth="80.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #838383; -fx-border-radius: 15; -fx-background-radius: 15;" styleClass="mfx-button" stylesheets="@Styling/MFXStyling/css/MFXButton.css" text="History" textFill="WHITE">
+            <MFXButton fx:id="button_table" layoutX="32.0" layoutY="91.0" prefHeight="25.0" prefWidth="80.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #838383; -fx-border-radius: 15; -fx-background-radius: 15;" styleClass="mfx-button" stylesheets="@Styling/MFXStyling/css/MFXButton.css" text="History" textFill="WHITE">
                <font>
                   <Font size="10.0" />
                </font>
