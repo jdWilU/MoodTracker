@@ -1,7 +1,6 @@
 package org.example.moodtracker.controller;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.fxml.Initializable;
@@ -23,13 +22,6 @@ public class HelloController implements Initializable {
     private MFXPasswordField mxf_password;
 
     // Login button action
-    @FXML
-    public void handleLogin(ActionEvent event) {
-        String username = mfx_username.getText();
-        String password = mxf_password.getText();
-        DBUtils.logInUser(event, username, password, errorLabel);
-    }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         button_login.setOnAction(event -> DBUtils.logInUser(event, mfx_username.getText(), mxf_password.getText(), errorLabel));

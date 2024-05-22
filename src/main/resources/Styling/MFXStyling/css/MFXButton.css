@@ -22,11 +22,20 @@
 
 .mfx-button {
   -fx-font-family: "Open Sans Regular";
-  -fx-text-fill: -mfx-text-me;
+  -fx-text-fill: #838383; /* Default text color */
+  -fx-background-color: white; /* Default background color */
+  -fx-border-color: #838383; /* Default border color */
+  -fx-border-radius: 15px; /* Border radius */
+  -fx-background-radius: 15px; /* Background radius */
+  -fx-border-width: 1px; /* Ensure border is visible */
 }
 
 .mfx-button:armed,
-.mfx-button:hover,
+.mfx-button:hover{
+  -fx-background-color: #919191; /* Change background to light grey */
+  -fx-border-color: #2cb2ff; /* Change border to blue */
+  -fx-text-fill: white; /* Change text color to white */
+}
 .mfx-button:focused,
 .mfx-button {
   -fx-background-radius: 3px;

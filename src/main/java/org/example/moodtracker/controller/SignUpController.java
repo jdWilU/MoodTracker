@@ -10,7 +10,6 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import org.example.moodtracker.model.DBUtils;
-import javafx.event.ActionEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -32,13 +31,6 @@ public class SignUpController implements Initializable {
     @FXML
     private Label strengthLabel;
 
-        @FXML
-    public void handleSignUp(ActionEvent event) {
-        String username = mfx_username.getText();
-        String email = mfx_email.getText();
-        String password = mxf_password.getText();
-        DBUtils.signUpUser(event, username, email, password, errorLabel);
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
