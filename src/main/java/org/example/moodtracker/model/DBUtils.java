@@ -43,13 +43,13 @@ public class DBUtils {
             // Create mood tracking table
             String createMoodTableSQL = "CREATE TABLE IF NOT EXISTS mood_tracking (" +
                     "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    "user_id INTEGER," +  // Foreign key to link to users table
-                    "entry_date DATE," +   // Date of the entry
-                    "mood TEXT CHECK (mood IN ('BAD', 'POOR', 'OKAY', 'GOOD', 'GREAT'))," +  // Mood category
-                    "screen_time_hours INTEGER," +  // Screen time in hours
-                    "activity_category TEXT CHECK (activity_category IN ('Exercise', 'Meditation', 'Socializing', 'Sleep ', 'Journaling', 'Hobbies', 'Helping Others'))," +  // Category of activity
-                    "comments TEXT," +  // Additional comments
-                    "FOREIGN KEY(user_id) REFERENCES users(user_id))";  // Foreign key constraint
+                    "user_id INTEGER," +
+                    "entry_date DATE," +
+                    "mood TEXT CHECK (mood IN ('BAD', 'POOR', 'OKAY', 'GOOD', 'GREAT'))," +
+                    "screen_time_hours INTEGER," +
+                    "activity_category TEXT," +
+                    "comments TEXT," +
+                    "FOREIGN KEY(user_id) REFERENCES users(user_id))";
             statement.execute(createMoodTableSQL);
             Logger.getLogger(DBUtils.class.getName()).log(Level.INFO, "Mood Tracking Table created successfully!");
 
@@ -331,7 +331,4 @@ public class DBUtils {
             return -1; // Return -1 to indicate an error occurred
         }
     }
-
-
-
 }
