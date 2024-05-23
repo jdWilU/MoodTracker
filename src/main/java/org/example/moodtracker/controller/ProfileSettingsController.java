@@ -39,7 +39,7 @@ public class ProfileSettingsController implements Initializable {
     @FXML
     private TextField tf_email;
     @FXML
-    private TextField tf_password;
+    private PasswordField pw_password;
     @FXML
     private Button button_save;
     @FXML
@@ -71,7 +71,7 @@ public class ProfileSettingsController implements Initializable {
         if (user != null) {
             tf_username.setText(user.getUsername());
             tf_email.setText(user.getEmail());
-            tf_password.setText(user.getPassword());
+            pw_password.setText(user.getPassword());
         }
     }
 
@@ -79,7 +79,7 @@ public class ProfileSettingsController implements Initializable {
         // Get updated information from text fields
         String newUsername = tf_username.getText().trim();
         String newEmail = tf_email.getText().trim();
-        String newPassword = tf_password.getText().trim();
+        String newPassword = pw_password.getText().trim();
         String currentUser = DBUtils.getCurrentUsername();
         try {
             // Retrieve user information from the database

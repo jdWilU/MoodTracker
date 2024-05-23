@@ -66,3 +66,10 @@
     -fx-background-color: #838383; /* New background color on hover */
     -fx-text-fill: white; /* Text color on hover */
 }
+
+.text-field {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent #838383 transparent; /* Only bottom border is black */
+    -fx-border-width: 0 0 1 0; /* Set the width of the bottom border */
+    -fx-padding: 0 0 0 3; /* Optional: Adjust padding to move the text away from the bottom border */
+}
