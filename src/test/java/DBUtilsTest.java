@@ -133,7 +133,7 @@ class DBUtilsTest {
 
         // Wrap JavaFX-related code inside Platform.runLater() to ensure it's executed on the FX application thread
         Platform.runLater(() -> {
-            DBUtils.signUpUser(event, username, email, password);
+            DBUtils.signUpUser(event, username, email, password, null);
 
             // Check if the user is inserted into the database
             assertDoesNotThrow(() -> connection.prepareStatement("SELECT * FROM users WHERE username = '" + username + "'").execute());

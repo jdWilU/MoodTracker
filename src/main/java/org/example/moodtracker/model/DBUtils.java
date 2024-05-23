@@ -1,21 +1,21 @@
 package org.example.moodtracker.model;
 
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.*;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Objects;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -47,7 +47,7 @@ public class DBUtils {
                     "entry_date DATE," +   // Date of the entry
                     "mood TEXT CHECK (mood IN ('BAD', 'POOR', 'OKAY', 'GOOD', 'GREAT'))," +  // Mood category
                     "screen_time_hours INTEGER," +  // Screen time in hours
-                    "activity_category TEXT ," +  // Category of activity
+                    "activity_category TEXT CHECK (activity_category IN ('Exercise', 'Meditation', 'Socializing', 'Sleep ', 'Journaling', 'Hobbies', 'Helping Others'))," +  // Category of activity
                     "comments TEXT," +  // Additional comments
                     "FOREIGN KEY(user_id) REFERENCES users(user_id))";  // Foreign key constraint
             statement.execute(createMoodTableSQL);
@@ -59,31 +59,33 @@ public class DBUtils {
         }
     }
 
-    public static void changeScene(ActionEvent event, String fxmlFile, String title, String username){
+    public static void changeScene(ActionEvent event, String fxmlFile, String title, String username) {
         Parent root = null;
-        if (username != null){
-            try {
-                FXMLLoader loader = new FXMLLoader(DBUtils.class.getClassLoader().getResource(fxmlFile));
-                root = loader.load();
-                //HomepageController loggedInController = loader.getController();
-            } catch (IOException e){
-                Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error loading FXML file: " + fxmlFile, e);
+        try {
+            URL resource = DBUtils.class.getClassLoader().getResource(fxmlFile);
+            if (resource == null) {
+                System.err.println("Resource is null! Check the file path: " + fxmlFile);
+                return;
             }
-        } else {
-            try {
-                root = FXMLLoader.load(Objects.requireNonNull(DBUtils.class.getClassLoader().getResource(fxmlFile)));
-            } catch(IOException e){
-                Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error loading FXML file: " + fxmlFile, e);
-            }
+            System.out.println("Loading FXML from: " + resource);
+            FXMLLoader loader = new FXMLLoader(resource);
+            root = loader.load();
+        } catch (IOException e) {
+            Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error loading FXML file: " + fxmlFile, e);
         }
+
+        if (root == null) {
+            System.err.println("Root is null, cannot change scene. Check FXML file: " + fxmlFile);
+            return;
+        }
+
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setTitle(title);
-        assert root != null;
         stage.setScene(new Scene(root, 800, 600));
         stage.show();
     }
 
-    public static void signUpUser(ActionEvent event, String username, String email, String password) {
+    public static void signUpUser(ActionEvent event, String username, String email, String password, Label errorLabel) {
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);
              PreparedStatement psCheckUserExists = connection.prepareStatement("SELECT * FROM users WHERE username = ?");
              PreparedStatement psInsert = connection.prepareStatement("INSERT INTO users (username, email, password) VALUES (?, ?, ?)")) {
@@ -92,9 +94,7 @@ public class DBUtils {
             try (ResultSet resultSet = psCheckUserExists.executeQuery()) {
                 if (resultSet.isBeforeFirst()) {
                     System.out.println("User already exists!");
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setContentText("You cannot use this username.");
-                    alert.show();
+                    errorLabel.setText("You cannot use this username.");
                 } else {
                     psInsert.setString(1, username);
                     psInsert.setString(2, email);
@@ -109,19 +109,18 @@ public class DBUtils {
             }
         } catch (SQLException e) {
             Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error executing SQL queries", e);
+            errorLabel.setText("An error occurred while signing up.");
         }
     }
 
-    public static void logInUser(ActionEvent event, String username, String password) {
+    public static void logInUser(ActionEvent event, String username, String password, Label errorLabel) {
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT password FROM users WHERE username = ?")) {
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT password FROM users WHERE username = ?")) {
             preparedStatement.setString(1, username);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (!resultSet.isBeforeFirst()) {
                     System.out.println("User not found in the database");
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setContentText("Provided credentials are incorrect!");
-                    alert.show();
+                    errorLabel.setText("Password or Username are Incorrect!");
                 } else {
                     while (resultSet.next()) {
                         String retrievedPassword = resultSet.getString("password");
@@ -130,15 +129,14 @@ public class DBUtils {
                             changeScene(event, "homepage.fxml", "Welcome", username);
                         } else {
                             System.out.println("Passwords do not match!");
-                            Alert alert = new Alert(Alert.AlertType.ERROR);
-                            alert.setContentText("The provided credentials are incorrect!");
-                            alert.show();
+                            errorLabel.setText("Password or Username are Incorrect!");
                         }
                     }
                 }
             }
         } catch (SQLException e) {
             Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error executing SQL queries", e);
+            errorLabel.setText("An error occurred while logging in.");
         }
     }
 
@@ -218,6 +216,74 @@ public class DBUtils {
         }
     }
 
+
+    public static Map<String, Integer> getMoodCountsForUser(String username) throws SQLException {
+        String query = "SELECT mood, COUNT(*) AS count FROM mood_tracking WHERE user_id = (SELECT user_id FROM users WHERE username = ?) GROUP BY mood";
+        Map<String, Integer> moodCounts = new HashMap<>();
+
+        try (Connection connection = DriverManager.getConnection(DATABASE_URL);
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setString(1, username);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                String mood = resultSet.getString("mood");
+                int count = resultSet.getInt("count");
+                moodCounts.put(mood, count);
+            }
+        }
+
+        return moodCounts;
+    }
+
+    public static Map<String, Integer> getScreenTimeDataForUser(String username) throws SQLException {
+        String query = "SELECT entry_date, screen_time_hours FROM mood_tracking WHERE user_id = (SELECT user_id FROM users WHERE username = ?) ORDER BY entry_date";
+        Map<String, Integer> screenTimeData = new HashMap<>();
+
+        try (Connection connection = DriverManager.getConnection(DATABASE_URL);
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setString(1, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                String date = resultSet.getString("entry_date"); // Read date directly as a string
+                int screenTimeHours = resultSet.getInt("screen_time_hours");
+                screenTimeData.put(date, screenTimeHours);
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error fetching screen time data", e);
+            throw e;
+        }
+
+        return screenTimeData;
+    }
+
+    public static Map<String, String> getMoodDataForUser(String username) throws SQLException {
+        String query = "SELECT entry_date, mood FROM mood_tracking WHERE user_id = (SELECT user_id FROM users WHERE username = ?) ORDER BY entry_date";
+        Map<String, String> moodData = new HashMap<>();
+
+        try (Connection connection = DriverManager.getConnection(DATABASE_URL);
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setString(1, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                String date = resultSet.getString("entry_date"); // Read date directly as a string
+                String moodRating = resultSet.getString("mood");
+
+                moodData.put(date, moodRating);
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error fetching mood data", e);
+            throw e;
+        }
+
+        return moodData;
+    }
+
     public static void insertMoodEntries(List<MoodEntry> entries, int userId) {
         String insertMoodEntrySQL = "INSERT INTO mood_tracking (user_id, entry_date, mood, screen_time_hours, activity_category, comments) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);
@@ -230,7 +296,9 @@ public class DBUtils {
                 String activityCategory = activityStringBuilder.toString().replaceAll(",$", ""); // Remove trailing comma
 
                 preparedStatement.setInt(1, userId);
-                preparedStatement.setDate(2, java.sql.Date.valueOf(entry.getEntryDate()));
+                // Convert LocalDate to yyyy-mm-dd format
+                String formattedDate = entry.getEntryDate().format(DateTimeFormatter.ISO_LOCAL_DATE);
+                preparedStatement.setString(2, formattedDate);
                 preparedStatement.setString(3, entry.getMood());
                 preparedStatement.setInt(4, entry.getScreenTimeHours());
                 preparedStatement.setString(5, activityCategory); // Insert all activities concatenated into a single string
@@ -242,8 +310,6 @@ public class DBUtils {
             Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error inserting mood entries", e);
         }
     }
-
-
 
     public static int getUserId(String username) {
         String query = "SELECT user_id FROM users WHERE username = ?";
@@ -265,4 +331,7 @@ public class DBUtils {
             return -1; // Return -1 to indicate an error occurred
         }
     }
+
+
+
 }

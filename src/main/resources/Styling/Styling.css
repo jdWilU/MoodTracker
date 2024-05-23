@@ -1,8 +1,26 @@
 
+/*---------------------------Graph Styling----------------------------- */
 
+/* Define custom colors for PieChart segments */
+.chart-pie-color0 {
+    -fx-pie-color: #20e49f; /* Green for GREAT mood */
+}
 
+.chart-pie-color1 {
+    -fx-pie-color: #2cb2ff; /* Blue for GOOD mood */
+}
 
+.chart-pie-color2 {
+    -fx-pie-color: #838383; /* Grey for OKAY mood */
+}
 
+.chart-pie-color3 {
+    -fx-pie-color: #a364f8; /* Purple for POOR mood */
+}
+
+.chart-pie-color4 {
+    -fx-pie-color: #fe6969; /* Red for BAD mood */
+}
 
 
 /*---------------------------Button Styling----------------------------- */
@@ -12,13 +30,14 @@
     -fx-background-radius: 15;
     -fx-border-color: #838383;
     -fx-border-radius: 15;
+    -fx-text-fill: white;
 }
 
 #button_homepage: hover{
     -fx-background-radius: 15;
     -fx-border-radius: 15;
     -fx-background-color: #838383; /* New background color on hover */
-    -fx-text-fill: white; /* Text color on hover */
+ /* Text color on hover */
 }
 
 /* Styling for Daily Entry Button */

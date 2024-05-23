@@ -36,7 +36,7 @@ public class UIUtils {
         stage.close();
     }
 
-    // Method to logout & return to login screen
+    // Method to log out & return to login screen
     public static void logout() {
         // Set the current username to null
         setCurrentUsername(null);

@@ -13,9 +13,9 @@
         </image>
     </ImageView>
     <Pane layoutX="187.0" layoutY="152.0" prefHeight="200.0" prefWidth="200.0" />
-    <AnchorPane layoutX="118.0" layoutY="160.0" prefHeight="293.0" prefWidth="615.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15;">
+    <AnchorPane layoutX="101.0" layoutY="160.0" prefHeight="293.0" prefWidth="615.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15;">
         <children>
-            <ImageView fitHeight="75.0" fitWidth="79.0" layoutX="539.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="70.0" fitWidth="63.0" layoutX="546.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
                 <image>
                     <Image url="@Images/img.png" />
                 </image>

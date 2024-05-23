@@ -7,7 +7,7 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: 0000000;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.moodtracker.controller.ScreentimeJournalPageController">
    <children>
-      <ImageView fitHeight="600.0" fitWidth="852.0" layoutX="-8.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="600.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Images/background.png" />
          </image>
@@ -26,7 +26,7 @@
                         <Font name="System Italic" size="14.0" />
                      </font>
                   </Label>
-                  <Slider fx:id="screentimeSlider" blockIncrement="1.0" layoutX="212.0" layoutY="75.0" majorTickUnit="2.0" max="8.0" minorTickCount="1" prefHeight="14.0" prefWidth="238.0" showTickLabels="true" showTickMarks="true" />
+                  <Slider fx:id="screentimeSlider" blockIncrement="1.0" layoutX="212.0" layoutY="75.0" majorTickUnit="2.0" max="24.0" minorTickCount="1" prefHeight="14.0" prefWidth="238.0" showTickLabels="true" showTickMarks="true" />
                   <Label layoutX="424.0" layoutY="58.0">
                      <font>
                         <Font name="System Bold" size="12.0" />
@@ -56,6 +56,12 @@
                         </ImageView>
                      </graphic>
                   </Button>
+                  <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="350.0" layoutY="-33.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="70.0" fitWidth="63.0" layoutX="419.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/img.png" />
+                     </image>
+                  </ImageView>
                </children>
             </AnchorPane>
          </children>

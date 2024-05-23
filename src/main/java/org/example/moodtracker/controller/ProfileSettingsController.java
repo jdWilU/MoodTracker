@@ -1,5 +1,6 @@
 package org.example.moodtracker.controller;
 
+import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -20,9 +21,13 @@ public class ProfileSettingsController implements Initializable {
     @FXML
     private Button button_logout;
     @FXML
-    private Button button_table;
+    private MFXButton button_table;
     @FXML
-    private Button button_homepage;
+    private MFXButton button_homepage;
+    @FXML
+    private MFXButton button_daily_entry;
+    @FXML
+    private MFXButton button_achievement;
     @FXML
     private Button button_close;
     @FXML
@@ -47,6 +52,9 @@ public class ProfileSettingsController implements Initializable {
         button_logout.setOnAction(event -> DBUtils.changeScene(event, "login.fxml", "Log In", null));
         button_table.setOnAction(event -> DBUtils.changeScene(event, "tableView.fxml", "Table View", null));
         button_close.setOnAction(actionEvent -> UIUtils.closeApp((Stage) button_close.getScene().getWindow()));
+        button_daily_entry.setOnAction(event -> DBUtils.changeScene(event, "mood-tracking-page.fxml", "Mood Tracking", null));
+        button_achievement.setOnAction(event -> DBUtils.changeScene(event, "achievementsPage.fxml", "Achievements", null));
+
         // Update button functionality
         button_save.setOnAction(event -> updateUser());
         button_delete.setOnAction(event -> handleDeleteAccount());
@@ -73,7 +81,6 @@ public class ProfileSettingsController implements Initializable {
         String newEmail = tf_email.getText().trim();
         String newPassword = tf_password.getText().trim();
         String currentUser = DBUtils.getCurrentUsername();
-
         try {
             // Retrieve user information from the database
             UserInfo userInfo = DBUtils.getUserInfo(currentUser);
@@ -106,7 +113,6 @@ public class ProfileSettingsController implements Initializable {
         alert.setTitle("Confirmation");
         alert.setHeaderText("Delete Account");
         alert.setContentText("Are you sure you want to delete your account? This action cannot be undone.");
-
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             // User confirmed deletion

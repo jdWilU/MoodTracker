@@ -310,6 +310,10 @@
       
                 <!-- Continue to add more buttons as needed -->
             </GridPane>
+         <ImageView fitHeight="70.0" fitWidth="63.0" layoutX="530.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@Images/img.png" />
+            </image></ImageView>
         </children>
     </Pane>
 </AnchorPane>

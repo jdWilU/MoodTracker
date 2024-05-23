@@ -1,183 +1,359 @@
 package org.example.moodtracker.controller;
 
+import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.scene.chart.PieChart;
+import javafx.scene.Node;
+import javafx.scene.chart.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
-import javafx.scene.chart.BarChart;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
-import javafx.scene.chart.LineChart;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
+import javafx.util.StringConverter;
 import org.example.moodtracker.model.DBUtils;
 import org.example.moodtracker.model.UIUtils;
 
+import java.net.URL;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+
 public class HomepageController implements Initializable {
+
 
     @FXML
     private Button button_logout;
     @FXML
     private Button button_close;
     @FXML
-    private Button button_table;
+    private MFXButton button_table;
     @FXML
-    private Button button_daily_entry;
+    private MFXButton button_daily_entry;
     @FXML
-    private Button button_profile;
+    private MFXButton button_profile;
+    @FXML
+    private Button button_previous_week;
+    @FXML
+    private Button button_next_week;
+    @FXML
+    private MFXButton button_achievement;
     @FXML
     private Label label_welcome;
     @FXML
     private Label current_date;
     @FXML
-    private Pane pane_donut;
+    private PieChart mood_Pie;
     @FXML
-    private Pane pane_barchart;
+    private BarChart<String, Number> screenTime_BarChart;
     @FXML
-    private Pane pane_linegraph;
+    private Label dateRangeLabel;
+    @FXML
+    private NumberAxis screenTimeYAxis;
+    @FXML
+    private LineChart<String, Number> lineChartMoodFluctuations;
+    @FXML
+    private CategoryAxis xAxisDates;
+    @FXML
+    private NumberAxis yAxisMoodRatings;
+    @FXML
+    private LocalDate currentStartDate = LocalDate.now().minusDays(6); // Start date of the current week
+
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-        //Create Placeholder Pie Graph
-        createPieChartDummy();
-
-        //Create Placeholder Bar Graph
-        createBarchartDummy();
-
-        //Create Placeholder Line Bar Graph
-        createLinechartDummy();
-
         button_logout.setOnAction(event -> DBUtils.changeScene(event, "login.fxml", "Log In", null));
         button_close.setOnAction(actionEvent -> UIUtils.closeApp((Stage) button_close.getScene().getWindow()));
         button_table.setOnAction(event -> DBUtils.changeScene(event, "tableView.fxml", "Table View", null));
+        button_profile.setOnAction(event -> DBUtils.changeScene(event, "profile.fxml", "Profile", null));
         button_daily_entry.setOnAction(event -> DBUtils.changeScene(event, "mood-tracking-page.fxml", "Mood Tracking", null));
-        button_profile.setOnAction(event -> DBUtils.changeScene(event,"profile.fxml","Profile",null));
+        button_achievement.setOnAction(event -> DBUtils.changeScene(event, "achievementsPage.fxml", "Achievements", null));
 
         // Set user information and current date
         String currentUser = DBUtils.getCurrentUsername();
         if (currentUser != null) {
             UIUtils.setUserInformation(label_welcome, currentUser);
+            UIUtils.setCurrentDate(current_date);
+
+            try {
+                initializeMoodPieChart(currentUser);
+                initializeScreenTimeBarChart(currentUser);
+                initializeMoodFluctuationsLineChart(currentUser);
+            } catch (SQLException e) {
+                Logger.getLogger(HomepageController.class.getName()).log(Level.SEVERE, "Error fetching data", e);
+            }
         }
-        UIUtils.setCurrentDate(current_date);
+
+        // Button functionality for navigating weeks
+        button_previous_week.setOnAction(event -> {
+            currentStartDate = currentStartDate.minusWeeks(1);
+            button_next_week.setVisible(true); // Show the "Next Week" button
+            try {
+                initializeScreenTimeBarChart(currentUser);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+
+        button_next_week.setOnAction(event -> {
+            currentStartDate = currentStartDate.plusWeeks(1);
+            if (currentStartDate.equals(LocalDate.now().minusDays(6))) {
+                button_next_week.setVisible(false); // Hide the "Next Week" button if the current week is reached
+            }
+            try {
+                initializeScreenTimeBarChart(currentUser);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+
+        // Initially hide the "Next Week" button
+        button_next_week.setVisible(false);
+
+        // Load external CSS file for styling PieChart
+        String cssPath = "/Styling/Styling.css"; // Path relative to the resources directory
+        mood_Pie.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
+        System.out.println("Loaded Stylesheets: " + mood_Pie.getStylesheets());
+
+        // Set the Y-axis bounds
+        screenTimeYAxis.setAutoRanging(false);
+        screenTimeYAxis.setLowerBound(0);
+        screenTimeYAxis.setUpperBound(16);
+        screenTimeYAxis.setTickUnit(1);
     }
 
+    private void initializeMoodPieChart(String currentUser) {
+        try {
+            // Get mood data for the current user
+            Map<String, Integer> moodCounts = DBUtils.getMoodCountsForUser(currentUser);
 
-    //---------------------------Placeholder functions------------------------------------
+            // Clear existing PieChart data
+            mood_Pie.getData().clear();
 
-    public void createPieChartDummy(){
-        // Create dummy data for the pie chart & style the chart
-        PieChart.Data slice1 = new PieChart.Data("Category 1", 15);
-        PieChart.Data slice2 = new PieChart.Data("Category 2", 25);
-        PieChart.Data slice3 = new PieChart.Data("Category 3", 10);
-        PieChart.Data slice4 = new PieChart.Data("Category 3", 30);
-        PieChart.Data slice5 = new PieChart.Data("Category 3", 20);
+            // Define the custom colors from the CSS file
+            String[] customColors = {
+                    "#838383", // Gray for OKAY mood
+                    "#20e49f", // Green for GREAT mood
+                    "#fe6969", // Red for BAD mood
+                    "#a364f8", // Purple for POOR mood
+                    "#2cb2ff", // Blue for GOOD mood
+            };
 
-        // Create a pie chart
-        PieChart pieChart = new PieChart();
-        pieChart.getData().addAll(slice1, slice2, slice3, slice4, slice5);
-        pieChart.setTitle("Donut Graph");
+            // Populate PieChart with mood data
+            int index = 0;
+            for (Map.Entry<String, Integer> entry : moodCounts.entrySet()) {
+                String mood = entry.getKey();
+                int count = entry.getValue();
 
-        // Set custom style for the pie chart (to resemble a donut)
-        pieChart.setLabelsVisible(false);
-        pieChart.setLegendVisible(true);
-        pieChart.setStartAngle(90);
+                // Create PieChart.Data item
+                PieChart.Data data = new PieChart.Data(mood, count);
 
-        // Add the pie chart to the pane
-        pane_donut.getChildren().add(pieChart);
+                // Add data to PieChart (this initializes the Node)
+                mood_Pie.getData().add(data);
 
-        // Set the size of the pie chart to match the pane
-        pieChart.setPrefSize(pane_donut.getPrefWidth(), pane_donut.getPrefHeight());
+                // Apply style class to the Node of the PieChart.Data
+                if (data.getNode() != null) {
+                    // Set the custom color defined in the CSS
+                    data.getNode().setStyle("-fx-pie-color: " + customColors[index] + ";");
+                }
 
+                index++; // Move to the next custom color
+            }
+
+            // Adjust the radius of the PieChart
+            double radius = Math.min(mood_Pie.getWidth(), mood_Pie.getHeight()) / 2;
+            mood_Pie.setPrefWidth(radius * 5);
+            mood_Pie.setPrefHeight(radius * 5);
+
+            // Apply the CSS stylesheet
+            mood_Pie.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/Styling/Styling.css")).toExternalForm());
+
+        } catch (SQLException e) {
+            System.err.println("Error fetching mood data: " + e.getMessage());
+        }
     }
 
-    public void createBarchartDummy(){
-        // Create a CategoryAxis for the X-axis (days of the week)
-        CategoryAxis xAxis = new CategoryAxis();
-        xAxis.setCategories(FXCollections.observableArrayList(
-                "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"
-        ));
+    private void initializeScreenTimeBarChart(String currentUser) throws SQLException {
+        // Get screen time data for the current user
+        Map<String, Integer> screenTimeData = DBUtils.getScreenTimeDataForUser(currentUser);
 
-        // Create a NumberAxis for the Y-axis (hours)
-        NumberAxis yAxis = new NumberAxis();
-        yAxis.setLabel("Hours");
+        // Filter data to include only the current week starting from currentStartDate
+        Map<String, Integer> filteredData = filterDataByWeek(screenTimeData);
 
-        // Create a BarChart
-        BarChart<String, Number> barChart = new BarChart<>(xAxis, yAxis);
-        barChart.setTitle("Screen Time");
+        // Clear existing BarChart data
+        screenTime_BarChart.getData().clear();
 
-        // Populate the BarChart with dummy data (screen time in hours)
+        // Populate BarChart with screen time data
         XYChart.Series<String, Number> series = new XYChart.Series<>();
-        series.getData().add(new XYChart.Data<>("Mon", 3));
-        series.getData().add(new XYChart.Data<>("Tue", 4));
-        series.getData().add(new XYChart.Data<>("Wed", 5));
-        series.getData().add(new XYChart.Data<>("Thu", 2));
-        series.getData().add(new XYChart.Data<>("Fri", 6));
-        series.getData().add(new XYChart.Data<>("Sat", 7));
-        series.getData().add(new XYChart.Data<>("Sun", 4));
+        series.setName("Screen Time");
+
+        // Sort the filtered data by date
+        Map<String, Integer> sortedData = filteredData.entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByKey())
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (e1, e2) -> e1,
+                        LinkedHashMap::new
+                ));
+
+        // Add sorted screen time data to the series with days of the week as labels
+        for (Map.Entry<String, Integer> entry : sortedData.entrySet()) {
+            LocalDate date = LocalDate.parse(entry.getKey());
+            String dayLabel = date.getDayOfWeek().toString().substring(0, 1).toUpperCase() + date.getDayOfWeek().toString().substring(1, 3).toLowerCase(); // Concatenate first letter in uppercase with last two letters in lowercase
+            int screenTimeHours = entry.getValue();
+            XYChart.Data<String, Number> data = new XYChart.Data<>(dayLabel, screenTimeHours);
+
+            // Set color based on screen time
+            String color;
+            if (screenTimeHours <= 1) {
+                color = "#20e49f"; // Green
+            } else if (screenTimeHours == 2) {
+                color = "#2cb2ff"; // Blue
+            } else if (screenTimeHours >= 3 && screenTimeHours <= 4) {
+                color = "#838383"; // Gray
+            } else if (screenTimeHours >= 5 && screenTimeHours <= 6) {
+                color = "#a364f8"; // Purple
+            } else {
+                color = "#fe6969"; // Red
+            }
+
+            // Set color dynamically and add data to series
+            data.nodeProperty().addListener((observable, oldValue, node) -> node.setStyle("-fx-bar-fill: " + color + ";"));
+            series.getData().add(data);
+        }
+
+
 
         // Add the series to the BarChart
-        barChart.getData().add(series);
+        screenTime_BarChart.getData().add(series);
 
-        // Set preferred width and height of the BarChart
-        barChart.setPrefSize(320, 210);
+        // Remove the legend
+        screenTime_BarChart.setLegendVisible(false);
 
-        // Add the BarChart to the pane_barchart pane
-        pane_barchart.getChildren().add(barChart);
+        // Update the date range label
+        LocalDate endDate = currentStartDate.plusDays(6);
+        dateRangeLabel.setText(currentStartDate + " - " + endDate);
     }
 
-    public void createLinechartDummy(){
-        // Create a NumberAxis for the X-axis (days 1 to 25)
-        NumberAxis xAxis = new NumberAxis(1, 25, 1);
-        xAxis.setLabel("Days");
 
-        // Create a NumberAxis for the Y-axis (five-point scale)
-        NumberAxis yAxis = new NumberAxis(1, 5, 1); // Min: 1, Max: 5, Tick Unit: 1
-        yAxis.setLabel("Scale");
 
-        // Create a LineChart
-        LineChart<Number, Number> lineChart = new LineChart<>(xAxis, yAxis);
-        lineChart.setTitle("Scale Values per Day");
+    private Map<String, Integer> filterDataByWeek(Map<String, Integer> data) {
+        // Calculate the end date of the week
+        LocalDate endDate = currentStartDate.plusDays(6);
 
-        // Populate the LineChart with dummy data (scale values)
-        XYChart.Series<Number, Number> series = new XYChart.Series<>();
-        for (int day = 1; day <= 25; day++) {
-            series.getData().add(new XYChart.Data<>(day, (int) (Math.random() * 5) + 1));
-        }
-        lineChart.getData().add(series);
+        // Create a new map to store filtered data
+        Map<String, Integer> filteredData = new LinkedHashMap<>();
 
-        // Customize line color based on data point value
-        for (XYChart.Data<Number, Number> data : series.getData()) {
-            double value = data.getYValue().doubleValue();
-            Color lineColor = getColorForValue(value);
-            data.getNode().setStyle("-fx-stroke: " + colorToHex(lineColor) + ";");
+        // Iterate through the original data and add entries within the current week
+        for (Map.Entry<String, Integer> entry : data.entrySet()) {
+            String date = entry.getKey(); // Assuming date is in a format compatible with LocalDate
+            LocalDate entryDate = LocalDate.parse(date); // Parse the date string to LocalDate
+
+            // Check if the entry date is within the current week (inclusive)
+            if (!entryDate.isBefore(currentStartDate) && !entryDate.isAfter(endDate)) {
+                filteredData.put(date, entry.getValue());
+            }
         }
 
-        // Set preferred width and height of the LineChart
-        lineChart.setPrefSize(550, 250);
-
-        pane_linegraph.getChildren().add(lineChart);
-        pane_linegraph.layoutXProperty().bind(pane_linegraph.widthProperty().subtract(lineChart.getPrefWidth()).divide(2));
+        return filteredData;
     }
 
-    // Helper method to get color based on value (red to green gradient)
-    private Color getColorForValue(double value) {
-        double hue = (120.0 - (value - 1.0) * 60.0) / 360.0;
-        return Color.hsb(hue, 1.0, 1.0);
-    }
+    private void initializeMoodFluctuationsLineChart(String currentUser) throws SQLException {
+        // Fetch mood data for the last 14 days
+        ObservableList<XYChart.Data<String, Number>> moodData = FXCollections.observableArrayList();
+        ObservableList<String> dates = FXCollections.observableArrayList();
 
-    // Helper method to convert Color to hexadecimal string
-    private String colorToHex(Color color) {
-        return String.format("#%02X%02X%02X",
-                (int) (color.getRed() * 255),
-                (int) (color.getGreen() * 255),
-                (int) (color.getBlue() * 255));
+        // Populate dates list with the last 14 days
+        for (int i = 13; i >= 0; i--) {
+            LocalDate date = LocalDate.now().minusDays(i);
+            dates.add(date.toString());
+        }
+
+        // Set x-axis categories
+        xAxisDates.setCategories(dates);
+
+        // Get mood data for the user
+        Map<String, String> moodEntries = DBUtils.getMoodDataForUser(currentUser);
+
+        // Map mood strings to corresponding ratings and colors
+        Map<String, String> moodColors = new HashMap<>();
+        moodColors.put("BAD", "#fe6969");   // Red
+        moodColors.put("POOR", "#a364f8");  // Purple
+        moodColors.put("OKAY", "#838383");  // Gray
+        moodColors.put("GOOD", "#2cb2ff");  // Blue
+        moodColors.put("GREAT", "#20e49f"); // Green
+
+        // Populate moodData with mood fluctuations for each date
+        for (String date : dates) {
+            String moodString = moodEntries.getOrDefault(date, "BAD"); // Default mood to "BAD" if no entry found for the date
+            String moodColor = moodColors.getOrDefault(moodString.toUpperCase(), "#fe6969"); // Default to red if mood color not found
+
+            int moodRating = switch (moodString.toUpperCase()) {
+                case "GREAT" -> 5;
+                case "GOOD" -> 4;
+                case "OKAY" -> 3;
+                case "POOR" -> 2;
+                case "BAD" -> 1;
+                default -> 0;
+            };
+
+            XYChart.Data<String, Number> data = new XYChart.Data<>(date, moodRating);
+            moodData.add(data);
+
+            // Customize the symbol (circle) for this data point
+            Circle circle = new Circle(5); // Define the size of the circle
+            circle.setFill(Color.web(moodColor)); // Set the color based on mood
+            data.setNode(circle);
+        }
+
+        // Create series and add data to the line chart
+        XYChart.Series<String, Number> series = new XYChart.Series<>(moodData);
+        series.setName("Mood Fluctuations");
+        lineChartMoodFluctuations.getData().add(series);
+
+        // Customize chart appearance
+        yAxisMoodRatings.setAutoRanging(false); // Disable auto-ranging
+        yAxisMoodRatings.setLowerBound(0); // Set lower bound to "BAD"
+        yAxisMoodRatings.setUpperBound(6); // Set upper bound to "GREAT"
+        yAxisMoodRatings.setTickUnit(0.5); // Set tick unit to 1
+        yAxisMoodRatings.setTickLabelGap(10); // Adjust gap between tick labels and axis
+        yAxisMoodRatings.setTickMarkVisible(false); // Hide tick marks
+
+        // Customize Y-axis tick labels to show mood strings
+        yAxisMoodRatings.setTickLabelFormatter(new StringConverter<>() {
+            @Override
+            public String toString(Number object) {
+                int moodRating = object.intValue();
+                return switch (moodRating) {
+                    case 1 -> "BAD";
+                    case 2 -> "POOR";
+                    case 3 -> "OKAY";
+                    case 4 -> "GOOD";
+                    case 5 -> "GREAT";
+                    default -> "";
+                };
+            }
+
+            @Override
+            public Number fromString(String string) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+        });
+
+        // Customize line chart appearance
+        Node line = series.getNode().lookup(".chart-series-line");
+        if (line != null) {
+            line.setStyle("-fx-stroke: #838383;");
+        }
+
+        lineChartMoodFluctuations.setLegendVisible(false); // Remove the legend
     }
 }

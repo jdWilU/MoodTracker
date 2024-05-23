@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import io.github.palexdev.materialfx.controls.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
@@ -16,32 +17,26 @@
          <children>
         <AnchorPane prefHeight="400.0" prefWidth="544.0">
             <children>
-                <Label layoutX="258.0" layoutY="36.0" text="Sign Up" textFill="#2cb2ff">
+                <Label layoutX="255.0" layoutY="16.0" text="Sign Up" textFill="#2cb2ff">
                     <font>
-                        <Font name="System Bold" size="29.0" />
+                        <Font name="System Bold" size="24.0" />
                     </font></Label>
-                <Label layoutX="186.0" layoutY="113.0" text="Username" />
-                <Label layoutX="184.0" layoutY="155.0" text="Email" />
-                <TextField fx:id="tf_username" layoutX="265.0" layoutY="109.0" promptText="Username" />
-                <TextField fx:id="tf_email" layoutX="264.0" layoutY="151.0" promptText="Email" />
-                <Button fx:id="button_signup" layoutX="219.0" layoutY="277.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="161.0" style="-fx-background-color: #2cb2ff;" text="Sign Up" textFill="WHITE">
+                <Button fx:id="button_signup" layoutX="221.0" layoutY="329.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="161.0" style="-fx-background-color: #2cb2ff;" text="Sign Up" textFill="WHITE">
                     <font>
                         <Font name="System Bold" size="12.0" />
                     </font>
                 </Button>
-            <Label layoutX="185.0" layoutY="199.0" text="Password" />
-            <Label layoutX="180.0" layoutY="325.0" text="Already a Member ?" textFill="#828282">
+            <Label layoutX="176.0" layoutY="368.0" text="Already a Member ?" textFill="#828282">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Button fx:id="button_login" layoutX="331.0" layoutY="322.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="81.0" style="-fx-background-color: #20e49f;" text="Login" textFill="WHITE">
+            <Button fx:id="button_login" layoutX="342.0" layoutY="364.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="81.0" style="-fx-background-color: #20e49f;" text="Login" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-                  <PasswordField fx:id="pf_password" layoutX="264.0" layoutY="195.0" promptText="Password" />
-                  <HBox layoutX="184.0" layoutY="240.0" prefHeight="17.0" prefWidth="232.0">
+                  <HBox layoutX="184.0" layoutY="272.0" prefHeight="17.0" prefWidth="232.0">
                      <children>
                         <ProgressBar fx:id="strengthProgressBar" prefHeight="18.0" prefWidth="155.0" progress="0.0" />
                         <Label fx:id="strengthLabel" text="Strength" textFill="#828282">
@@ -60,6 +55,13 @@
                         </Label>
                      </children>
                   </HBox>
+                  <MFXPasswordField fx:id="mxf_password" layoutX="203.0" layoutY="200.0" prefHeight="49.0" prefWidth="194.0" promptText="Password" styleClass="mfx-password-field" stylesheets="@Styling/MFXStyling/css/MFXPasswordField.css" />
+                  <MFXTextField fx:id="mfx_email" layoutX="204.0" layoutY="134.0" prefHeight="49.0" prefWidth="194.0" promptText="Email" styleClass="mfx-text-field" stylesheets="@Styling/MFXStyling/css/MFXTextField.css" />
+                  <MFXTextField fx:id="mfx_username" layoutX="204.0" layoutY="70.0" prefHeight="49.0" prefWidth="194.0" promptText="Username" styleClass="mfx-text-field" stylesheets="@Styling/MFXStyling/css/MFXTextField.css" />
+                  <Label fx:id="errorLabel" layoutX="141.0" layoutY="298.0" prefHeight="25.0" prefWidth="334.0" style="-fx-text-fill: #e73d3d" text="" textAlignment="CENTER">
+                     <font>
+                        <Font size="11.0" />
+                     </font></Label>
             </children></AnchorPane>
          </children></Pane>
    </children>

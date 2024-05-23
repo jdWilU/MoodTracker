@@ -13,6 +13,7 @@ module org.example.moodtracker {
     requires java.sql;
     requires java.desktop;
     requires org.xerial.sqlitejdbc;
+    requires MaterialFX;
 
     opens org.example.moodtracker to javafx.fxml;
     exports org.example.moodtracker;
