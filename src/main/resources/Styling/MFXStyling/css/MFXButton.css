@@ -21,13 +21,8 @@
 @import "MFXColors.css";
 
 .mfx-button {
-  -fx-font-family: "Open Sans Regular";
-  -fx-text-fill: #838383; /* Default text color */
-  -fx-background-color: white; /* Default background color */
-  -fx-border-color: #838383; /* Default border color */
-  -fx-border-radius: 15px; /* Border radius */
-  -fx-background-radius: 15px; /* Background radius */
-  -fx-border-width: 1px; /* Ensure border is visible */
+
+
 }
 
 .mfx-button:armed,
@@ -46,4 +41,11 @@
 .mfx-button:armed,
 .mfx-button:focused {
   -fx-background-color: white;
+  /*-fx-font-family: "Open Sans Regular";*/
+  -fx-border-radius: 15px; /* Border radius */
+  -fx-text-fill: #838383; /* Default text color */
+  -fx-background-color: white; /* Default background color */
+  -fx-border-color: #838383; /* Default border color */
+  -fx-background-radius: 15px; /* Background radius */
+  -fx-border-width: 1px; /* Ensure border is visible */
 }
