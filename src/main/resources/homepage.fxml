@@ -15,6 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
 <AnchorPane fx:id="homepage" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #f0f0f0;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.moodtracker.controller.HomepageController">
    <Pane layoutX="111.0" prefHeight="339.0" prefWidth="690.0" style="-fx-background-color: #FFFFFF;">
       <children>
