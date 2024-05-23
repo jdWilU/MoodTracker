@@ -39,7 +39,7 @@
             </ImageView>
          </children>
       </Pane>
-      <Pane layoutX="20.0" layoutY="116.0" prefHeight="227.0" prefWidth="117.0">
+      <Pane layoutX="20.0" layoutY="116.0" prefHeight="227.0" prefWidth="117.0" style="-fx-background-color: #FFFFFF;">
          <children>
             <ImageView fitHeight="21.0" fitWidth="23.0" layoutX="6.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
                <image>
