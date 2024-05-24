@@ -20,12 +20,9 @@
 
 @import "MFXColors.css";
 
-.mfx-button {
 
 
-}
 
-.mfx-button:armed,
 .mfx-button:hover{
   -fx-background-color: #919191; /* Change background to light grey */
   -fx-border-color: #2cb2ff; /* Change border to blue */

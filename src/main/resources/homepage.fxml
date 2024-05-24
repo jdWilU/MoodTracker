@@ -70,6 +70,11 @@
                    <Image url="@Images/icons8-male-user-50.png" />
                 </image>
              </ImageView>
+            <ImageView fitHeight="25.0" fitWidth="22.0" layoutX="5.0" layoutY="208.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Images/book.png" />
+               </image>
+            </ImageView>
             <MFXButton fx:id="button_daily_entry" layoutX="31.0" layoutY="53.0" prefHeight="25.0" prefWidth="80.0" style="-fx-border-radius: 15; -fx-border-color: #838383; -fx-background-radius: 15;" styleClass="mfx-button" stylesheets="@Styling/MFXStyling/css/MFXButton.css" text="Daily Entry" textFill="WHITE">
                <font>
                   <Font size="10.0" />
@@ -86,6 +91,11 @@
                </font>
             </MFXButton>
             <MFXButton fx:id="button_profile" layoutX="32.0" layoutY="168.0" prefHeight="25.0" prefWidth="80.0" style="-fx-border-color: #838383; -fx-border-radius: 15; -fx-background-radius: 15;" styleClass="mfx-button" stylesheets="@Styling/MFXStyling/css/MFXButton.css" text="Profile" textFill="WHITE">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </MFXButton>
+            <MFXButton fx:id="button_resources" layoutX="31.0" layoutY="206.0" prefHeight="25.0" prefWidth="80.0" style="-fx-border-color: #838383; -fx-border-radius: 15; -fx-background-radius: 15;" styleClass="mfx-button" stylesheets="@Styling/MFXStyling/css/MFXButton.css" text="Resources" textFill="WHITE">
                <font>
                   <Font size="10.0" />
                </font>
