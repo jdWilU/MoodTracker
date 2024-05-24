@@ -22,6 +22,8 @@ import org.example.moodtracker.model.UIUtils;
 
 public class HomepageController implements Initializable {
 
+    public Button button_homepage;
+    public Button button_daily_entry;
     @FXML
     private Button button_logout;
     @FXML
