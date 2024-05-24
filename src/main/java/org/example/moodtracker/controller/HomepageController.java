@@ -186,6 +186,15 @@ public class HomepageController implements Initializable {
         // Filter data to include only the current week starting from currentStartDate
         Map<String, Integer> filteredData = filterDataByWeek(screenTimeData);
 
+        // Generate the full range of dates for the current week
+        Map<String, Integer> completeData = new LinkedHashMap<>();
+        LocalDate currentDate = currentStartDate;
+        for (int i = 0; i < 7; i++) {
+            String dateStr = currentDate.toString();
+            completeData.put(dateStr, filteredData.getOrDefault(dateStr, 0));
+            currentDate = currentDate.plusDays(1);
+        }
+
         // Clear existing BarChart data
         screenTime_BarChart.getData().clear();
 
@@ -193,8 +202,8 @@ public class HomepageController implements Initializable {
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         series.setName("Screen Time");
 
-        // Sort the filtered data by date
-        Map<String, Integer> sortedData = filteredData.entrySet()
+        // Sort the complete data by date
+        Map<String, Integer> sortedData = completeData.entrySet()
                 .stream()
                 .sorted(Map.Entry.comparingByKey())
                 .collect(Collectors.toMap(
@@ -230,8 +239,6 @@ public class HomepageController implements Initializable {
             series.getData().add(data);
         }
 
-
-
         // Add the series to the BarChart
         screenTime_BarChart.getData().add(series);
 
@@ -242,6 +249,7 @@ public class HomepageController implements Initializable {
         LocalDate endDate = currentStartDate.plusDays(6);
         dateRangeLabel.setText(currentStartDate + " - " + endDate);
     }
+
 
 
 
@@ -293,25 +301,28 @@ public class HomepageController implements Initializable {
 
         // Populate moodData with mood fluctuations for each date
         for (String date : dates) {
-            String moodString = moodEntries.getOrDefault(date, "BAD"); // Default mood to "BAD" if no entry found for the date
-            String moodColor = moodColors.getOrDefault(moodString.toUpperCase(), "#fe6969"); // Default to red if mood color not found
+            String moodString = moodEntries.get(date); // Get mood string for the date
 
-            int moodRating = switch (moodString.toUpperCase()) {
-                case "GREAT" -> 5;
-                case "GOOD" -> 4;
-                case "OKAY" -> 3;
-                case "POOR" -> 2;
-                case "BAD" -> 1;
-                default -> 0;
-            };
+            if (moodString != null) {
+                String moodColor = moodColors.getOrDefault(moodString.toUpperCase(), "#fe6969"); // Default to red if mood color not found
 
-            XYChart.Data<String, Number> data = new XYChart.Data<>(date, moodRating);
-            moodData.add(data);
+                int moodRating = switch (moodString.toUpperCase()) {
+                    case "GREAT" -> 5;
+                    case "GOOD" -> 4;
+                    case "OKAY" -> 3;
+                    case "POOR" -> 2;
+                    case "BAD" -> 1;
+                    default -> 0;
+                };
 
-            // Customize the symbol (circle) for this data point
-            Circle circle = new Circle(5); // Define the size of the circle
-            circle.setFill(Color.web(moodColor)); // Set the color based on mood
-            data.setNode(circle);
+                XYChart.Data<String, Number> data = new XYChart.Data<>(date, moodRating);
+                moodData.add(data);
+
+                // Customize the symbol (circle) for this data point
+                Circle circle = new Circle(5); // Define the size of the circle
+                circle.setFill(Color.web(moodColor)); // Set the color based on mood
+                data.setNode(circle);
+            }
         }
 
         // Create series and add data to the line chart
@@ -356,4 +367,5 @@ public class HomepageController implements Initializable {
 
         lineChartMoodFluctuations.setLegendVisible(false); // Remove the legend
     }
+
 }
