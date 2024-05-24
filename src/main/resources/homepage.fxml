@@ -21,18 +21,27 @@
 <AnchorPane fx:id="homepage" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #f0f0f0;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.moodtracker.controller.HomepageController">
 
    <!-- Top Pane with XP Bar -->
-   <Pane layoutX="111.0" prefHeight="50.0" prefWidth="690.0" style="-fx-background-color: #FFFFFF;">
+   <Pane layoutX="111.0" prefHeight="71.0" prefWidth="690.0" style="-fx-background-color: #FFFFFF;">
       <children>
-         <HBox layoutX="200.0" layoutY="10.0" prefHeight="30.0" prefWidth="290.0" alignment="CENTER" spacing="10">
+         <VBox alignment="CENTER_LEFT" layoutX="0.0" layoutY="10.0" prefHeight="50.0" prefWidth="800.0">
             <children>
-               <Label text="XP: " style="-fx-font-size: 14px; -fx-text-fill: #333333;" />
-               <ProgressBar fx:id="xpProgressBar" prefWidth="200.0" progress="0.6" style="-fx-accent: #2cb2ff;" />
+               <HBox alignment="CENTER_LEFT" spacing="10">
+                  <children>
+                     <!-- Spacer region to push elements to the left -->
+                     <Pane prefWidth="50.0" />
+
+                     <Label text="LVL:" style="-fx-font-size: 14px; -fx-text-fill: #333333;" />
+                     <Label fx:id="levelLabel" text="0" style="-fx-font-size: 14px; -fx-text-fill: #333333;" />
+                     <ProgressBar fx:id="xpProgressBar" prefWidth="100.0" progress="0.0" style="-fx-accent: #2cb2ff;" />
+                     <Label fx:id="xpLabel" text="0/100 XP" style="-fx-font-size: 14px; -fx-text-fill: #333333;" />
+                  </children>
+               </HBox>
             </children>
-         </HBox>
-         <VBox alignment="TOP_RIGHT" layoutX="490.0" layoutY="10.0" prefHeight="52.0" prefWidth="180.0" style="-fx-background-color: #FFFFFF;">
+         </VBox>
+         <VBox alignment="TOP_LEFT" layoutX="450.0" layoutY="10.0" prefHeight="52.0" prefWidth="300.0" style="-fx-background-color: #FFFFFF;">
             <children>
-               <Label fx:id="label_welcome" alignment="CENTER_RIGHT" prefHeight="25.0" prefWidth="180.0" style="-fx-font-size: 16px; -fx-text-fill: #333333;" text="User's Name" />
-               <Label fx:id="current_date" alignment="CENTER_RIGHT" prefHeight="20.0" prefWidth="180.0" style="-fx-font-size: 14px; -fx-text-fill: #666666;" text="Current Date" />
+               <Label fx:id="label_welcome" alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="300.0" style="-fx-font-size: 16px; -fx-text-fill: #333333;" text="Welcome, John Doe" />
+               <Label fx:id="current_date" alignment="CENTER_LEFT" prefHeight="20.0" prefWidth="300.0" style="-fx-font-size: 14px; -fx-text-fill: #666666;" text="Today's Date: 25/05/2024" />
             </children>
          </VBox>
          <Button layoutX="623.0" layoutY="4.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="41.0" style="-fx-background-color: transparent; -fx-background-radius: 25;">
