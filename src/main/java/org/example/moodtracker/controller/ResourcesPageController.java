@@ -1,14 +1,17 @@
 package org.example.moodtracker.controller;
 
 import io.github.palexdev.materialfx.controls.MFXButton;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.example.moodtracker.model.DBUtils;
 import org.example.moodtracker.model.UIUtils;
 
+import java.io.Console;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -32,6 +35,8 @@ public class ResourcesPageController implements Initializable {
     private Label label_welcome;
     @FXML
     private Label current_date;
+    @FXML
+    private VBox vbox_resources;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -51,7 +56,7 @@ public class ResourcesPageController implements Initializable {
             UIUtils.setUserInformation(label_welcome, currentUser);
         }
         UIUtils.setCurrentDate(current_date);
+
+
     }
-
-
 }
