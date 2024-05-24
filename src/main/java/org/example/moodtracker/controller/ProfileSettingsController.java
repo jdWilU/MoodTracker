@@ -1,6 +1,8 @@
 package org.example.moodtracker.controller;
 
+import com.almasb.fxgl.app.scene.FXGLDefaultMenu;
 import io.github.palexdev.materialfx.controls.MFXButton;
+import io.github.palexdev.materialfx.controls.MFXContextMenuItem;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -44,6 +46,8 @@ public class ProfileSettingsController implements Initializable {
     private Button button_save;
     @FXML
     private Button button_delete;
+    @FXML
+    private MFXButton button_resources;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -54,6 +58,7 @@ public class ProfileSettingsController implements Initializable {
         button_close.setOnAction(actionEvent -> UIUtils.closeApp((Stage) button_close.getScene().getWindow()));
         button_daily_entry.setOnAction(event -> DBUtils.changeScene(event, "mood-tracking-page.fxml", "Mood Tracking", null));
         button_achievement.setOnAction(event -> DBUtils.changeScene(event, "achievementsPage.fxml", "Achievements", null));
+        button_resources.setOnAction(event -> DBUtils.changeScene(event, "resources-page.fxml", "Educational Resources", null));
 
         // Update button functionality
         button_save.setOnAction(event -> updateUser());
