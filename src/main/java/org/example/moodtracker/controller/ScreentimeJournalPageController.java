@@ -63,7 +63,7 @@ public class ScreentimeJournalPageController implements Initializable {
             DBUtils.updateLevelInDatabase(userId);
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setContentText("Mood entry completed. You gained 20 XP!");
+            alert.setContentText("Mood entry completed. You gained " + xpToAdd + " XP!");
             alert.showAndWait();
 
             DBUtils.changeScene(event, "homepage.fxml", "Home", null);
