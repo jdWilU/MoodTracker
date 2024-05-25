@@ -5,6 +5,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import static org.example.moodtracker.model.DBUtils.updateLevelInDatabase;
+import static org.example.moodtracker.model.DBUtils.updateXpInDatabase;
+
 
 // Utility Class to populate database with information to be manipulated. Only needs to be run once.
 
@@ -97,6 +100,14 @@ public class PopulateDatabase {
 
 
             System.out.println("Additional mood tracking data inserted successfully!");
+
+            String deleteXPAndLevelSQL = "UPDATE users SET xp = 0, level = 0 WHERE user_id = " + userId1;
+            statement.executeUpdate(deleteXPAndLevelSQL);
+
+            updateLevelInDatabase(userId1);
+            updateXpInDatabase(userId1, 425);
+
+
 
         } catch (SQLException e) {
             System.err.println("Error populating mood tracking table: " + e.getMessage());

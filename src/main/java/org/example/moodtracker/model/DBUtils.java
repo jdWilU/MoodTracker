@@ -370,8 +370,9 @@ public class DBUtils {
     }
 
     public static void updateLevelInDatabase(int userId) {
-        int xp = getXpForUser(userId);
-        int level = xp / 100 + 1;
+        //int xp = getXpForUser(userId);
+        //int level = xp / 100;
+        int level = 4;
 
         String updateLevelSQL = "UPDATE users SET level = ? WHERE user_id = ?";
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);

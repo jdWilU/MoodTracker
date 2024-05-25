@@ -49,6 +49,16 @@ public class ProfileSettingsController implements Initializable {
     @FXML
     private Button button_delete;
     @FXML
+    private ProgressBar xpLevelTopBar;
+    @FXML
+    private Label levelLabelTopBar;
+    @FXML
+    private Label xpTotal;
+    @FXML
+    private Label NextLevelLabel;
+    @FXML
+    private Label xpToNextLevelLabel;
+    @FXML
     private ProgressBar xpLevel;
     @FXML
     private Label levelLabel;
@@ -169,16 +179,22 @@ public class ProfileSettingsController implements Initializable {
                 // Fetch user's level and XP from the database
                 int xp = DBUtils.getXpForUser(userId);
                 int level = DBUtils.getUserLevel(userId);
+                int xpToNextLevel = ((level+1)*100) - xp;
 
                 // Calculate the progress for the XP bar
                 int xpForCurrentLevel = xp - (level * 100);
                 double progress = (double) xpForCurrentLevel / 100.0;
 
                 // Set the user's level in the Label
-                levelLabel.setText("Level: " + level);
+                levelLabel.setText("Level " + level);
+                levelLabelTopBar.setText("" + level);
+                xpTotal.setText(xp + " exp points");
+                NextLevelLabel.setText("Level " + (level+1));
+                xpToNextLevelLabel.setText(xpToNextLevel + " exp to");
 
                 // Set progress for the XP bar
                 xpLevel.setProgress(progress);
+                xpLevelTopBar.setProgress(progress);
             } catch (SQLException e) {
                 // Handle SQLException
                 Logger.getLogger(ProfileSettingsController.class.getName()).log(Level.SEVERE, "Error fetching user's level and XP", e);

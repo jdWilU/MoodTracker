@@ -53,7 +53,7 @@ public class ScreentimeJournalPageController implements Initializable {
             DBUtils.insertMoodEntries(List.of(moodEntry), userId);
 
             // Update XP in the database
-            int xpToAdd = 20;
+            int xpToAdd = 25;
             DBUtils.updateXpInDatabase(userId, xpToAdd);
 
             DBUtils.updateLevelInDatabase(userId);

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.*?>
+<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
@@ -11,7 +12,7 @@
     <Pane layoutX="111.0" prefHeight="71.0" prefWidth="690.0" style="-fx-background-color: #FFFFFF;">
 
         <!-- Top Section -->
-        <VBox alignment="TOP_RIGHT" layoutX="290.0" layoutY="10.0" prefHeight="52.0" prefWidth="326.0" style="-fx-background-color: #FFFFFF;">
+        <VBox alignment="TOP_RIGHT" layoutX="429.0" layoutY="10.0" prefHeight="52.0" prefWidth="187.0" style="-fx-background-color: #FFFFFF;">
             <!-- User Info -->
             <Label fx:id="label_welcome" alignment="CENTER_RIGHT" prefHeight="25.0" prefWidth="221.0" style="-fx-font-size: 16px; -fx-text-fill: #333333;" text="User's Name" />
             <!-- Current Date -->
@@ -26,6 +27,22 @@
             </ImageView>
          </graphic>
       </Button>
+      <ImageView fitHeight="33.0" fitWidth="35.0" layoutX="34.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Images/icons8-lightning-bolt-50-holo.png" />
+         </image>
+      </ImageView>
+      <ProgressBar layoutX="94.0" layoutY="27.0" prefHeight="12.0" prefWidth="107.0" stylesheets="@Styling/Styling.css" fx:id="xpLevelTopBar">
+         <styleClass>
+            <String fx:value="bar" />
+            <String fx:value="progress-bar" />
+         </styleClass>
+      </ProgressBar>
+      <Label fx:id="levelLabelTopBar" layoutX="69.0" layoutY="20.0" prefHeight="27.0" prefWidth="17.0" text="L" textFill="#2cb2ff">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
     </Pane>
     <!-- Sidebar Menu -->
     <VBox alignment="TOP_CENTER" prefHeight="601.0" prefWidth="137.0" style="-fx-background-color: #FFFFFF; -fx-padding: 10;">
@@ -162,19 +179,54 @@
                <Image url="@Images/profileimage.jpg" />
             </image></ImageView>
         </Pane>
-      <Pane layoutX="327.0" layoutY="28.0" prefHeight="234.0" prefWidth="299.0" style="-fx-background-color: white; -fx-background-radius: 15;">
+      <Pane layoutX="327.0" layoutY="28.0" prefHeight="202.0" prefWidth="299.0" style="-fx-background-color: white; -fx-background-radius: 15;">
          <children>
-            <VBox layoutX="14.0" layoutY="7.0" prefHeight="42.0" prefWidth="225.0">
+            <ProgressBar layoutX="60.0" layoutY="35.0" prefHeight="18.0" prefWidth="212.0" stylesheets="@Styling/Styling.css" fx:id="xpLevel">
+               <styleClass>
+                  <String fx:value="bar" />
+                  <String fx:value="progress-bar" />
+               </styleClass></ProgressBar>
+            <Label fx:id="levelLabel" layoutX="60.0" layoutY="58.0" prefHeight="25.0" prefWidth="88.0" text="Level" textFill="#2cb2ff">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="58.0" fitWidth="58.0" layoutX="1.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Images/icons8-lightning-bolt-50.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="60.0" layoutY="11.0" text="XP Points" textFill="#2cb2ff" fx:id="xpTotal">
+               <font>
+                  <Font size="13.0" />
+               </font></Label>
+            <Label fx:id="NextLevelLabel" alignment="CENTER_RIGHT" layoutX="185.0" layoutY="59.0" prefHeight="27.0" prefWidth="87.0" text="NextLevel" textAlignment="RIGHT" textFill="#20e49f">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER_RIGHT" layoutX="124.0" layoutY="64.0" prefHeight="17.0" prefWidth="87.0" text="xp to next" textFill="#838383" fx:id="xpToNextLevelLabel" />
+            <Pane layoutY="92.0" prefHeight="51.0" prefWidth="299.0">
                <children>
-                  <Label fx:id="levelLabel" prefHeight="46.0" prefWidth="88.0" text="Level" textFill="#838383">
-                     <font>
-                        <Font name="System Bold" size="18.0" />
-                     </font>
-                  </Label>
+                  <ImageView fitHeight="27.0" fitWidth="32.0" layoutX="16.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/icons8-lightning-bolt-50-holo.png" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="59.0" layoutY="5.0" prefHeight="42.0" prefWidth="236.0" text="You receive 25 exp for completing&#10; a daily entry" textFill="#838383" />
                </children>
-            </VBox>
-            <ProgressBar layoutX="98.0" layoutY="19.0" prefHeight="18.0" prefWidth="179.0" stylesheets="@Styling/Styling.css" fx:id="xpLevel" />
+            </Pane>
+            <Pane layoutY="143.0" prefHeight="51.0" prefWidth="299.0">
+               <children>
+                  <ImageView fitHeight="27.0" fitWidth="32.0" layoutX="16.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/icons8-lightning-bolt-50-holo.png" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="59.0" layoutY="5.0" prefHeight="42.0" prefWidth="236.0" text="You receive 150 exp for completing&#10;an entry for three consecutive days" textFill="#838383" />
+               </children>
+            </Pane>
          </children></Pane>
-      <Pane layoutX="327.0" layoutY="286.0" prefHeight="227.0" prefWidth="299.0" style="-fx-background-color: white; -fx-background-radius: 15;" />
+      <Pane layoutX="327.0" layoutY="256.0" prefHeight="257.0" prefWidth="299.0" style="-fx-background-color: white; -fx-background-radius: 15;" />
     </Pane>
 </AnchorPane>
