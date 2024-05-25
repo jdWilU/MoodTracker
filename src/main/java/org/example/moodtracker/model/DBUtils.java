@@ -373,7 +373,6 @@ public class DBUtils {
         int xp = getXpForUser(userId);
         int level = xp / 100;
 
-
         String updateLevelSQL = "UPDATE users SET level = ? WHERE user_id = ?";
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);
              PreparedStatement preparedStatement = connection.prepareStatement(updateLevelSQL)) {
