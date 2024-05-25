@@ -11,16 +11,21 @@
 <AnchorPane fx:id="homepage" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #f0f0f0;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.moodtracker.controller.HomepageController">
    <Pane layoutX="111.0" prefHeight="339.0" prefWidth="690.0" style="-fx-background-color: #FFFFFF;">
       <children>
-      
-          <!-- Top Section -->
-          <VBox layoutX="42.0" layoutY="14.0" prefHeight="52.0" prefWidth="641.0" style="-fx-background-color: #FFFFFF;">
+         <VBox alignment="TOP_RIGHT" layoutX="290.0" layoutY="10.0" prefHeight="52.0" prefWidth="326.0" style="-fx-background-color: #FFFFFF;">
             <children>
-                 <!-- User Info -->
-                 <Label fx:id="label_welcome" prefHeight="25.0" prefWidth="219.0" style="-fx-font-size: 16px; -fx-text-fill: #333333;" text="User's Name" />
-                 <!-- Current Date -->
-                 <Label fx:id="current_date" prefHeight="20.0" prefWidth="214.0" style="-fx-font-size: 14px; -fx-text-fill: #666666;" text="Current Date" textFill="#838383" />
+               <Label fx:id="label_welcome" alignment="CENTER_RIGHT" prefHeight="25.0" prefWidth="221.0" style="-fx-font-size: 16px; -fx-text-fill: #333333;" text="User's Name" />
+               <Label fx:id="current_date" alignment="CENTER_RIGHT" prefHeight="20.0" prefWidth="222.0" style="-fx-font-size: 14px; -fx-text-fill: #666666;" text="Current Date" />
             </children>
-          </VBox>
+         </VBox>
+         <Button layoutX="623.0" layoutY="4.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="41.0" style="-fx-background-color: transparent; -fx-background-radius: 25;">
+            <graphic>
+               <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@Images/profileimage.jpg" />
+                  </image>
+               </ImageView>
+            </graphic>
+         </Button>
       </children></Pane>
     <!-- Sidebar Menu -->
     <VBox alignment="TOP_CENTER" prefHeight="601.0" prefWidth="137.0" style="-fx-background-color: #FFFFFF; -fx-padding: 10;">
@@ -133,25 +138,25 @@
                   </font>
                </Label>
                <PieChart fx:id="mood_Pie" labelsVisible="false" layoutX="7.0" layoutY="39.0" legendVisible="false" prefHeight="116.0" prefWidth="200.0" stylesheets="@Styling/Styling.css" />
-               <Label layoutX="89.0" layoutY="197.0" text="OKAY" textFill="#838383">
+               <Label fx:id="okayLabel" layoutX="89.0" layoutY="187.0" text="OKAY" textFill="#838383">
                   <font>
                      <Font size="11.0" />
                   </font>
                </Label>
-               <Label layoutX="126.0" layoutY="197.0" text="GOOD" textFill="#2cb2ff">
+               <Label fx:id="goodLabel" layoutX="127.0" layoutY="187.0" text="GOOD" textFill="#2cb2ff">
                   <font>
                      <Font size="11.0" />
                   </font></Label>
-               <Label layoutX="167.0" layoutY="197.0" text="GREAT" textFill="#20e49f">
+               <Label fx:id="greatLabel" layoutX="169.0" layoutY="187.0" text="GREAT" textFill="#20e49f">
                   <font>
                      <Font size="11.0" />
                   </font></Label>
-               <Label layoutX="48.0" layoutY="197.0" text="POOR" textFill="#a364f8">
+               <Label fx:id="poorLabel" layoutX="48.0" layoutY="187.0" text="POOR" textFill="#a364f8">
                   <font>
                      <Font size="11.0" />
                   </font>
                </Label>
-               <Label layoutX="14.0" layoutY="197.0" text="BAD" textFill="#fe6969">
+               <Label fx:id="badLabel" layoutX="13.0" layoutY="187.0" text="BAD" textFill="#fe6969">
                   <font>
                      <Font size="11.0" />
                   </font>

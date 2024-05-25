@@ -43,13 +43,13 @@ public class DBUtils {
             // Create mood tracking table
             String createMoodTableSQL = "CREATE TABLE IF NOT EXISTS mood_tracking (" +
                     "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    "user_id INTEGER," +  // Foreign key to link to users table
-                    "entry_date DATE," +   // Date of the entry
-                    "mood TEXT CHECK (mood IN ('BAD', 'POOR', 'OKAY', 'GOOD', 'GREAT'))," +  // Mood category
-                    "screen_time_hours INTEGER," +  // Screen time in hours
-                    "activity_category TEXT CHECK (activity_category IN ('Exercise', 'Meditation', 'Socializing', 'Sleep ', 'Journaling', 'Hobbies', 'Helping Others'))," +  // Category of activity
-                    "comments TEXT," +  // Additional comments
-                    "FOREIGN KEY(user_id) REFERENCES users(user_id))";  // Foreign key constraint
+                    "user_id INTEGER," +
+                    "entry_date DATE," +
+                    "mood TEXT CHECK (mood IN ('BAD', 'POOR', 'OKAY', 'GOOD', 'GREAT'))," +
+                    "screen_time_hours INTEGER," +
+                    "activity_category TEXT," +
+                    "comments TEXT," +
+                    "FOREIGN KEY(user_id) REFERENCES users(user_id))";
             statement.execute(createMoodTableSQL);
             Logger.getLogger(DBUtils.class.getName()).log(Level.INFO, "Mood Tracking Table created successfully!");
 
@@ -150,7 +150,9 @@ public class DBUtils {
                     String retrievedUsername = resultSet.getString("username");
                     String email = resultSet.getString("email");
                     String password = resultSet.getString("password");
-                    return new UserInfo(retrievedUsername, email, password);
+                    String displayName = resultSet.getString("display_name"); // Retrieve display name
+                    String phoneNumber = resultSet.getString("phone_number"); // Retrieve phone number
+                    return new UserInfo(retrievedUsername, email, password, displayName, phoneNumber);
                 } else {
                     // Log a warning instead of throwing an exception
                     Logger.getLogger(DBUtils.class.getName()).log(Level.WARNING, "User not found in the database");
@@ -163,6 +165,7 @@ public class DBUtils {
             return null; // Return null to indicate an error occurred
         }
     }
+
 
     // User details: getters & setters
     public static String getCurrentUsername() {
@@ -184,17 +187,20 @@ public class DBUtils {
         currentPassword = password;
     }
 
-    public static void updateUserInfo(String username, String newUsername, String newEmail, String newPassword) throws SQLException {
-        String query = "UPDATE users SET username = ?, email = ?, password = ? WHERE username = ?";
+    public static void updateUserInfo(String username, String newUsername, String newEmail, String newPassword, String newDisplayName, String newPhoneNumber) throws SQLException {
+        String query = "UPDATE users SET username = ?, email = ?, password = ?, display_name = ?, phone_number = ? WHERE username = ?";
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, newUsername);
             preparedStatement.setString(2, newEmail);
             preparedStatement.setString(3, newPassword);
-            preparedStatement.setString(4, username);
+            preparedStatement.setString(4, newDisplayName);
+            preparedStatement.setString(5, newPhoneNumber);
+            preparedStatement.setString(6, username);
             preparedStatement.executeUpdate();
         }
     }
+
 
     public static void deleteUser(String username) throws SQLException {
         // SQL query to delete the user's record from the database
@@ -331,7 +337,4 @@ public class DBUtils {
             return -1; // Return -1 to indicate an error occurred
         }
     }
-
-
-
 }

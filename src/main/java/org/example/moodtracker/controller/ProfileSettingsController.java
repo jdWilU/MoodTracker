@@ -39,7 +39,11 @@ public class ProfileSettingsController implements Initializable {
     @FXML
     private TextField tf_email;
     @FXML
-    private TextField tf_password;
+    private TextField tf_displayname;
+    @FXML
+    private TextField tf_phone;
+    @FXML
+    private PasswordField pw_password;
     @FXML
     private Button button_save;
     @FXML
@@ -71,7 +75,9 @@ public class ProfileSettingsController implements Initializable {
         if (user != null) {
             tf_username.setText(user.getUsername());
             tf_email.setText(user.getEmail());
-            tf_password.setText(user.getPassword());
+            pw_password.setText(user.getPassword());
+            tf_phone.setText(user.getPhoneNumber());
+            tf_displayname.setText(user.getDisplayName());
         }
     }
 
@@ -79,14 +85,17 @@ public class ProfileSettingsController implements Initializable {
         // Get updated information from text fields
         String newUsername = tf_username.getText().trim();
         String newEmail = tf_email.getText().trim();
-        String newPassword = tf_password.getText().trim();
+        String newPassword = pw_password.getText().trim();
+        String newDisplayName = tf_displayname.getText().trim();
+        String newPhoneNumber = tf_phone.getText().trim();
         String currentUser = DBUtils.getCurrentUsername();
+
         try {
             // Retrieve user information from the database
             UserInfo userInfo = DBUtils.getUserInfo(currentUser);
             if (userInfo != null) {
                 // Update user information in the database
-                DBUtils.updateUserInfo(currentUser, newUsername, newEmail, newPassword);
+                DBUtils.updateUserInfo(currentUser, newUsername, newEmail, newPassword, newDisplayName, newPhoneNumber);
                 // Update current username if changed
                 if (!currentUser.equals(newUsername)) {
                     DBUtils.setCurrentUsername(newUsername);
@@ -99,6 +108,7 @@ public class ProfileSettingsController implements Initializable {
             showAlert(Alert.AlertType.ERROR, "Error", "An error occurred while updating your information. Please try again later.");
         }
     }
+
 
     private void showAlert(Alert.AlertType alertType, String title, String content) {
         Alert alert = new Alert(alertType);

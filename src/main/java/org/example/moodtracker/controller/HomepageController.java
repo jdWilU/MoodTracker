@@ -5,12 +5,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.chart.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import org.example.moodtracker.model.DBUtils;
@@ -49,6 +51,16 @@ public class HomepageController implements Initializable {
     private Label current_date;
     @FXML
     private PieChart mood_Pie;
+    @FXML
+    private Label badLabel;
+    @FXML
+    private Label poorLabel;
+    @FXML
+    private Label okayLabel;
+    @FXML
+    private Label goodLabel;
+    @FXML
+    private Label greatLabel;
     @FXML
     private BarChart<String, Number> screenTime_BarChart;
     @FXML
@@ -145,11 +157,17 @@ public class HomepageController implements Initializable {
                     "#2cb2ff", // Blue for GOOD mood
             };
 
-            // Populate PieChart with mood data
+            // Calculate the total count of moods
+            int totalCount = moodCounts.values().stream().mapToInt(Integer::intValue).sum();
+
+            // Initialize index for custom colors
             int index = 0;
+
+            // Populate PieChart with mood data and update labels with percentages
             for (Map.Entry<String, Integer> entry : moodCounts.entrySet()) {
                 String mood = entry.getKey();
                 int count = entry.getValue();
+                double percentage = (count * 100.0) / totalCount;
 
                 // Create PieChart.Data item
                 PieChart.Data data = new PieChart.Data(mood, count);
@@ -161,6 +179,34 @@ public class HomepageController implements Initializable {
                 if (data.getNode() != null) {
                     // Set the custom color defined in the CSS
                     data.getNode().setStyle("-fx-pie-color: " + customColors[index] + ";");
+                }
+
+                // Update the corresponding label with percentage on a new line
+                String labelText = mood + "\n" + String.format("%.1f", percentage) + "%";
+                Label moodLabel = null;
+
+                switch (mood.toUpperCase()) {
+                    case "BAD":
+                        moodLabel = badLabel;
+                        break;
+                    case "POOR":
+                        moodLabel = poorLabel;
+                        break;
+                    case "OKAY":
+                        moodLabel = okayLabel;
+                        break;
+                    case "GOOD":
+                        moodLabel = goodLabel;
+                        break;
+                    case "GREAT":
+                        moodLabel = greatLabel;
+                        break;
+                }
+
+                if (moodLabel != null) {
+                    moodLabel.setText(labelText);
+                    moodLabel.setTextAlignment(TextAlignment.CENTER);
+                    moodLabel.setAlignment(Pos.CENTER);
                 }
 
                 index++; // Move to the next custom color
@@ -179,12 +225,23 @@ public class HomepageController implements Initializable {
         }
     }
 
+
+
     private void initializeScreenTimeBarChart(String currentUser) throws SQLException {
         // Get screen time data for the current user
         Map<String, Integer> screenTimeData = DBUtils.getScreenTimeDataForUser(currentUser);
 
         // Filter data to include only the current week starting from currentStartDate
         Map<String, Integer> filteredData = filterDataByWeek(screenTimeData);
+
+        // Generate the full range of dates for the current week
+        Map<String, Integer> completeData = new LinkedHashMap<>();
+        LocalDate currentDate = currentStartDate;
+        for (int i = 0; i < 7; i++) {
+            String dateStr = currentDate.toString();
+            completeData.put(dateStr, filteredData.getOrDefault(dateStr, 0));
+            currentDate = currentDate.plusDays(1);
+        }
 
         // Clear existing BarChart data
         screenTime_BarChart.getData().clear();
@@ -193,8 +250,8 @@ public class HomepageController implements Initializable {
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         series.setName("Screen Time");
 
-        // Sort the filtered data by date
-        Map<String, Integer> sortedData = filteredData.entrySet()
+        // Sort the complete data by date
+        Map<String, Integer> sortedData = completeData.entrySet()
                 .stream()
                 .sorted(Map.Entry.comparingByKey())
                 .collect(Collectors.toMap(
@@ -230,8 +287,6 @@ public class HomepageController implements Initializable {
             series.getData().add(data);
         }
 
-
-
         // Add the series to the BarChart
         screenTime_BarChart.getData().add(series);
 
@@ -242,6 +297,7 @@ public class HomepageController implements Initializable {
         LocalDate endDate = currentStartDate.plusDays(6);
         dateRangeLabel.setText(currentStartDate + " - " + endDate);
     }
+
 
 
 
@@ -293,25 +349,28 @@ public class HomepageController implements Initializable {
 
         // Populate moodData with mood fluctuations for each date
         for (String date : dates) {
-            String moodString = moodEntries.getOrDefault(date, "BAD"); // Default mood to "BAD" if no entry found for the date
-            String moodColor = moodColors.getOrDefault(moodString.toUpperCase(), "#fe6969"); // Default to red if mood color not found
+            String moodString = moodEntries.get(date); // Get mood string for the date
 
-            int moodRating = switch (moodString.toUpperCase()) {
-                case "GREAT" -> 5;
-                case "GOOD" -> 4;
-                case "OKAY" -> 3;
-                case "POOR" -> 2;
-                case "BAD" -> 1;
-                default -> 0;
-            };
+            if (moodString != null) {
+                String moodColor = moodColors.getOrDefault(moodString.toUpperCase(), "#fe6969"); // Default to red if mood color not found
 
-            XYChart.Data<String, Number> data = new XYChart.Data<>(date, moodRating);
-            moodData.add(data);
+                int moodRating = switch (moodString.toUpperCase()) {
+                    case "GREAT" -> 5;
+                    case "GOOD" -> 4;
+                    case "OKAY" -> 3;
+                    case "POOR" -> 2;
+                    case "BAD" -> 1;
+                    default -> 0;
+                };
 
-            // Customize the symbol (circle) for this data point
-            Circle circle = new Circle(5); // Define the size of the circle
-            circle.setFill(Color.web(moodColor)); // Set the color based on mood
-            data.setNode(circle);
+                XYChart.Data<String, Number> data = new XYChart.Data<>(date, moodRating);
+                moodData.add(data);
+
+                // Customize the symbol (circle) for this data point
+                Circle circle = new Circle(5); // Define the size of the circle
+                circle.setFill(Color.web(moodColor)); // Set the color based on mood
+                data.setNode(circle);
+            }
         }
 
         // Create series and add data to the line chart
@@ -356,4 +415,5 @@ public class HomepageController implements Initializable {
 
         lineChartMoodFluctuations.setLegendVisible(false); // Remove the legend
     }
+
 }
