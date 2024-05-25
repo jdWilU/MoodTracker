@@ -8,8 +8,10 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.chart.*;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.TextAlignment;
@@ -45,6 +47,10 @@ public class HomepageController implements Initializable {
     private Button button_next_week;
     @FXML
     private MFXButton button_achievement;
+    @FXML
+    private ProgressBar xpLevelTopBar;
+    @FXML
+    private Label levelLabelTopBar;
     @FXML
     private Label label_welcome;
     @FXML
@@ -92,6 +98,7 @@ public class HomepageController implements Initializable {
         if (currentUser != null) {
             UIUtils.setUserInformation(label_welcome, currentUser);
             UIUtils.setCurrentDate(current_date);
+            initializeXPBar(currentUser);
 
             try {
                 initializeMoodPieChart(currentUser);
@@ -138,6 +145,25 @@ public class HomepageController implements Initializable {
         screenTimeYAxis.setLowerBound(0);
         screenTimeYAxis.setUpperBound(16);
         screenTimeYAxis.setTickUnit(1);
+    }
+
+    public void initializeXPBar(String currentUser) {
+        if (currentUser != null) {
+            try {
+                int userId = DBUtils.getUserId(currentUser);
+                int xp = DBUtils.getXpForUser(userId);
+                int level = DBUtils.getUserLevel(userId);
+                int xpForCurrentLevel = xp - (level * 100);
+                double progress = (double) xpForCurrentLevel / 100.0;
+
+                // Set progress for the XP bar
+                xpLevelTopBar.setProgress(progress);
+                levelLabelTopBar.setText("" + level);
+            } catch (SQLException e) {
+                // Handle SQLException
+                Logger.getLogger(HomepageController.class.getName()).log(Level.SEVERE, "Error fetching user's level and XP", e);
+            }
+        }
     }
 
     private void initializeMoodPieChart(String currentUser) {
