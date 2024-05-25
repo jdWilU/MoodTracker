@@ -28,71 +28,71 @@ public class PopulateDatabase {
             int userId1 = getUserIdByUsername(connection, "john_doe");
 
             String insertMood1SQL = "INSERT INTO mood_tracking (user_id, entry_date, mood, screen_time_hours, activity_category, comments) " +
-                    "VALUES (" + userId1 + ", '2024-05-07', 'OKAY', 1, 'Exercise', 'Spent time with pet')";
+                    "VALUES (" + userId1 + ", '2024-05-09', 'OKAY', 1, 'Exercise', 'Spent time with pet')";
             statement.executeUpdate(insertMood1SQL);
 
             String insertMood2SQL = "INSERT INTO mood_tracking (user_id, entry_date, mood, screen_time_hours, activity_category, comments) " +
-                    "VALUES (" + userId1 + ", '2024-05-08', 'BAD', 2, 'Journaling', '')";
+                    "VALUES (" + userId1 + ", '2024-05-10', 'BAD', 2, 'Journaling', '')";
             statement.executeUpdate(insertMood2SQL);
 
             String insertMood3SQL = "INSERT INTO mood_tracking (user_id, entry_date, mood, screen_time_hours, activity_category, comments) " +
-                    "VALUES (" + userId1 + ", '2024-05-09', 'POOR', 4, 'Meditation', 'Feeling very calm today.')";
+                    "VALUES (" + userId1 + ", '2024-05-11', 'POOR', 4, 'Meditation', 'Feeling very calm today.')";
             statement.executeUpdate(insertMood3SQL);
 
             String insertMood4SQL = "INSERT INTO mood_tracking (user_id, entry_date, mood, screen_time_hours, activity_category, comments) " +
-                    "VALUES (" + userId1 + ", '2024-05-10', 'OKAY', 3, 'Hobbies', 'Was great weather today')";
+                    "VALUES (" + userId1 + ", '2024-05-12', 'OKAY', 3, 'Hobbies', 'Was great weather today')";
             statement.executeUpdate(insertMood4SQL);
 
             String insertMood5SQL = "INSERT INTO mood_tracking (user_id, entry_date, mood, screen_time_hours, activity_category, comments) " +
-                    "VALUES (" + userId1 + ", '2024-05-11', 'GREAT', 6, 'Gaming', 'Man I love dogs')";
+                    "VALUES (" + userId1 + ", '2024-05-13', 'GREAT', 6, 'Gaming', 'Man I love dogs')";
             statement.executeUpdate(insertMood5SQL);
 
             String insertMood6SQL = "INSERT INTO mood_tracking (user_id, entry_date, mood, screen_time_hours, activity_category, comments) " +
-                    "VALUES (" + userId1 + ", '2024-05-12', 'BAD', 3, 'Went to school', '')";
+                    "VALUES (" + userId1 + ", '2024-05-14', 'BAD', 3, 'Went to school', '')";
             statement.executeUpdate(insertMood6SQL);
 
             String insertMood7SQL = "INSERT INTO mood_tracking (user_id, entry_date, mood, screen_time_hours, activity_category, comments) " +
-                    "VALUES (" + userId1 + ", '2024-05-13', 'GOOD', 5, 'Reading', 'Finished a great book')";
+                    "VALUES (" + userId1 + ", '2024-05-15', 'GOOD', 5, 'Reading', 'Finished a great book')";
             statement.executeUpdate(insertMood7SQL);
 
             String insertMood8SQL = "INSERT INTO mood_tracking (user_id, entry_date, mood, screen_time_hours, activity_category, comments) " +
-                    "VALUES (" + userId1 + ", '2024-05-14', 'POOR', 2, 'Netflix', 'Watched a boring movie')";
+                    "VALUES (" + userId1 + ", '2024-05-16', 'POOR', 2, 'Netflix', 'Watched a boring movie')";
             statement.executeUpdate(insertMood8SQL);
 
             String insertMood9SQL = "INSERT INTO mood_tracking (user_id, entry_date, mood, screen_time_hours, activity_category, comments) " +
-                    "VALUES (" + userId1 + ", '2024-05-15', 'OKAY', 4, 'Cooking', 'Made pasta for dinner')";
+                    "VALUES (" + userId1 + ", '2024-05-17', 'OKAY', 4, 'Cooking', 'Made pasta for dinner')";
             statement.executeUpdate(insertMood9SQL);
 
             String insertMood10SQL = "INSERT INTO mood_tracking (user_id, entry_date, mood, screen_time_hours, activity_category, comments) " +
-                    "VALUES (" + userId1 + ", '2024-05-16', 'GREAT', 8, 'Gardening', 'Planted new flowers')";
+                    "VALUES (" + userId1 + ", '2024-05-18', 'GREAT', 8, 'Gardening', 'Planted new flowers')";
             statement.executeUpdate(insertMood10SQL);
 
             String insertMood11SQL = "INSERT INTO mood_tracking (user_id, entry_date, mood, screen_time_hours, activity_category, comments) " +
-                    "VALUES (" + userId1 + ", '2024-05-17', 'BAD', 3, 'Walking', 'Took a long walk in the park')";
+                    "VALUES (" + userId1 + ", '2024-05-19', 'BAD', 3, 'Walking', 'Took a long walk in the park')";
             statement.executeUpdate(insertMood11SQL);
 
             String insertMood12SQL = "INSERT INTO mood_tracking (user_id, entry_date, mood, screen_time_hours, activity_category, comments) " +
-                    "VALUES (" + userId1 + ", '2024-05-18', 'GOOD', 5, 'Painting', 'Started a new art project')";
+                    "VALUES (" + userId1 + ", '2024-05-20', 'GOOD', 5, 'Painting', 'Started a new art project')";
             statement.executeUpdate(insertMood12SQL);
 
             String insertMood13SQL = "INSERT INTO mood_tracking (user_id, entry_date, mood, screen_time_hours, activity_category, comments) " +
-                    "VALUES (" + userId1 + ", '2024-05-19', 'OKAY', 3, 'Cooking', 'Tried a new recipe')";
+                    "VALUES (" + userId1 + ", '2024-05-21', 'OKAY', 3, 'Cooking', 'Tried a new recipe')";
             statement.executeUpdate(insertMood13SQL);
 
             String insertMood14SQL = "INSERT INTO mood_tracking (user_id, entry_date, mood, screen_time_hours, activity_category, comments) " +
-                    "VALUES (" + userId1 + ", '2024-05-20', 'GREAT', 1, 'Exercise', 'Went to the gym')";
+                    "VALUES (" + userId1 + ", '2024-05-22', 'GREAT', 1, 'Exercise', 'Went to the gym')";
             statement.executeUpdate(insertMood14SQL);
 
             String insertMood15SQL = "INSERT INTO mood_tracking (user_id, entry_date, mood, screen_time_hours, activity_category, comments) " +
-                    "VALUES (" + userId1 + ", '2024-05-21', 'POOR', 2, 'Nothing', 'Stayed in bed all day')";
+                    "VALUES (" + userId1 + ", '2024-05-23', 'POOR', 2, 'Nothing', 'Stayed in bed all day')";
             statement.executeUpdate(insertMood15SQL);
 
             String insertMood16SQL = "INSERT INTO mood_tracking (user_id, entry_date, mood, screen_time_hours, activity_category, comments) " +
-                    "VALUES (" + userId1 + ", '2024-05-22', 'GREAT', 10, 'Surfing', 'Went to the beach')";
+                    "VALUES (" + userId1 + ", '2024-05-24', 'GREAT', 10, 'Surfing', 'Went to the beach')";
             statement.executeUpdate(insertMood16SQL);
 
             String insertMood17SQL = "INSERT INTO mood_tracking (user_id, entry_date, mood, screen_time_hours, activity_category, comments) " +
-                    "VALUES (" + userId1 + ", '2024-05-23', 'BAD', 6, 'Gaming', 'Played club penguin')";
+                    "VALUES (" + userId1 + ", '2024-05-25', 'BAD', 6, 'Gaming', 'Played club penguin')";
             statement.executeUpdate(insertMood17SQL);
 
 

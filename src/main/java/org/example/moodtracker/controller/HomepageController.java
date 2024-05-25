@@ -5,12 +5,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.chart.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import org.example.moodtracker.model.DBUtils;
@@ -49,6 +51,16 @@ public class HomepageController implements Initializable {
     private Label current_date;
     @FXML
     private PieChart mood_Pie;
+    @FXML
+    private Label badLabel;
+    @FXML
+    private Label poorLabel;
+    @FXML
+    private Label okayLabel;
+    @FXML
+    private Label goodLabel;
+    @FXML
+    private Label greatLabel;
     @FXML
     private BarChart<String, Number> screenTime_BarChart;
     @FXML
@@ -145,11 +157,17 @@ public class HomepageController implements Initializable {
                     "#2cb2ff", // Blue for GOOD mood
             };
 
-            // Populate PieChart with mood data
+            // Calculate the total count of moods
+            int totalCount = moodCounts.values().stream().mapToInt(Integer::intValue).sum();
+
+            // Initialize index for custom colors
             int index = 0;
+
+            // Populate PieChart with mood data and update labels with percentages
             for (Map.Entry<String, Integer> entry : moodCounts.entrySet()) {
                 String mood = entry.getKey();
                 int count = entry.getValue();
+                double percentage = (count * 100.0) / totalCount;
 
                 // Create PieChart.Data item
                 PieChart.Data data = new PieChart.Data(mood, count);
@@ -161,6 +179,34 @@ public class HomepageController implements Initializable {
                 if (data.getNode() != null) {
                     // Set the custom color defined in the CSS
                     data.getNode().setStyle("-fx-pie-color: " + customColors[index] + ";");
+                }
+
+                // Update the corresponding label with percentage on a new line
+                String labelText = mood + "\n" + String.format("%.1f", percentage) + "%";
+                Label moodLabel = null;
+
+                switch (mood.toUpperCase()) {
+                    case "BAD":
+                        moodLabel = badLabel;
+                        break;
+                    case "POOR":
+                        moodLabel = poorLabel;
+                        break;
+                    case "OKAY":
+                        moodLabel = okayLabel;
+                        break;
+                    case "GOOD":
+                        moodLabel = goodLabel;
+                        break;
+                    case "GREAT":
+                        moodLabel = greatLabel;
+                        break;
+                }
+
+                if (moodLabel != null) {
+                    moodLabel.setText(labelText);
+                    moodLabel.setTextAlignment(TextAlignment.CENTER);
+                    moodLabel.setAlignment(Pos.CENTER);
                 }
 
                 index++; // Move to the next custom color
@@ -178,6 +224,8 @@ public class HomepageController implements Initializable {
             System.err.println("Error fetching mood data: " + e.getMessage());
         }
     }
+
+
 
     private void initializeScreenTimeBarChart(String currentUser) throws SQLException {
         // Get screen time data for the current user
