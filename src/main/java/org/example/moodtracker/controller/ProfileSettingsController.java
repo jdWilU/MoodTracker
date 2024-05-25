@@ -48,6 +48,18 @@ public class ProfileSettingsController implements Initializable {
     private Button button_save;
     @FXML
     private Button button_delete;
+    @FXML
+    private ProgressBar xpLevel;
+    @FXML
+    private Label levelLabel;
+
+    private static final String[] COLORS = {
+            "#fe6969", // Red
+            "#a364f8", // Purple
+            "#838383", // Gray
+            "#2cb2ff", // Blue
+            "#20e49f"  // Green
+    };
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -79,6 +91,9 @@ public class ProfileSettingsController implements Initializable {
             tf_phone.setText(user.getPhoneNumber());
             tf_displayname.setText(user.getDisplayName());
         }
+
+        initializeLevelAndXP();
+
     }
 
     private void updateUser() {
@@ -143,5 +158,40 @@ public class ProfileSettingsController implements Initializable {
             }
         }
     }
+
+    private void initializeLevelAndXP() {
+        String currentUser = DBUtils.getCurrentUsername();
+        if (currentUser != null) {
+            try {
+                // Get user ID
+                int userId = DBUtils.getUserId(currentUser);
+
+                // Fetch user's level and XP from the database
+                int xp = DBUtils.getXpForUser(userId);
+                int level = DBUtils.getUserLevel(userId);
+
+                // Calculate the progress for the XP bar
+                int xpForCurrentLevel = xp - (level * 100);
+                double progress = (double) xpForCurrentLevel / 100.0;
+
+                // Set the user's level in the Label
+                levelLabel.setText("Level: " + level);
+
+                // Set progress for the XP bar
+                xpLevel.setProgress(progress);
+            } catch (SQLException e) {
+                // Handle SQLException
+                Logger.getLogger(ProfileSettingsController.class.getName()).log(Level.SEVERE, "Error fetching user's level and XP", e);
+                // Show error message to the user
+                showAlert(Alert.AlertType.ERROR, "Error", "An error occurred while fetching user's level and XP. Please try again later.");
+            }
+        }
+    }
+
+
+
+
+
+
 
 }

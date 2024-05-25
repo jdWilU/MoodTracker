@@ -337,4 +337,71 @@ public class DBUtils {
             return -1; // Return -1 to indicate an error occurred
         }
     }
+
+    public static void updateXpInDatabase(int userId, int xpToAdd) {
+        try (Connection connection = DriverManager.getConnection(DATABASE_URL);
+             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE users SET xp = xp + ? WHERE user_id = ?")) {
+
+            preparedStatement.setInt(1, xpToAdd);
+            preparedStatement.setInt(2, userId);
+            preparedStatement.executeUpdate();
+
+            Logger.getLogger(DBUtils.class.getName()).log(Level.INFO, "Added " + xpToAdd + " XP to user with ID " + userId);
+        } catch (SQLException e) {
+            Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error updating XP in database", e);
+        }
+    }
+
+    public static int getXpForUser(int userId) {
+        int xp = 0;
+        String getXpSQL = "SELECT xp FROM users WHERE user_id = ?";
+        try (Connection connection = DriverManager.getConnection(DATABASE_URL);
+             PreparedStatement preparedStatement = connection.prepareStatement(getXpSQL)) {
+            preparedStatement.setInt(1, userId);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    xp = resultSet.getInt("xp");
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error retrieving XP from the database: " + e.getMessage());
+        }
+        return xp;
+    }
+
+    public static void updateLevelInDatabase(int userId) {
+        int xp = getXpForUser(userId);
+        int level = xp / 100 + 1;
+
+        String updateLevelSQL = "UPDATE users SET level = ? WHERE user_id = ?";
+        try (Connection connection = DriverManager.getConnection(DATABASE_URL);
+             PreparedStatement preparedStatement = connection.prepareStatement(updateLevelSQL)) {
+            preparedStatement.setInt(1, level);
+            preparedStatement.setInt(2, userId);
+            preparedStatement.executeUpdate();
+            System.out.println("Level updated successfully!");
+        } catch (SQLException e) {
+            System.err.println("Error updating level in the database: " + e.getMessage());
+        }
+    }
+
+    public static int getUserLevel(int userId) throws SQLException {
+        int level = 0;
+        String getLevelSQL = "SELECT level FROM users WHERE user_id = ?";
+        try (Connection connection = DriverManager.getConnection(DATABASE_URL);
+             PreparedStatement preparedStatement = connection.prepareStatement(getLevelSQL)) {
+            preparedStatement.setInt(1, userId);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    level = resultSet.getInt("level");
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error retrieving user's level from the database: " + e.getMessage());
+            throw e; // Re-throw the SQLException to propagate it to the caller
+        }
+        return level;
+    }
+
+
 }

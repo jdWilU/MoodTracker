@@ -162,7 +162,19 @@
                <Image url="@Images/profileimage.jpg" />
             </image></ImageView>
         </Pane>
-      <Pane layoutX="327.0" layoutY="28.0" prefHeight="234.0" prefWidth="299.0" style="-fx-background-color: white; -fx-background-radius: 15;" />
+      <Pane layoutX="327.0" layoutY="28.0" prefHeight="234.0" prefWidth="299.0" style="-fx-background-color: white; -fx-background-radius: 15;">
+         <children>
+            <VBox layoutX="14.0" layoutY="7.0" prefHeight="42.0" prefWidth="225.0">
+               <children>
+                  <Label fx:id="levelLabel" prefHeight="46.0" prefWidth="88.0" text="Level" textFill="#838383">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+            <ProgressBar layoutX="98.0" layoutY="19.0" prefHeight="18.0" prefWidth="179.0" stylesheets="@Styling/Styling.css" fx:id="xpLevel" />
+         </children></Pane>
       <Pane layoutX="327.0" layoutY="286.0" prefHeight="227.0" prefWidth="299.0" style="-fx-background-color: white; -fx-background-radius: 15;" />
     </Pane>
 </AnchorPane>
