@@ -1,22 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.ProgressBar?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import io.github.palexdev.materialfx.controls.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<?import io.github.palexdev.materialfx.controls.MFXButton?>
-<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #f0f0f0;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.moodtracker.controller.ProfileSettingsController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #f0f0f0;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.moodtracker.controller.ProfileSettingsController">
     <Pane layoutX="111.0" prefHeight="71.0" prefWidth="690.0" style="-fx-background-color: #FFFFFF;">
 
         <!-- Top Section -->
@@ -225,7 +217,7 @@
                         <Image url="@Images/icons8-lightning-bolt-50-holo.png" />
                      </image>
                   </ImageView>
-                  <Label layoutX="59.0" layoutY="5.0" prefHeight="42.0" prefWidth="236.0" text="You receive 25 exp for completing&#10; a daily entry" textFill="#838383" />
+                  <Label layoutX="59.0" layoutY="5.0" prefHeight="42.0" prefWidth="236.0" text="You receive 15 exp for completing&#10;a daily entry" textFill="#838383" />
                </children>
             </Pane>
             <Pane layoutY="143.0" prefHeight="51.0" prefWidth="299.0">
@@ -235,7 +227,7 @@
                         <Image url="@Images/icons8-lightning-bolt-50-holo.png" />
                      </image>
                   </ImageView>
-                  <Label layoutX="59.0" layoutY="5.0" prefHeight="42.0" prefWidth="236.0" text="You receive 150 exp for completing&#10;an entry for three consecutive days" textFill="#838383" />
+                  <Label layoutX="59.0" layoutY="5.0" prefHeight="42.0" prefWidth="236.0" text="You receive 5 exp for every activity&#10;selected" textFill="#838383" />
                </children>
             </Pane>
          </children></Pane>

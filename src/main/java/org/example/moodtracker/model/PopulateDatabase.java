@@ -51,7 +51,7 @@ public class PopulateDatabase {
             statement.executeUpdate(insertMood5SQL);
 
             String insertMood6SQL = "INSERT INTO mood_tracking (user_id, entry_date, mood, screen_time_hours, activity_category, comments) " +
-                    "VALUES (" + userId1 + ", '2024-05-13', 'BAD', 3, 'Went to school', '')";
+                    "VALUES (" + userId1 + ", '2024-05-13', 'BAD', 3, 'School', '')";
             statement.executeUpdate(insertMood6SQL);
 
             String insertMood7SQL = "INSERT INTO mood_tracking (user_id, entry_date, mood, screen_time_hours, activity_category, comments) " +
@@ -105,7 +105,7 @@ public class PopulateDatabase {
             statement.executeUpdate(deleteXPAndLevelSQL);
 
             updateLevelInDatabase(userId1);
-            updateXpInDatabase(userId1, 425);
+            updateXpInDatabase(userId1, 340);
 
 
 
