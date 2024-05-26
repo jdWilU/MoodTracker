@@ -54,6 +54,7 @@ public class ResourcesPageController implements Initializable {
     private Label resources_text;
 
 
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Button functionality
@@ -84,20 +85,30 @@ public class ResourcesPageController implements Initializable {
     private void EnableDetailPanel()
     {
         details_pane.setVisible(true);
-        resources_text.setText("test text");
-        resources_title.setText("test text");
     }
 
     private void EnableDetailPane1 () {
         EnableDetailPanel();
+        resources_text.setText("Begin by defining specific, achievable fitness goals. Whether you aim to lose weight, build muscle, improve endurance, or enhance overall health, having clear objectives will guide your workout routine and keep you motivated. Use the SMART criteria (Specific, Measurable, Achievable, Relevant, Time-bound) to set your goals.\n" +
+                "Design a workout plan that includes a mix of cardiovascular exercise, strength training, flexibility, and balance exercises. A balanced routine ensures that you address all aspects of fitness and reduce the risk of injury. Aim for at least 150 minutes of moderate aerobic activity or 75 minutes of vigorous activity per week, along with muscle-strengthening activities on two or more days a week.");
+        resources_title.setText("Working Out");
     }
     private void EnableDetailPane2 () {
         EnableDetailPanel();
+        resources_text.setText("Design a daily schedule that allocates time for screen-based activities as well as offline pursuits. Include dedicated periods for work or study, exercise, hobbies, and social interactions that don't involve screens. By scheduling your time intentionally, you can ensure a balanced and fulfilling routine.\n" +
+                "Establish certain areas in your home as screen-free zones, such as the dining room, bedroom, or living room during family time. This helps create physical boundaries between screen activities and other aspects of your life, encouraging more face-to-face interactions and better sleep hygiene.");
+        resources_title.setText("Screen Time");
     }
     private void EnableDetailPane3 () {
         EnableDetailPanel();
+        resources_text.setText("Start by identifying your most important tasks. Use the Eisenhower Matrix to categorize tasks based on their urgency and importance. Focus on completing high-priority tasks first to ensure that you are making progress on what truly matters. By prioritizing effectively, you can avoid the trap of spending too much time on less critical activities.\n" +
+                "Take a few minutes each morning to plan your day. Create a to-do list and allocate specific time slots for each task. This helps in maintaining a structured approach and ensures that you are aware of what needs to be accomplished. Make sure to include breaks and buffer times to account for unexpected interruptions or delays.\n");
+        resources_title.setText("Time Management");
     }
     private void EnableDetailPane4 () {
         EnableDetailPanel();
+        resources_text.setText("Define clear, achievable goals for each study session. Break down larger tasks into smaller, manageable chunks and set deadlines for each. This approach not only makes studying less overwhelming but also provides a sense of accomplishment as you complete each task.\n" +
+                "Consistency is key to effective studying. Create a study schedule that outlines what you need to study and when. Allocate specific time slots for each subject and stick to the schedule as closely as possible. Regular study sessions help reinforce learning and improve retention.");
+        resources_title.setText("Study Habits");
     }
 }

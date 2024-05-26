@@ -136,7 +136,7 @@
                            <VBox prefWidth="450.0">
                               <children>
                                  <Label text="Working Out" />
-                                 <Label maxHeight="60.0" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." textOverrun="WORD_ELLIPSIS" wrapText="true">
+                                 <Label maxHeight="60.0" text="Begin by defining specific, achievable fitness goals. Whether you aim to lose weight, build muscle, improve endurance, or enhance overall health, having clear objectives will guide your workout routine and keep you motivated. Use the SMART criteria (Specific, Measurable, Achievable, Relevant, Time-bound) to set your goals.Begin by defining specific, achievable fitness goals. Whether you aim to lose weight, build muscle, improve endurance, or enhance overall health, having clear objectives will guide your workout routine and keep you motivated. Use the SMART criteria (Specific, Measurable, Achievable, Relevant, Time-bound) to set your goals." textOverrun="WORD_ELLIPSIS" wrapText="true">
                                     <font>
                                        <Font size="11.0" />
                                     </font>
@@ -161,7 +161,7 @@
                            <VBox prefWidth="450.0">
                               <children>
                                  <Label text="Screen Time" />
-                                 <Label maxHeight="60.0" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." textOverrun="WORD_ELLIPSIS" wrapText="true">
+                                 <Label maxHeight="60.0" text="Start by setting specific goals for how much time you want to spend on various screens, including phones, tablets, computers, and TVs. Establish daily or weekly limits for each type of activity, such as social media, gaming, or streaming. Use built-in screen time management features on your devices to track and enforce these limits." textOverrun="WORD_ELLIPSIS" wrapText="true">
                                     <font>
                                        <Font size="11.0" />
                                     </font>
@@ -187,7 +187,7 @@
                            <VBox prefWidth="450.0">
                               <children>
                                  <Label text="Time Management" />
-                                 <Label maxHeight="60.0" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." textOverrun="WORD_ELLIPSIS" wrapText="true">
+                                 <Label maxHeight="60.0" text="Take a few minutes each morning to plan your day. Create a to-do list and allocate specific time slots for each task. This helps in maintaining a structured approach and ensures that you are aware of what needs to be accomplished. Make sure to include breaks and buffer times to account for unexpected interruptions or delays." textOverrun="WORD_ELLIPSIS" wrapText="true">
                                     <font>
                                        <Font size="11.0" />
                                     </font>
@@ -212,8 +212,8 @@
                            </ImageView>
                            <VBox prefWidth="450.0">
                               <children>
-                                 <Label text="Study" />
-                                 <Label maxHeight="60.0" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." textOverrun="WORD_ELLIPSIS" wrapText="true">
+                                 <Label text="Study Habits" />
+                                 <Label maxHeight="60.0" text="Establish a specific area for studying that is free from distractions. This space should be quiet, well-lit, and equipped with all the necessary materials. Having a dedicated study environment helps signal to your brain that it's time to focus, improving concentration and productivity." textOverrun="WORD_ELLIPSIS" wrapText="true">
                                     <font>
                                        <Font size="11.0" />
                                     </font>
@@ -248,9 +248,9 @@
                         </font>
                      </Label>
                   </children></Pane>
-               <Label fx:id="resources_text" layoutX="14.0" layoutY="86.0" prefHeight="27.0" prefWidth="536.0" text="Text...">
+               <Label fx:id="resources_text" layoutX="14.0" layoutY="86.0" prefHeight="296.0" prefWidth="536.0" text="Text..." wrapText="true">
                   <font>
-                     <Font size="18.0" />
+                     <Font size="16.0" />
                   </font>
                </Label>
             </children></Pane>
