@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="408.0" prefWidth="401.0" style="-fx-background-color: #f0f0f0;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.moodtracker.controller.ResourcesPageController">
+   <Pane layoutX="111.0" prefHeight="339.0" prefWidth="690.0" style="-fx-background-color: #FFFFFF;">
+
+      <!-- Top Section -->
+      <VBox layoutX="42.0" layoutY="14.0" prefHeight="52.0" prefWidth="641.0" style="-fx-background-color: #FFFFFF;">
+         <!-- User Info -->
+         <Label fx:id="label_welcome" prefHeight="25.0" prefWidth="219.0" style="-fx-font-size: 16px; -fx-text-fill: #333333;" text="User's Name" />
+         <!-- Current Date -->
+         <Label fx:id="current_date" prefHeight="20.0" prefWidth="214.0" style="-fx-font-size: 14px; -fx-text-fill: #666666;" text="Current Date" />
+      </VBox>
+   </Pane>
+    <!-- Sidebar Menu -->
+    <VBox alignment="TOP_CENTER" prefHeight="601.0" prefWidth="137.0" style="-fx-background-color: #FFFFFF; -fx-padding: 10;">
+       <Pane prefHeight="42.0" prefWidth="125.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 5;">
+          <!-- Logo -->
+          <ImageView fitHeight="41.0" fitWidth="41.0" layoutX="-2.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
+             <Image url="@Images/img.png" />
+          </ImageView>
+         <ImageView fitHeight="25.0" fitWidth="80.0" layoutX="39.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@Images/name.JPG" />
+            </image>
+         </ImageView>
+       </Pane>
+       <Pane layoutX="20.0" layoutY="116.0" prefHeight="238.0" prefWidth="117.0" style="-fx-background-color: #FFFFFF;">
+          <VBox.margin>
+             <Insets top="20.0" />
+          </VBox.margin>
+          <ImageView fitHeight="21.0" fitWidth="23.0" layoutX="6.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
+             <Image url="@Images/icons8-homepage-48.png" />
+          </ImageView>
+          <ImageView fitHeight="20.0" fitWidth="17.0" layoutX="7.0" layoutY="57.0" pickOnBounds="true" preserveRatio="true">
+             <image>
+                <Image url="@Images/icons8-day-50.png" />
+             </image>
+          </ImageView>
+          <ImageView fitHeight="17.0" fitWidth="17.0" layoutX="7.0" layoutY="95.0" pickOnBounds="true" preserveRatio="true">
+             <image>
+                <Image url="@Images/icons8-database-32.png" />
+             </image>
+          </ImageView>
+          <ImageView fitHeight="20.0" fitWidth="22.0" layoutX="6.0" layoutY="132.0" pickOnBounds="true" preserveRatio="true">
+             <image>
+                <Image url="@Images/icons8-trophy-50.png" />
+             </image>
+          </ImageView>
+          <ImageView fitHeight="25.0" fitWidth="22.0" layoutX="5.0" layoutY="169.0" pickOnBounds="true" preserveRatio="true">
+             <image>
+                <Image url="@Images/icons8-male-user-50.png" />
+             </image>
+          </ImageView>
+          <MFXButton fx:id="button_table" layoutX="32.0" layoutY="91.0" prefHeight="25.0" prefWidth="80.0" style="-fx-border-color: #838383; -fx-border-radius: 15; -fx-background-radius: 15;" styleClass="mfx-button" stylesheets="@Styling/MFXStyling/css/MFXButton.css" text="History" textFill="WHITE">
+             <font>
+                <Font size="10.0" />
+             </font>
+          </MFXButton>
+
+          <MFXButton fx:id="button_daily_entry" layoutX="31.0" layoutY="53.0" prefHeight="25.0" prefWidth="80.0" style="-fx-border-color: #838383; -fx-border-radius: 15; -fx-background-radius: 15;" styleClass="mfx-button" stylesheets="@Styling/MFXStyling/css/MFXButton.css" text="Daily Entry" textFill="WHITE">
+             <font>
+                <Font size="10.0" />
+             </font>
+          </MFXButton>
+          <MFXButton fx:id="button_homepage" layoutX="31.0" layoutY="14.0" prefHeight="25.0" prefWidth="80.0" style="-fx-border-color: #838383; -fx-border-radius: 15; -fx-background-radius: 15;" styleClass="mfx-button" stylesheets="@Styling/MFXStyling/css/MFXButton.css" text="Homepage" textFill="WHITE">
+             <font>
+                <Font size="10.0" />
+             </font>
+          </MFXButton>
+          <MFXButton fx:id="button_achievement" layoutX="32.0" layoutY="130.0" prefHeight="25.0" prefWidth="80.0" style="-fx-border-color: #838383; -fx-border-radius: 15; -fx-background-radius: 15;" styleClass="mfx-button" stylesheets="@Styling/MFXStyling/css/MFXButton.css" text="Achievements" textFill="WHITE">
+             <font>
+                <Font size="10.0" />
+             </font>
+          </MFXButton>
+          <MFXButton fx:id="button_profile" layoutX="32.0" layoutY="168.0" prefHeight="25.0" prefWidth="80.0" style="-fx-border-color: #838383; -fx-border-radius: 15; -fx-background-radius: 15;" styleClass="mfx-button" stylesheets="@Styling/MFXStyling/css/MFXButton.css" text="Profile" textFill="WHITE">
+             <font>
+                <Font size="10.0" />
+             </font>
+          </MFXButton>
+         <MFXButton layoutX="31.0" layoutY="206.0" prefHeight="25.0" prefWidth="80.0" style="-fx-background-color: #2cb2ff; -fx-border-radius: 15; -fx-background-radius: 15;" styleClass="mfx-button" stylesheets="@Styling/MFXStyling/css/MFXButton.css" text="Resources" textFill="WHITE">
+            <font>
+               <Font size="10.0" />
+            </font>
+         </MFXButton>
+         <ImageView fitHeight="25.0" fitWidth="22.0" layoutX="5.0" layoutY="208.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@Images/book.png" />
+            </image>
+         </ImageView>
+       </Pane>
+    </VBox>
+   <VBox layoutX="1.0" layoutY="503.0" prefHeight="98.0" prefWidth="137.0" style="-fx-background-color: #FFFFFF;">
+      <Pane layoutX="10.0" layoutY="20.0" prefHeight="42.0" prefWidth="137.0" style="-fx-background-color: #FFFFFF;">
+         <Button fx:id="button_logout" layoutX="20.0" layoutY="23.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="97.0" style="-fx-background-color: #838383; -fx-background-radius: 15;" text="       Logout" textFill="WHITE" />
+         <ImageView fitHeight="21.0" fitWidth="21.0" layoutX="33.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@Images/icons8-logout-64.png" />
+         </ImageView>
+      </Pane>
+      <Pane layoutX="10.0" layoutY="20.0" prefHeight="42.0" prefWidth="137.0" style="-fx-background-color: #FFFFFF;">
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
+         <Button fx:id="button_close" layoutX="20.0" layoutY="9.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="97.0" style="-fx-background-color: #fe6969; -fx-background-radius: 15;" text="  Exit" textFill="WHITE" />
+         <ImageView fitHeight="17.0" fitWidth="21.0" layoutX="36.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@Images/icons8-close-48.png" />
+         </ImageView>
+      </Pane>
+   </VBox>
+   <Pane layoutX="135.0" layoutY="66.0" prefHeight="538.0" prefWidth="87.0" style="-fx-background-color: #F0F0F0; -fx-background-radius: 15;" />
+   <Pane layoutX="147.0" layoutY="66.0" prefHeight="538.0" prefWidth="654.0" style="-fx-background-color: #F0F0F0;">
+      <children>
+         <VBox fx:id="vbox_resources" layoutX="10.0" prefHeight="500.0" prefWidth="600.0" spacing="10.0">
+            <children>
+               <MFXButton fx:id="resource_button_1" alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="90.0" prefWidth="590.0" styleClass="mfx-button" stylesheets="@Styling/MFXStyling/css/MFXButton.css">
+                  <VBox.margin>
+                     <Insets top="10.0" />
+                  </VBox.margin>
+                  <font>
+                     <Font size="24.0" />
+                  </font>
+                  <graphic>
+                     <HBox spacing="5.0">
+                        <children>
+                           <ImageView fitHeight="90.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <Image url="@Images/gym.png" />
+                              </image>
+                           </ImageView>
+                           <VBox prefWidth="450.0">
+                              <children>
+                                 <Label text="Working Out" />
+                                 <Label maxHeight="60.0" text="Begin by defining specific, achievable fitness goals. Whether you aim to lose weight, build muscle, improve endurance, or enhance overall health, having clear objectives will guide your workout routine and keep you motivated. Use the SMART criteria (Specific, Measurable, Achievable, Relevant, Time-bound) to set your goals.Begin by defining specific, achievable fitness goals. Whether you aim to lose weight, build muscle, improve endurance, or enhance overall health, having clear objectives will guide your workout routine and keep you motivated. Use the SMART criteria (Specific, Measurable, Achievable, Relevant, Time-bound) to set your goals." textOverrun="WORD_ELLIPSIS" wrapText="true">
+                                    <font>
+                                       <Font size="11.0" />
+                                    </font>
+                                 </Label>
+                              </children></VBox>
+                        </children>
+                     </HBox>
+                  </graphic>
+               </MFXButton>
+               <MFXButton fx:id="resource_button_2" alignment="TOP_LEFT" layoutX="10.0" layoutY="20.0" mnemonicParsing="false" prefHeight="90.0" prefWidth="590.0" styleClass="mfx-button" stylesheets="@Styling/MFXStyling/css/MFXButton.css">
+                  <font>
+                     <Font size="24.0" />
+                  </font>
+                  <graphic>
+                     <HBox spacing="5.0">
+                        <children>
+                           <ImageView fitHeight="90.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <Image url="@Images/gaming.png" />
+                              </image>
+                           </ImageView>
+                           <VBox prefWidth="450.0">
+                              <children>
+                                 <Label text="Screen Time" />
+                                 <Label maxHeight="60.0" text="Start by setting specific goals for how much time you want to spend on various screens, including phones, tablets, computers, and TVs. Establish daily or weekly limits for each type of activity, such as social media, gaming, or streaming. Use built-in screen time management features on your devices to track and enforce these limits." textOverrun="WORD_ELLIPSIS" wrapText="true">
+                                    <font>
+                                       <Font size="11.0" />
+                                    </font>
+                                 </Label>
+                              </children>
+                           </VBox>
+                        </children>
+                     </HBox>
+                  </graphic>
+               </MFXButton>
+               <MFXButton fx:id="resource_button_3" alignment="TOP_LEFT" layoutX="10.0" layoutY="128.0" mnemonicParsing="false" prefHeight="90.0" prefWidth="590.0" styleClass="mfx-button" stylesheets="@Styling/MFXStyling/css/MFXButton.css">
+                  <font>
+                     <Font size="24.0" />
+                  </font>
+                  <graphic>
+                     <HBox spacing="5.0">
+                        <children>
+                           <ImageView fitHeight="90.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <Image url="@Images/relax.png" />
+                              </image>
+                           </ImageView>
+                           <VBox prefWidth="450.0">
+                              <children>
+                                 <Label text="Time Management" />
+                                 <Label maxHeight="60.0" text="Take a few minutes each morning to plan your day. Create a to-do list and allocate specific time slots for each task. This helps in maintaining a structured approach and ensures that you are aware of what needs to be accomplished. Make sure to include breaks and buffer times to account for unexpected interruptions or delays." textOverrun="WORD_ELLIPSIS" wrapText="true">
+                                    <font>
+                                       <Font size="11.0" />
+                                    </font>
+                                 </Label>
+                              </children>
+                           </VBox>
+                        </children>
+                     </HBox>
+                  </graphic>
+               </MFXButton>
+               <MFXButton fx:id="resource_button_4" alignment="TOP_LEFT" layoutX="10.0" layoutY="128.0" mnemonicParsing="false" prefHeight="90.0" prefWidth="590.0" styleClass="mfx-button" stylesheets="@Styling/MFXStyling/css/MFXButton.css">
+                  <font>
+                     <Font size="24.0" />
+                  </font>
+                  <graphic>
+                     <HBox spacing="5.0">
+                        <children>
+                           <ImageView fitHeight="90.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <Image url="@Images/study.png" />
+                              </image>
+                           </ImageView>
+                           <VBox prefWidth="450.0">
+                              <children>
+                                 <Label text="Study Habits" />
+                                 <Label maxHeight="60.0" text="Establish a specific area for studying that is free from distractions. This space should be quiet, well-lit, and equipped with all the necessary materials. Having a dedicated study environment helps signal to your brain that it's time to focus, improving concentration and productivity." textOverrun="WORD_ELLIPSIS" wrapText="true">
+                                    <font>
+                                       <Font size="11.0" />
+                                    </font>
+                                 </Label>
+                              </children>
+                           </VBox>
+                        </children>
+                     </HBox>
+                  </graphic>
+               </MFXButton>
+            </children>
+            <padding>
+               <Insets bottom="8.0" />
+            </padding>
+         </VBox>
+         <Pane fx:id="details_pane" layoutY="20.0" prefHeight="400.0" prefWidth="620.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15px; -fx-border-radius: 15px; -fx-border-color: #838383;">
+            <children>
+               <Pane layoutX="10.0" layoutY="10.0" prefHeight="60.0" prefWidth="600.0" style="-fx-background-color: #f0f0f0; -fx-background-radius: 13;">
+                  <children>
+                     <Button fx:id="exit_resource_window_button" layoutX="549.0" layoutY="5.0" maxHeight="50.0" maxWidth="50.0" mnemonicParsing="false" prefHeight="0.0" prefWidth="41.0" style="-fx-background-color: #fe6969; -fx-text-fill: #ffffff;" styleClass="mfx-button" stylesheets="@Styling/MFXStyling/css/MFXButton.css" textOverrun="CLIP">
+                        <font>
+                           <Font name="System Bold" size="18.0" />
+                        </font></Button>
+                     <ImageView fitHeight="41.0" fitWidth="33.0" layoutX="553.0" layoutY="9.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                           <Image url="@Images/icons8-close-48.png" />
+                        </image>
+                     </ImageView>
+                     <Label fx:id="resources_title" alignment="TOP_CENTER" layoutX="14.0" layoutY="10.0" text="Title">
+                        <font>
+                           <Font size="28.0" />
+                        </font>
+                     </Label>
+                  </children></Pane>
+               <Label fx:id="resources_text" layoutX="14.0" layoutY="86.0" prefHeight="296.0" prefWidth="536.0" text="Text..." wrapText="true">
+                  <font>
+                     <Font size="16.0" />
+                  </font>
+               </Label>
+            </children></Pane>
+      </children></Pane>
+</AnchorPane>
