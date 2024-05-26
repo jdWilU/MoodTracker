@@ -42,6 +42,8 @@ public class HomepageController implements Initializable {
     @FXML
     private MFXButton button_profile;
     @FXML
+    private MFXButton button_resources;
+    @FXML
     private Button button_previous_week;
     @FXML
     private Button button_next_week;
@@ -92,6 +94,7 @@ public class HomepageController implements Initializable {
         button_profile.setOnAction(event -> DBUtils.changeScene(event, "profile.fxml", "Profile", null));
         button_daily_entry.setOnAction(event -> DBUtils.changeScene(event, "mood-tracking-page.fxml", "Mood Tracking", null));
         button_achievement.setOnAction(event -> DBUtils.changeScene(event, "achievementsPage.fxml", "Achievements", null));
+        button_resources.setOnAction(event -> DBUtils.changeScene(event, "resources-page.fxml", "Educational Resources", null));
 
         // Set user information and current date
         String currentUser = DBUtils.getCurrentUsername();
