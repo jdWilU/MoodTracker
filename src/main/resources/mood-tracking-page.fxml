@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.control.ToggleGroup?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.shape.MeshView?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: 000000;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.moodtracker.controller.MoodSelectionController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: 000000;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.moodtracker.controller.MoodSelectionController">
     <ImageView fitHeight="613.0" fitWidth="818.0" pickOnBounds="true" preserveRatio="true">
         <image>
             <Image url="@Images/background.png" />
@@ -56,7 +51,14 @@
                     </ImageView>
                 </graphic>
             </Button>
-         <Button fx:id="button_moodsubmit" layoutX="549.0" layoutY="234.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="39.0" style="-fx-background-color: trasnaprent;" />
+         <Button fx:id="button_moodsubmit" layoutX="574.0" layoutY="339.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="39.0" style="-fx-background-color: trasnaprent;">
+            <graphic>
+               <ImageView fitHeight="44.0" fitWidth="40.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@Images/icons8-back-arrow-50.png" />
+                  </image>
+               </ImageView>
+            </graphic></Button>
          <ImageView fitHeight="86.0" fitWidth="96.0" layoutX="72.0" layoutY="148.0" pickOnBounds="true" preserveRatio="true">
             <image>
                <Image url="@Images/icons8-bad.png" />
@@ -80,11 +82,6 @@
          <ImageView fitHeight="86.0" fitWidth="96.0" layoutX="479.0" layoutY="148.0" pickOnBounds="true" preserveRatio="true">
             <image>
                <Image url="@Images/icons8-great.png" />
-            </image>
-         </ImageView>
-         <ImageView fitHeight="44.0" fitWidth="40.0" layoutX="299.0" layoutY="323.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true">
-            <image>
-               <Image url="@Images/icons8-back-arrow-50.png" />
             </image>
          </ImageView>
         </children>
