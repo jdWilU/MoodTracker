@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #f0f0f0;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.moodtracker.controller.HomepageController">
+    <Pane layoutX="198.0" prefHeight="120.0" prefWidth="603.0" style="-fx-background-color: #FFFFFF;">
+
+        <!-- Top Section -->
+        <VBox layoutY="2.0" prefHeight="87.0" prefWidth="267.0" style="-fx-background-color: #FFFFFF;">
+            <!-- User Info -->
+            <Label fx:id="label_welcome" prefHeight="25.0" prefWidth="219.0" style="-fx-font-size: 16px; -fx-text-fill: #333333;" text="User's Name" />
+            <!-- Current Date -->
+            <Label fx:id="current_date" prefHeight="20.0" prefWidth="219.0" style="-fx-font-size: 14px; -fx-text-fill: #666666;" text="Current Date" />
+        </VBox>
+        <VBox layoutX="209.0" layoutY="2.0" prefHeight="87.0" prefWidth="382.0">
+            <Pane prefHeight="200.0" prefWidth="200.0">
+                <Label layoutX="214.0" layoutY="25.0" text="Progression:" textFill="#929294">
+                    <font>
+                        <Font name="System Bold" size="16.0" />
+                    </font>
+                </Label>
+                <Label layoutX="61.0" layoutY="25.0" text="Level:" textFill="#929294">
+                    <font>
+                        <Font name="System Bold" size="16.0" />
+                    </font>
+                </Label>
+                <ProgressIndicator layoutX="313.0" layoutY="11.0" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="67.0" prefWidth="62.0" progress="0.69" />
+                <Label layoutX="115.0" layoutY="24.0" text="XX">
+                    <font>
+                        <Font name="System Bold" size="18.0" />
+                    </font>
+                </Label>
+            </Pane>
+        </VBox>
+    </Pane>
+    <!-- Sidebar Menu -->
+    <VBox alignment="TOP_CENTER" prefHeight="601.0" prefWidth="137.0" style="-fx-background-color: #FFFFFF; -fx-padding: 10;">
+        <Pane prefHeight="42.0" prefWidth="125.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 5;">
+            <!-- Logo -->
+            <ImageView fitHeight="41.0" fitWidth="41.0" layoutX="-2.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
+                <Image url="@Images/img.png" />
+            </ImageView>
+            <Label layoutX="38.0" layoutY="16.0" prefHeight="17.0" prefWidth="80.0" text="MoodTracker" textFill="#2cb2ff">
+                <font>
+                    <Font name="System Bold" size="12.0" />
+                </font>
+            </Label>
+        </Pane>
+        <Pane layoutX="20.0" layoutY="116.0" prefHeight="28.0" prefWidth="147.0">
+            <VBox.margin>
+                <Insets top="20.0" />
+            </VBox.margin>
+            <Button fx:id="button_homepage" alignment="CENTER" layoutX="10.0" layoutY="13.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="97.0" style="-fx-background-color: #2cb2ff; -fx-background-radius: 15;" text="      Homepage" textAlignment="RIGHT" textFill="WHITE">
+                <font>
+                    <Font size="10.0" />
+                </font>
+            </Button>
+            <ImageView fitHeight="21.0" fitWidth="23.0" layoutX="18.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
+                <Image url="@Images/icons8-home-64.png" />
+            </ImageView>
+        </Pane>
+        <Pane layoutX="20.0" layoutY="111.0" prefHeight="28.0" prefWidth="147.0">
+            <VBox.margin>
+                <Insets top="10.0" />
+            </VBox.margin>
+            <Button fx:id="button_daily_entry" layoutX="10.0" layoutY="15.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="97.0" styleClass="button_daily_entry" stylesheets="@Styling/Styling.css" text="      Daily Entry" textFill="#838383">
+                <font>
+                    <Font size="10.0" />
+                </font>
+            </Button>
+            <ImageView fitHeight="20.0" fitWidth="17.0" layoutX="21.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true">
+                <Image url="@Images/icons8-day-50.png" />
+            </ImageView>
+        </Pane>
+        <Pane layoutX="20.0" layoutY="116.0" prefHeight="28.0" prefWidth="147.0">
+            <VBox.margin>
+                <Insets top="10.0" />
+            </VBox.margin>
+            <Button fx:id="button_table" layoutX="10.0" layoutY="15.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="97.0" styleClass="#button_table" stylesheets="@Styling/Styling.css" text="Table" textFill="#838383">
+                <font>
+                    <Font size="10.0" />
+                </font>
+            </Button>
+            <ImageView fitHeight="17.0" fitWidth="17.0" layoutX="22.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true">
+                <Image url="@Images/icons8-database-32.png" />
+            </ImageView>
+        </Pane>
+        <Pane layoutX="20.0" layoutY="150.0" prefHeight="28.0" prefWidth="147.0">
+            <Button fx:id="button_profile" alignment="CENTER" layoutX="10.0" layoutY="25.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="97.0" style="-fx-background-color: #FFFFFF; -fx-border-radius: 15; -fx-background-radius: 15; -fx-border-color: #838383;" text=" Profile" textAlignment="RIGHT" textFill="#838383">
+                <font>
+                    <Font size="10.0" />
+                </font>
+            </Button>
+            <ImageView fitHeight="25.0" fitWidth="22.0" layoutX="18.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
+                <Image url="@Images/icons8-male-user-50.png" />
+            </ImageView>
+        </Pane>
+        <Pane layoutX="20.0" prefHeight="28.0" prefWidth="147.0">
+            <Button alignment="CENTER" layoutX="10.0" layoutY="35.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="97.0" style="-fx-background-color: #FFFFFF; -fx-border-radius: 15; -fx-background-radius: 15; -fx-border-color: #838383;" text="Achievements" textAlignment="RIGHT" textFill="#838383">
+                <font>
+                    <Font size="9.0" />
+                </font>
+                <graphic>
+                    <ImageView fitHeight="28.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@Images/trophy.JPG" />
+                    </ImageView>
+                </graphic>
+            </Button>
+        </Pane>
+    </VBox>
+    <VBox layoutX="1.0" layoutY="503.0" prefHeight="98.0" prefWidth="137.0" style="-fx-background-color: #FFFFFF;">
+        <Pane layoutX="10.0" layoutY="20.0" prefHeight="42.0" prefWidth="137.0" style="-fx-background-color: #FFFFFF;">
+            <Button fx:id="button_logout" layoutX="20.0" layoutY="23.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="97.0" style="-fx-background-color: #838383; -fx-background-radius: 15;" text="       Logout" textFill="WHITE" />
+            <ImageView fitHeight="21.0" fitWidth="21.0" layoutX="33.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+                <Image url="@Images/icons8-logout-64.png" />
+            </ImageView>
+        </Pane>
+        <Pane layoutX="10.0" layoutY="20.0" prefHeight="42.0" prefWidth="137.0" style="-fx-background-color: #FFFFFF;">
+            <VBox.margin>
+                <Insets top="10.0" />
+            </VBox.margin>
+            <Button fx:id="button_close" layoutX="20.0" layoutY="9.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="97.0" style="-fx-background-color: #fe6969; -fx-background-radius: 15;" text="  Exit" textFill="WHITE" />
+            <ImageView fitHeight="17.0" fitWidth="21.0" layoutX="36.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
+                <Image url="@Images/icons8-close-48.png" />
+            </ImageView>
+        </Pane>
+    </VBox>
+    <TabPane layoutX="198.0" layoutY="120.0" prefHeight="482.0" prefWidth="603.0" style="-fx-background-color: #FFFFFF;"
+             tabClosingPolicy="UNAVAILABLE">
+        <Tab text="All">
+            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="437.0"
+                        prefWidth="598.0" style="-fx-border-color: #000000;">
+                <VBox layoutX="5.0" layoutY="5.0" prefHeight="100.0" prefWidth="588.0"
+                      style="-fx-border-color: #000000; -fx-border-radius: 10;">
+                    <Pane prefHeight="200.0" prefWidth="200.0">
+                        <ProgressIndicator layoutX="15.0" layoutY="10.0" maxHeight="-Infinity"
+                                           maxWidth="-Infinity" minHeight="-Infinity"
+                                           minWidth="-Infinity" prefHeight="80.0" prefWidth="55.0"
+                                           progress="0.0"/>
+                        <Label layoutX="95.0" layoutY="15.0" text="Daily Checkup">
+                            <font>
+                                <Font name="System Bold" size="18.0"/>
+                            </font>
+                        </Label>
+                        <Label layoutX="95.0" layoutY="50.0"
+                               text="Complete daily mood tracking tasks (Resets daily)"/>
+                        <Label layoutX="495.0" layoutY="15.0" text="+5">
+                            <font>
+                                <Font size="43.0"/>
+                            </font>
+                        </Label>
+                    </Pane>
+                </VBox>
+                <VBox layoutX="5.0" layoutY="109.0" prefHeight="100.0" prefWidth="588.0"
+                      style="-fx-border-color: #000000; -fx-border-radius: 10;">
+                    <Pane prefHeight="200.0" prefWidth="200.0">
+                        <ProgressIndicator layoutX="15.0" layoutY="10.0" maxHeight="-Infinity"
+                                           maxWidth="-Infinity" minHeight="-Infinity"
+                                           minWidth="-Infinity" prefHeight="80.0" prefWidth="55.0"
+                                           progress="0.33"/>
+                        <Label layoutX="95.0" layoutY="15.0" text="Streaking up x3">
+                            <font>
+                                <Font name="System Bold" size="18.0"/>
+                            </font>
+                        </Label>
+                        <Label layoutX="95.0" layoutY="50.0"
+                               text="Complete your daily mood tracking tasks three days in a row"/>
+                        <Label layoutX="495.0" layoutY="15.0" text="+10">
+                            <font>
+                                <Font size="43.0"/>
+                            </font>
+                        </Label>
+                        <Label layoutX="95.0" layoutY="71.0" text="(Resets weekly)"/>
+                    </Pane>
+                </VBox>
+                <VBox layoutX="5.0" layoutY="214.0" prefHeight="104.0" prefWidth="588.0"
+                      style="-fx-border-color: #000000; -fx-border-radius: 10;">
+                    <Pane prefHeight="200.0" prefWidth="200.0">
+                        <ProgressIndicator layoutX="15.0" layoutY="10.0" minHeight="-Infinity"
+                                           minWidth="-Infinity" prefHeight="80.0" prefWidth="55.0"
+                                           progress="0.2"/>
+                        <Label layoutX="95.0" layoutY="15.0" text="Streaking up x5">
+                            <font>
+                                <Font name="System Bold" size="18.0"/>
+                            </font>
+                        </Label>
+                        <Label layoutX="95.0" layoutY="50.0"
+                               text="Complete your daily mood tracking tasks five days in a row"
+                               textAlignment="JUSTIFY"/>
+                        <Label layoutX="495.0" layoutY="15.0" text="+20">
+                            <font>
+                                <Font size="43.0"/>
+                            </font>
+                        </Label>
+                        <Label layoutX="96.0" layoutY="71.0" text="(Resets weekly)"/>
+                    </Pane>
+                </VBox>
+                <VBox layoutX="5.0" layoutY="322.0" prefHeight="100.0" prefWidth="588.0"
+                      style="-fx-border-color: #000000; -fx-border-radius: 10;">
+                    <Pane prefHeight="200.0" prefWidth="200.0">
+                        <ProgressIndicator layoutX="15.0" layoutY="10.0" minHeight="-Infinity"
+                                           minWidth="-Infinity" prefHeight="80.0" prefWidth="55.0"
+                                           progress="0.0"/>
+                        <Label layoutX="95.0" layoutY="15.0" text="Smarty Pants">
+                            <font>
+                                <Font name="System Bold" size="18.0"/>
+                            </font>
+                        </Label>
+                        <Label layoutX="95.0" layoutY="50.0" text="Access the Education section"/>
+                        <Label layoutX="495.0" layoutY="15.0" text="+10">
+                            <font>
+                                <Font size="43.0"/>
+                            </font>
+                        </Label>
+                    </Pane>
+                </VBox>
+            </AnchorPane>
+        </Tab>
+        <Tab text="Completed">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"/>
+        </Tab>
+    </TabPane>
+
+
+
+        </AnchorPane>
