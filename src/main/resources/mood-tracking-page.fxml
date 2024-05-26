@@ -31,9 +31,6 @@
                 </font>
             </Label>
             <MeshView />
-            <ImageView fitHeight="85.0" fitWidth="507.0" layoutX="61.0" layoutY="104.0" pickOnBounds="true" preserveRatio="true">
-                <Image url="@Images/mood-scale.png" />
-            </ImageView>
             <RadioButton fx:id="badRadioButton" layoutX="99.0" layoutY="201.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="10.0" style="-fx-text-fill: transparent;" text="BAD">
             <toggleGroup>
                <ToggleGroup fx:id="moodToggleGroup" />
@@ -63,6 +60,31 @@
                </ImageView>
             </graphic>
          </Button>
+         <ImageView fitHeight="86.0" fitWidth="96.0" layoutX="64.0" layoutY="104.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@Images/icons8-bad.png" />
+            </image>
+         </ImageView>
+         <ImageView fitHeight="86.0" fitWidth="96.0" layoutX="166.0" layoutY="104.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@Images/icons8-poor.png" />
+            </image>
+         </ImageView>
+         <ImageView fitHeight="86.0" fitWidth="96.0" layoutX="267.0" layoutY="104.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@Images/icons8-okay.png" />
+            </image>
+         </ImageView>
+         <ImageView fitHeight="86.0" fitWidth="96.0" layoutX="369.0" layoutY="104.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@Images/icons8-good.png" />
+            </image>
+         </ImageView>
+         <ImageView fitHeight="86.0" fitWidth="96.0" layoutX="471.0" layoutY="104.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@Images/icons8-great.png" />
+            </image>
+         </ImageView>
         </children>
     </AnchorPane>
 </AnchorPane>
