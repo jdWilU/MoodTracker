@@ -118,7 +118,7 @@
       <children>
          <VBox fx:id="vbox_resources" layoutX="10.0" prefHeight="500.0" prefWidth="600.0" spacing="10.0">
             <children>
-               <MFXButton alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="90.0" prefWidth="590.0" styleClass="mfx-button" stylesheets="@Styling/MFXStyling/css/MFXButton.css">
+               <MFXButton fx:id="resource_button_1" alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="90.0" prefWidth="590.0" styleClass="mfx-button" stylesheets="@Styling/MFXStyling/css/MFXButton.css">
                   <VBox.margin>
                      <Insets top="10.0" />
                   </VBox.margin>
@@ -146,7 +146,7 @@
                      </HBox>
                   </graphic>
                </MFXButton>
-               <MFXButton alignment="TOP_LEFT" layoutX="10.0" layoutY="20.0" mnemonicParsing="false" prefHeight="90.0" prefWidth="590.0" styleClass="mfx-button" stylesheets="@Styling/MFXStyling/css/MFXButton.css">
+               <MFXButton fx:id="resource_button_2" alignment="TOP_LEFT" layoutX="10.0" layoutY="20.0" mnemonicParsing="false" prefHeight="90.0" prefWidth="590.0" styleClass="mfx-button" stylesheets="@Styling/MFXStyling/css/MFXButton.css">
                   <font>
                      <Font size="24.0" />
                   </font>
@@ -172,7 +172,7 @@
                      </HBox>
                   </graphic>
                </MFXButton>
-               <MFXButton alignment="TOP_LEFT" layoutX="10.0" layoutY="128.0" mnemonicParsing="false" prefHeight="90.0" prefWidth="590.0" styleClass="mfx-button" stylesheets="@Styling/MFXStyling/css/MFXButton.css">
+               <MFXButton fx:id="resource_button_3" alignment="TOP_LEFT" layoutX="10.0" layoutY="128.0" mnemonicParsing="false" prefHeight="90.0" prefWidth="590.0" styleClass="mfx-button" stylesheets="@Styling/MFXStyling/css/MFXButton.css">
                   <font>
                      <Font size="24.0" />
                   </font>
@@ -198,7 +198,7 @@
                      </HBox>
                   </graphic>
                </MFXButton>
-               <MFXButton alignment="TOP_LEFT" layoutX="10.0" layoutY="128.0" mnemonicParsing="false" prefHeight="90.0" prefWidth="590.0" styleClass="mfx-button" stylesheets="@Styling/MFXStyling/css/MFXButton.css">
+               <MFXButton fx:id="resource_button_4" alignment="TOP_LEFT" layoutX="10.0" layoutY="128.0" mnemonicParsing="false" prefHeight="90.0" prefWidth="590.0" styleClass="mfx-button" stylesheets="@Styling/MFXStyling/css/MFXButton.css">
                   <font>
                      <Font size="24.0" />
                   </font>
@@ -233,7 +233,7 @@
             <children>
                <Pane layoutX="10.0" layoutY="10.0" prefHeight="60.0" prefWidth="600.0" style="-fx-background-color: #f0f0f0; -fx-background-radius: 13;">
                   <children>
-                     <Button layoutX="549.0" layoutY="5.0" maxHeight="50.0" maxWidth="50.0" mnemonicParsing="false" prefHeight="0.0" prefWidth="41.0" style="-fx-background-color: #fe6969; -fx-text-fill: #ffffff;" styleClass="mfx-button" stylesheets="@Styling/MFXStyling/css/MFXButton.css" textOverrun="CLIP">
+                     <Button fx:id="exit_resource_window_button" layoutX="549.0" layoutY="5.0" maxHeight="50.0" maxWidth="50.0" mnemonicParsing="false" prefHeight="0.0" prefWidth="41.0" style="-fx-background-color: #fe6969; -fx-text-fill: #ffffff;" styleClass="mfx-button" stylesheets="@Styling/MFXStyling/css/MFXButton.css" textOverrun="CLIP">
                         <font>
                            <Font name="System Bold" size="18.0" />
                         </font></Button>
@@ -242,7 +242,17 @@
                            <Image url="@Images/icons8-close-48.png" />
                         </image>
                      </ImageView>
+                     <Label fx:id="resources_title" alignment="TOP_CENTER" layoutX="14.0" layoutY="10.0" text="Title">
+                        <font>
+                           <Font size="28.0" />
+                        </font>
+                     </Label>
                   </children></Pane>
+               <Label fx:id="resources_text" layoutX="14.0" layoutY="86.0" prefHeight="27.0" prefWidth="536.0" text="Text...">
+                  <font>
+                     <Font size="18.0" />
+                  </font>
+               </Label>
             </children></Pane>
       </children></Pane>
 </AnchorPane>

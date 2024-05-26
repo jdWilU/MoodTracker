@@ -38,6 +38,20 @@ public class ResourcesPageController implements Initializable {
     private Label current_date;
     @FXML
     private Pane details_pane;
+    @FXML
+    private Button resource_button_1;
+    @FXML
+    private Button resource_button_2;
+    @FXML
+    private Button resource_button_3;
+    @FXML
+    private Button resource_button_4;
+    @FXML
+    private Button exit_resource_window_button;
+    @FXML
+    private Label resources_title;
+    @FXML
+    private Label resources_text;
 
 
     @Override
@@ -60,5 +74,30 @@ public class ResourcesPageController implements Initializable {
         UIUtils.setCurrentDate(current_date);
 
         details_pane.setVisible(false);
+
+        resource_button_1.setOnAction(event -> EnableDetailPane1());
+        resource_button_2.setOnAction(event -> EnableDetailPane2());
+        resource_button_3.setOnAction(event -> EnableDetailPane3());
+        resource_button_4.setOnAction(event -> EnableDetailPane4());
+        exit_resource_window_button.setOnAction(event -> details_pane.setVisible(false));
+    }
+    private void EnableDetailPanel()
+    {
+        details_pane.setVisible(true);
+        resources_text.setText("test text");
+        resources_title.setText("test text");
+    }
+
+    private void EnableDetailPane1 () {
+        EnableDetailPanel();
+    }
+    private void EnableDetailPane2 () {
+        EnableDetailPanel();
+    }
+    private void EnableDetailPane3 () {
+        EnableDetailPanel();
+    }
+    private void EnableDetailPane4 () {
+        EnableDetailPanel();
     }
 }
