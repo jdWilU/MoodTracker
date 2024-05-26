@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.example.moodtracker.model.DBUtils;
@@ -36,7 +37,8 @@ public class ResourcesPageController implements Initializable {
     @FXML
     private Label current_date;
     @FXML
-    private VBox vbox_resources;
+    private Pane details_pane;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -57,6 +59,6 @@ public class ResourcesPageController implements Initializable {
         }
         UIUtils.setCurrentDate(current_date);
 
-
+        details_pane.setVisible(false);
     }
 }
