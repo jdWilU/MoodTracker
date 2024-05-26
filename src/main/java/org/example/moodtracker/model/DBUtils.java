@@ -43,13 +43,13 @@ public class DBUtils {
             // Create mood tracking table
             String createMoodTableSQL = "CREATE TABLE IF NOT EXISTS mood_tracking (" +
                     "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    "user_id INTEGER," +  // Foreign key to link to users table
-                    "entry_date DATE," +   // Date of the entry
-                    "mood TEXT CHECK (mood IN ('BAD', 'POOR', 'OKAY', 'GOOD', 'GREAT'))," +  // Mood category
-                    "screen_time_hours INTEGER," +  // Screen time in hours
-                    "activity_category TEXT CHECK (activity_category IN ('Exercise', 'Meditation', 'Socializing', 'Sleep ', 'Journaling', 'Hobbies', 'Helping Others'))," +  // Category of activity
-                    "comments TEXT," +  // Additional comments
-                    "FOREIGN KEY(user_id) REFERENCES users(user_id))";  // Foreign key constraint
+                    "user_id INTEGER," +
+                    "entry_date DATE," +
+                    "mood TEXT CHECK (mood IN ('BAD', 'POOR', 'OKAY', 'GOOD', 'GREAT'))," +
+                    "screen_time_hours INTEGER," +
+                    "activity_category TEXT," +
+                    "comments TEXT," +
+                    "FOREIGN KEY(user_id) REFERENCES users(user_id))";
             statement.execute(createMoodTableSQL);
             Logger.getLogger(DBUtils.class.getName()).log(Level.INFO, "Mood Tracking Table created successfully!");
 
@@ -150,7 +150,9 @@ public class DBUtils {
                     String retrievedUsername = resultSet.getString("username");
                     String email = resultSet.getString("email");
                     String password = resultSet.getString("password");
-                    return new UserInfo(retrievedUsername, email, password);
+                    String displayName = resultSet.getString("display_name"); // Retrieve display name
+                    String phoneNumber = resultSet.getString("phone_number"); // Retrieve phone number
+                    return new UserInfo(retrievedUsername, email, password, displayName, phoneNumber);
                 } else {
                     // Log a warning instead of throwing an exception
                     Logger.getLogger(DBUtils.class.getName()).log(Level.WARNING, "User not found in the database");
@@ -163,6 +165,7 @@ public class DBUtils {
             return null; // Return null to indicate an error occurred
         }
     }
+
 
     // User details: getters & setters
     public static String getCurrentUsername() {
@@ -184,17 +187,20 @@ public class DBUtils {
         currentPassword = password;
     }
 
-    public static void updateUserInfo(String username, String newUsername, String newEmail, String newPassword) throws SQLException {
-        String query = "UPDATE users SET username = ?, email = ?, password = ? WHERE username = ?";
+    public static void updateUserInfo(String username, String newUsername, String newEmail, String newPassword, String newDisplayName, String newPhoneNumber) throws SQLException {
+        String query = "UPDATE users SET username = ?, email = ?, password = ?, display_name = ?, phone_number = ? WHERE username = ?";
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, newUsername);
             preparedStatement.setString(2, newEmail);
             preparedStatement.setString(3, newPassword);
-            preparedStatement.setString(4, username);
+            preparedStatement.setString(4, newDisplayName);
+            preparedStatement.setString(5, newPhoneNumber);
+            preparedStatement.setString(6, username);
             preparedStatement.executeUpdate();
         }
     }
+
 
     public static void deleteUser(String username) throws SQLException {
         // SQL query to delete the user's record from the database
@@ -332,6 +338,70 @@ public class DBUtils {
         }
     }
 
+    public static void updateXpInDatabase(int userId, int xpToAdd) {
+        try (Connection connection = DriverManager.getConnection(DATABASE_URL);
+             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE users SET xp = xp + ? WHERE user_id = ?")) {
+
+            preparedStatement.setInt(1, xpToAdd);
+            preparedStatement.setInt(2, userId);
+            preparedStatement.executeUpdate();
+
+            Logger.getLogger(DBUtils.class.getName()).log(Level.INFO, "Added " + xpToAdd + " XP to user with ID " + userId);
+        } catch (SQLException e) {
+            Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error updating XP in database", e);
+        }
+    }
+
+    public static int getXpForUser(int userId) {
+        int xp = 0;
+        String getXpSQL = "SELECT xp FROM users WHERE user_id = ?";
+        try (Connection connection = DriverManager.getConnection(DATABASE_URL);
+             PreparedStatement preparedStatement = connection.prepareStatement(getXpSQL)) {
+            preparedStatement.setInt(1, userId);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    xp = resultSet.getInt("xp");
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error retrieving XP from the database: " + e.getMessage());
+        }
+        return xp;
+    }
+
+    public static void updateLevelInDatabase(int userId) {
+        int xp = getXpForUser(userId);
+        int level = xp / 100;
+
+        String updateLevelSQL = "UPDATE users SET level = ? WHERE user_id = ?";
+        try (Connection connection = DriverManager.getConnection(DATABASE_URL);
+             PreparedStatement preparedStatement = connection.prepareStatement(updateLevelSQL)) {
+            preparedStatement.setInt(1, level);
+            preparedStatement.setInt(2, userId);
+            preparedStatement.executeUpdate();
+            System.out.println("Level updated successfully!");
+        } catch (SQLException e) {
+            System.err.println("Error updating level in the database: " + e.getMessage());
+        }
+    }
+
+    public static int getUserLevel(int userId) throws SQLException {
+        int level = 0;
+        String getLevelSQL = "SELECT level FROM users WHERE user_id = ?";
+        try (Connection connection = DriverManager.getConnection(DATABASE_URL);
+             PreparedStatement preparedStatement = connection.prepareStatement(getLevelSQL)) {
+            preparedStatement.setInt(1, userId);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    level = resultSet.getInt("level");
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error retrieving user's level from the database: " + e.getMessage());
+            throw e; // Re-throw the SQLException to propagate it to the caller
+        }
+        return level;
+    }
 
 
 }

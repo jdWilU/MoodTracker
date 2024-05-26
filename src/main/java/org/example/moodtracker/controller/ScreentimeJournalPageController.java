@@ -52,8 +52,18 @@ public class ScreentimeJournalPageController implements Initializable {
 
             DBUtils.insertMoodEntries(List.of(moodEntry), userId);
 
+            // Update XP in the database
+            int xpToAdd = 15;
+
+            // Add 5 XP for each selected activity
+            List<String> selectedActivities = moodEntry.getActivityCategory();
+            xpToAdd += selectedActivities.size() * 5;
+
+            DBUtils.updateXpInDatabase(userId, xpToAdd);
+            DBUtils.updateLevelInDatabase(userId);
+
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setContentText("Mood entry completed.");
+            alert.setContentText("Mood entry completed. You gained " + xpToAdd + " XP!");
             alert.showAndWait();
 
             DBUtils.changeScene(event, "homepage.fxml", "Home", null);
@@ -63,4 +73,6 @@ public class ScreentimeJournalPageController implements Initializable {
             alert.show();
         }
     }
+
+
 }

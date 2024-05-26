@@ -1,8 +1,6 @@
 package org.example.moodtracker.controller;
 
-import com.almasb.fxgl.app.scene.FXGLDefaultMenu;
 import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXContextMenuItem;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -41,13 +39,37 @@ public class ProfileSettingsController implements Initializable {
     @FXML
     private TextField tf_email;
     @FXML
-    private TextField tf_password;
+    private TextField tf_displayname;
+    @FXML
+    private TextField tf_phone;
+    @FXML
+    private PasswordField pw_password;
     @FXML
     private Button button_save;
     @FXML
     private Button button_delete;
     @FXML
-    private MFXButton button_resources;
+    private ProgressBar xpLevelTopBar;
+    @FXML
+    private Label levelLabelTopBar;
+    @FXML
+    private Label xpTotal;
+    @FXML
+    private Label NextLevelLabel;
+    @FXML
+    private Label xpToNextLevelLabel;
+    @FXML
+    private ProgressBar xpLevel;
+    @FXML
+    private Label levelLabel;
+
+    private static final String[] COLORS = {
+            "#fe6969", // Red
+            "#a364f8", // Purple
+            "#838383", // Gray
+            "#2cb2ff", // Blue
+            "#20e49f"  // Green
+    };
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -58,7 +80,6 @@ public class ProfileSettingsController implements Initializable {
         button_close.setOnAction(actionEvent -> UIUtils.closeApp((Stage) button_close.getScene().getWindow()));
         button_daily_entry.setOnAction(event -> DBUtils.changeScene(event, "mood-tracking-page.fxml", "Mood Tracking", null));
         button_achievement.setOnAction(event -> DBUtils.changeScene(event, "achievementsPage.fxml", "Achievements", null));
-        button_resources.setOnAction(event -> DBUtils.changeScene(event, "resources-page.fxml", "Educational Resources", null));
 
         // Update button functionality
         button_save.setOnAction(event -> updateUser());
@@ -76,22 +97,30 @@ public class ProfileSettingsController implements Initializable {
         if (user != null) {
             tf_username.setText(user.getUsername());
             tf_email.setText(user.getEmail());
-            tf_password.setText(user.getPassword());
+            pw_password.setText(user.getPassword());
+            tf_phone.setText(user.getPhoneNumber());
+            tf_displayname.setText(user.getDisplayName());
         }
+
+        initializeLevelAndXP();
+
     }
 
     private void updateUser() {
         // Get updated information from text fields
         String newUsername = tf_username.getText().trim();
         String newEmail = tf_email.getText().trim();
-        String newPassword = tf_password.getText().trim();
+        String newPassword = pw_password.getText().trim();
+        String newDisplayName = tf_displayname.getText().trim();
+        String newPhoneNumber = tf_phone.getText().trim();
         String currentUser = DBUtils.getCurrentUsername();
+
         try {
             // Retrieve user information from the database
             UserInfo userInfo = DBUtils.getUserInfo(currentUser);
             if (userInfo != null) {
                 // Update user information in the database
-                DBUtils.updateUserInfo(currentUser, newUsername, newEmail, newPassword);
+                DBUtils.updateUserInfo(currentUser, newUsername, newEmail, newPassword, newDisplayName, newPhoneNumber);
                 // Update current username if changed
                 if (!currentUser.equals(newUsername)) {
                     DBUtils.setCurrentUsername(newUsername);
@@ -104,6 +133,7 @@ public class ProfileSettingsController implements Initializable {
             showAlert(Alert.AlertType.ERROR, "Error", "An error occurred while updating your information. Please try again later.");
         }
     }
+
 
     private void showAlert(Alert.AlertType alertType, String title, String content) {
         Alert alert = new Alert(alertType);
@@ -138,5 +168,46 @@ public class ProfileSettingsController implements Initializable {
             }
         }
     }
+
+    private void initializeLevelAndXP() {
+        String currentUser = DBUtils.getCurrentUsername();
+        if (currentUser != null) {
+            try {
+                // Get user ID
+                int userId = DBUtils.getUserId(currentUser);
+
+                // Fetch user's level and XP from the database
+                int xp = DBUtils.getXpForUser(userId);
+                int level = DBUtils.getUserLevel(userId);
+                int xpToNextLevel = ((level+1)*100) - xp;
+
+                // Calculate the progress for the XP bar
+                int xpForCurrentLevel = xp - (level * 100);
+                double progress = (double) xpForCurrentLevel / 100.0;
+
+                // Set the user's level in the Label
+                levelLabel.setText("Level " + level);
+                levelLabelTopBar.setText("" + level);
+                xpTotal.setText(xp + " exp points");
+                NextLevelLabel.setText("Level " + (level+1));
+                xpToNextLevelLabel.setText(xpToNextLevel + " exp to");
+
+                // Set progress for the XP bar
+                xpLevel.setProgress(progress);
+                xpLevelTopBar.setProgress(progress);
+            } catch (SQLException e) {
+                // Handle SQLException
+                Logger.getLogger(ProfileSettingsController.class.getName()).log(Level.SEVERE, "Error fetching user's level and XP", e);
+                // Show error message to the user
+                showAlert(Alert.AlertType.ERROR, "Error", "An error occurred while fetching user's level and XP. Please try again later.");
+            }
+        }
+    }
+
+
+
+
+
+
 
 }

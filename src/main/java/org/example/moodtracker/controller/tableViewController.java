@@ -13,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.stage.Stage;
 import org.example.moodtracker.model.DBUtils;
 import org.example.moodtracker.model.UIUtils;
@@ -22,6 +23,8 @@ import java.net.URL;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class tableViewController implements Initializable {
 
@@ -38,7 +41,9 @@ public class tableViewController implements Initializable {
     @FXML
     private MFXButton button_achievement;
     @FXML
-    private MFXButton button_resources;
+    private ProgressBar xpLevelTopBar;
+    @FXML
+    private Label levelLabelTopBar;
     @FXML
     private Label label_welcome;
     @FXML
@@ -57,12 +62,12 @@ public class tableViewController implements Initializable {
         button_profile.setOnAction(event -> DBUtils.changeScene(event, "profile.fxml", "Profile", null));
         button_daily_entry.setOnAction(event -> DBUtils.changeScene(event, "mood-tracking-page.fxml", "Mood Tracking", null));
         button_achievement.setOnAction(event -> DBUtils.changeScene(event, "achievementsPage.fxml", "Achievements", null));
-        button_resources.setOnAction(event -> DBUtils.changeScene(event, "resources-page.fxml", "Educational Resources", null));
 
         // Set user information and current date
         String currentUser = DBUtils.getCurrentUsername();
         if (currentUser != null) {
             UIUtils.setUserInformation(label_welcome, currentUser);
+            initializeXPBar(currentUser);
         }
         UIUtils.setCurrentDate(current_date);
 
@@ -71,6 +76,25 @@ public class tableViewController implements Initializable {
 
         // Load data into the table view
         loadData();
+    }
+
+    public void initializeXPBar(String currentUser) {
+        if (currentUser != null) {
+            try {
+                int userId = DBUtils.getUserId(currentUser);
+                int xp = DBUtils.getXpForUser(userId);
+                int level = DBUtils.getUserLevel(userId);
+                int xpForCurrentLevel = xp - (level * 100);
+                double progress = (double) xpForCurrentLevel / 100.0;
+
+                // Set progress for the XP bar
+                xpLevelTopBar.setProgress(progress);
+                levelLabelTopBar.setText("" + level);
+            } catch (SQLException e) {
+                // Handle SQLException
+                Logger.getLogger(HomepageController.class.getName()).log(Level.SEVERE, "Error fetching user's level and XP", e);
+            }
+        }
     }
 
     private void setupMFXTable() {
