@@ -14,9 +14,7 @@ import java.sql.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -416,5 +414,111 @@ public class DBUtils {
         return false;
     }
 
+    public static int getUserEntryHistory(int userId) throws SQLException {
+        int longestStreak = 0;
+        List<LocalDate> entryDates = new ArrayList<>();
 
+        String getEntryDatesSQL = "SELECT entry_date FROM mood_tracking WHERE user_id = ? ORDER BY entry_date";
+
+        try (Connection connection = DriverManager.getConnection(DATABASE_URL);
+             PreparedStatement preparedStatement = connection.prepareStatement(getEntryDatesSQL)) {
+
+            preparedStatement.setInt(1, userId);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+                while (resultSet.next()) {
+                    // Parse the date correctly
+                    String dateString = resultSet.getString("entry_date").split(" ")[0];
+                    LocalDate entryDate = LocalDate.parse(dateString, formatter);
+                    entryDates.add(entryDate);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error retrieving user's entry history from the database: " + e.getMessage());
+            throw e; // Re-throw the SQLException to propagate it to the caller
+        }
+
+        // Calculate the longest streak
+        if (!entryDates.isEmpty()) {
+            Collections.sort(entryDates);
+            int streak = 1;
+
+            for (int i = 1; i < entryDates.size(); i++) {
+                LocalDate currentDate = entryDates.get(i);
+                LocalDate previousDate = entryDates.get(i - 1);
+
+                if (currentDate.equals(previousDate.plusDays(1))) {
+                    streak++;
+                } else {
+                    longestStreak = Math.max(longestStreak, streak);
+                    streak = 1;
+                }
+            }
+            longestStreak = Math.max(longestStreak, streak); // In case the longest streak ends at the last date
+        }
+
+        return longestStreak;
+    }
+
+    public static int getTotalEntries(int userId) throws SQLException {
+        int totalEntries = 0;
+        String getTotalEntriesSQL = "SELECT COUNT(*) AS total_entries FROM mood_tracking WHERE user_id = ?";
+
+        try (Connection connection = DriverManager.getConnection(DATABASE_URL);
+             PreparedStatement preparedStatement = connection.prepareStatement(getTotalEntriesSQL)) {
+            preparedStatement.setInt(1, userId);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    totalEntries = resultSet.getInt("total_entries");
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error retrieving total entries from the database: " + e.getMessage());
+            throw e;
+        }
+
+        return totalEntries;
+    }
+
+    public static void updateVisitedEducation(int userId) throws SQLException {
+        String updateSQL = "UPDATE users SET visited_education = TRUE WHERE user_id = ?";
+
+        try (Connection connection = DriverManager.getConnection(DATABASE_URL);
+             PreparedStatement preparedStatement = connection.prepareStatement(updateSQL)) {
+            preparedStatement.setInt(1, userId);
+            int affectedRows = preparedStatement.executeUpdate();
+            if (affectedRows > 0) {
+                System.out.println("Updated 'visited_education' column for user_id: " + userId);
+
+            } else {
+                System.err.println("No rows affected for user_id: " + userId);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error updating 'visited_education' column: " + e.getMessage());
+            throw e; // Re-throw the SQLException to propagate it to the caller
+        }
+    }
+
+    public static boolean hasVisitedEducation(int userId) throws SQLException {
+        String querySQL = "SELECT visited_education FROM users WHERE user_id = ?";
+        boolean visitedEducation = false;
+
+        try (Connection connection = DriverManager.getConnection(DATABASE_URL);
+             PreparedStatement preparedStatement = connection.prepareStatement(querySQL)) {
+            preparedStatement.setInt(1, userId);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    visitedEducation = resultSet.getBoolean("visited_education");
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error checking 'visited_education' column: " + e.getMessage());
+            throw e; // Re-throw the SQLException to propagate it to the caller
+        }
+
+        return visitedEducation;
+    }
 }

@@ -125,3 +125,4 @@ public class PopulateDatabase {
         return -1; // Return -1 if user not found (shouldn't happen in this example)
     }
 }
+
