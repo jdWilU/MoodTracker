@@ -1,19 +1,17 @@
 package org.example.moodtracker.controller;
 
 import io.github.palexdev.materialfx.controls.MFXButton;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.example.moodtracker.model.DBUtils;
 import org.example.moodtracker.model.UIUtils;
 
-import java.io.Console;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class ResourcesPageController implements Initializable {
@@ -57,6 +55,21 @@ public class ResourcesPageController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        //Update column in user database for achievement check
+        String currentUser = DBUtils.getCurrentUsername();
+        if (currentUser != null) {
+            try {
+                // Get user ID
+                int userId = DBUtils.getUserId(currentUser);
+
+                // Update visited_education column for the user
+                DBUtils.updateVisitedEducation(userId);
+            } catch (SQLException e) {
+                // Handle SQLException
+                System.err.println("Error updating visited_education column: " + e.getMessage());
+            }
+        }
+
         // Button functionality
         button_close.setOnAction(actionEvent -> UIUtils.closeApp((Stage) button_close.getScene().getWindow()));
 
@@ -68,7 +81,6 @@ public class ResourcesPageController implements Initializable {
         button_achievement.setOnAction(event -> DBUtils.changeScene(event, "achievementsPage.fxml", "Achievements", null));
 
         // Set user information and current date
-        String currentUser = DBUtils.getCurrentUsername();
         if (currentUser != null) {
             UIUtils.setUserInformation(label_welcome, currentUser);
         }
@@ -111,4 +123,6 @@ public class ResourcesPageController implements Initializable {
                 "Consistency is key to effective studying. Create a study schedule that outlines what you need to study and when. Allocate specific time slots for each subject and stick to the schedule as closely as possible. Regular study sessions help reinforce learning and improve retention.");
         resources_title.setText("Study Habits");
     }
+
+
 }

@@ -69,6 +69,8 @@ public class ProfileSettingsController implements Initializable {
     private MFXProgressBar three_day_streak;
     @FXML
     private MFXProgressBar five_day_streak;
+    @FXML
+    private MFXProgressBar resources_visited;
 
 
     private static final String[] COLORS = {
@@ -111,9 +113,10 @@ public class ProfileSettingsController implements Initializable {
             tf_displayname.setText(user.getDisplayName());
         }
 
+        //Initialise the user level and achievements
         initializeLevelAndXP();
         initializeStreakCount();
-
+        initialiseResourcesAchievement();
     }
 
     private void updateUser() {
@@ -143,7 +146,6 @@ public class ProfileSettingsController implements Initializable {
             showAlert(Alert.AlertType.ERROR, "Error", "An error occurred while updating your information. Please try again later.");
         }
     }
-
 
     private void showAlert(Alert.AlertType alertType, String title, String content) {
         Alert alert = new Alert(alertType);
@@ -262,4 +264,28 @@ public class ProfileSettingsController implements Initializable {
         }
     }
 
+    private void initialiseResourcesAchievement() {
+        String currentUser = DBUtils.getCurrentUsername();
+        if (currentUser != null) {
+            try {
+                // Get user ID
+                int userId = DBUtils.getUserId(currentUser);
+
+                // Check if user has visited the education page
+                boolean visitedEducation = DBUtils.hasVisitedEducation(userId);
+
+                // Set progress for the resource_visited progress bar
+                if (visitedEducation) {
+                    resources_visited.setProgress(1.0); // 100%
+                } else {
+                    resources_visited.setProgress(0.0); // 0%
+                }
+
+            } catch (SQLException e) {
+                // Handle SQLException
+                System.err.println("Error checking visited_education column: " + e.getMessage());
+                showAlert(Alert.AlertType.ERROR, "Error", "An error occurred while checking your resource visit status. Please try again later.");
+            }
+        }
+    }
 }

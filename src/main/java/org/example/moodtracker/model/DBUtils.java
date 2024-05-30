@@ -469,4 +469,44 @@ public class DBUtils {
 
         return totalEntries;
     }
+
+    public static void updateVisitedEducation(int userId) throws SQLException {
+        String updateSQL = "UPDATE users SET visited_education = TRUE WHERE user_id = ?";
+
+        try (Connection connection = DriverManager.getConnection(DATABASE_URL);
+             PreparedStatement preparedStatement = connection.prepareStatement(updateSQL)) {
+            preparedStatement.setInt(1, userId);
+            int affectedRows = preparedStatement.executeUpdate();
+            if (affectedRows > 0) {
+                System.out.println("Updated 'visited_education' column for user_id: " + userId);
+
+            } else {
+                System.err.println("No rows affected for user_id: " + userId);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error updating 'visited_education' column: " + e.getMessage());
+            throw e; // Re-throw the SQLException to propagate it to the caller
+        }
+    }
+
+    public static boolean hasVisitedEducation(int userId) throws SQLException {
+        String querySQL = "SELECT visited_education FROM users WHERE user_id = ?";
+        boolean visitedEducation = false;
+
+        try (Connection connection = DriverManager.getConnection(DATABASE_URL);
+             PreparedStatement preparedStatement = connection.prepareStatement(querySQL)) {
+            preparedStatement.setInt(1, userId);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    visitedEducation = resultSet.getBoolean("visited_education");
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error checking 'visited_education' column: " + e.getMessage());
+            throw e; // Re-throw the SQLException to propagate it to the caller
+        }
+
+        return visitedEducation;
+    }
 }
