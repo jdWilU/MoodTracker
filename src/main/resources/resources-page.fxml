@@ -48,12 +48,7 @@
                 <Image url="@Images/icons8-database-32.png" />
              </image>
           </ImageView>
-          <ImageView fitHeight="20.0" fitWidth="22.0" layoutX="6.0" layoutY="132.0" pickOnBounds="true" preserveRatio="true">
-             <image>
-                <Image url="@Images/icons8-trophy-50.png" />
-             </image>
-          </ImageView>
-          <ImageView fitHeight="25.0" fitWidth="22.0" layoutX="5.0" layoutY="169.0" pickOnBounds="true" preserveRatio="true">
+          <ImageView fitHeight="25.0" fitWidth="22.0" layoutX="5.0" layoutY="132.0" pickOnBounds="true" preserveRatio="true">
              <image>
                 <Image url="@Images/icons8-male-user-50.png" />
              </image>
@@ -74,22 +69,17 @@
                 <Font size="10.0" />
              </font>
           </MFXButton>
-          <MFXButton fx:id="button_achievement" layoutX="32.0" layoutY="130.0" prefHeight="25.0" prefWidth="80.0" style="-fx-border-color: #838383; -fx-border-radius: 15; -fx-background-radius: 15;" styleClass="mfx-button" stylesheets="@Styling/MFXStyling/css/MFXButton.css" text="Achievements" textFill="WHITE">
+          <MFXButton fx:id="button_profile" layoutX="32.0" layoutY="132.0" prefHeight="25.0" prefWidth="80.0" style="-fx-border-color: #838383; -fx-border-radius: 15; -fx-background-radius: 15;" styleClass="mfx-button" stylesheets="@Styling/MFXStyling/css/MFXButton.css" text="Profile" textFill="WHITE">
              <font>
                 <Font size="10.0" />
              </font>
           </MFXButton>
-          <MFXButton fx:id="button_profile" layoutX="32.0" layoutY="168.0" prefHeight="25.0" prefWidth="80.0" style="-fx-border-color: #838383; -fx-border-radius: 15; -fx-background-radius: 15;" styleClass="mfx-button" stylesheets="@Styling/MFXStyling/css/MFXButton.css" text="Profile" textFill="WHITE">
-             <font>
-                <Font size="10.0" />
-             </font>
-          </MFXButton>
-         <MFXButton layoutX="31.0" layoutY="206.0" prefHeight="25.0" prefWidth="80.0" style="-fx-background-color: #2cb2ff; -fx-border-radius: 15; -fx-background-radius: 15;" styleClass="mfx-button" stylesheets="@Styling/MFXStyling/css/MFXButton.css" text="Resources" textFill="WHITE">
+         <MFXButton layoutX="31.0" layoutY="170.0" prefHeight="25.0" prefWidth="80.0" style="-fx-background-color: #2cb2ff; -fx-border-radius: 15; -fx-background-radius: 15;" styleClass="mfx-button" stylesheets="@Styling/MFXStyling/css/MFXButton.css" text="Resources" textFill="WHITE">
             <font>
                <Font size="10.0" />
             </font>
          </MFXButton>
-         <ImageView fitHeight="25.0" fitWidth="22.0" layoutX="5.0" layoutY="208.0" pickOnBounds="true" preserveRatio="true">
+         <ImageView fitHeight="25.0" fitWidth="22.0" layoutX="5.0" layoutY="172.0" pickOnBounds="true" preserveRatio="true">
             <image>
                <Image url="@Images/book.png" />
             </image>
