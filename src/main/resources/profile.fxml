@@ -267,7 +267,7 @@
                   </ImageView>
                   <Label layoutX="56.0" layoutY="-1.0" prefHeight="42.0" prefWidth="200.0" styleClass="mfx-progress-bar" stylesheets="@Styling/MFXStyling/css/MFXProgressBar.css" text="Complete a 3 Day Streak" textFill="#838383" />
                   <Label layoutX="231.0" layoutY="-1.0" prefHeight="42.0" prefWidth="54.0" text="+ 50 XP" textFill="#838383" />
-                  <MFXProgressBar layoutX="53.0" layoutY="35.0" prefHeight="5.0" prefWidth="146.0" styleClass="mfx-progress-bar" stylesheets="@Styling/MFXStyling/css/MFXProgressBar.css" />
+                  <MFXProgressBar layoutX="53.0" layoutY="35.0" prefHeight="5.0" prefWidth="146.0" progress="0.63" styleClass="mfx-progress-bar" stylesheets="@Styling/MFXStyling/css/MFXProgressBar.css" />
                </children>
             </Pane>
             <Pane layoutY="141.0" prefHeight="51.0" prefWidth="299.0">
@@ -279,7 +279,7 @@
                   </ImageView>
                   <Label layoutX="56.0" layoutY="-1.0" prefHeight="42.0" prefWidth="146.0" text="Complete a 5 Day Streak" textFill="#838383" />
                   <Label layoutX="231.0" layoutY="-1.0" prefHeight="42.0" prefWidth="54.0" text="+ 50 XP" textFill="#838383" />
-                  <MFXProgressBar layoutX="53.0" layoutY="35.0" prefHeight="5.0" prefWidth="146.0" styleClass="mfx-progress-bar" stylesheets="@Styling/MFXStyling/css/MFXProgressBar.css" />
+                  <MFXProgressBar layoutX="53.0" layoutY="35.0" prefHeight="5.0" prefWidth="146.0" progress="0.31" styleClass="mfx-progress-bar" stylesheets="@Styling/MFXStyling/css/MFXProgressBar.css" />
                </children>
             </Pane>
             <Pane layoutY="192.0" prefHeight="51.0" prefWidth="299.0">
@@ -291,7 +291,7 @@
                   </ImageView>
                   <Label layoutX="56.0" layoutY="-1.0" prefHeight="42.0" prefWidth="146.0" text="Visit the Educational Page" textFill="#838383" />
                   <Label layoutX="231.0" layoutY="-1.0" prefHeight="42.0" prefWidth="54.0" text="+ 15 XP" textFill="#838383" />
-                  <MFXProgressBar layoutX="53.0" layoutY="35.0" prefHeight="5.0" prefWidth="146.0" styleClass="mfx-progress-bar" stylesheets="@Styling/MFXStyling/css/MFXProgressBar.css" />
+                  <MFXProgressBar layoutX="53.0" layoutY="35.0" prefHeight="5.0" prefWidth="146.0" progress="0.0" styleClass="mfx-progress-bar" stylesheets="@Styling/MFXStyling/css/MFXProgressBar.css" />
                </children>
             </Pane>
             <Label layoutX="15.0" layoutY="-1.0" prefHeight="46.0" prefWidth="212.0" text="My Achievements" textFill="#838383">

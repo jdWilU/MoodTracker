@@ -48,6 +48,10 @@ public class HomepageController implements Initializable {
     @FXML
     private Button button_next_week;
     @FXML
+    private Button button_previous_fortnight;
+    @FXML
+    private Button button_next_fortnight;
+    @FXML
     private MFXButton button_achievement;
     @FXML
     private ProgressBar xpLevelTopBar;
@@ -74,6 +78,8 @@ public class HomepageController implements Initializable {
     @FXML
     private Label dateRangeLabel;
     @FXML
+    private Label moodDateRangeLabel;
+    @FXML
     private NumberAxis screenTimeYAxis;
     @FXML
     private LineChart<String, Number> lineChartMoodFluctuations;
@@ -82,9 +88,9 @@ public class HomepageController implements Initializable {
     @FXML
     private NumberAxis yAxisMoodRatings;
     @FXML
+
     private LocalDate currentStartDate = LocalDate.now().minusDays(6); // Start date of the current week
-
-
+    private LocalDate currentFortnightStartDate = LocalDate.now().minusDays(13);
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -112,6 +118,10 @@ public class HomepageController implements Initializable {
             }
         }
 
+        // Initially hide the "Next Week" button
+        button_next_week.setVisible(false);
+        button_next_fortnight.setVisible(false);
+
         // Button functionality for navigating weeks
         button_previous_week.setOnAction(event -> {
             currentStartDate = currentStartDate.minusWeeks(1);
@@ -135,8 +145,27 @@ public class HomepageController implements Initializable {
             }
         });
 
-        // Initially hide the "Next Week" button
-        button_next_week.setVisible(false);
+        button_previous_fortnight.setOnAction(event -> {
+            currentFortnightStartDate = currentFortnightStartDate.minusDays(14);
+            button_next_fortnight.setVisible(true); // Show the "Next Fortnight" button
+            try {
+                initializeMoodFluctuationsLineChart(currentUser);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+
+        button_next_fortnight.setOnAction(event -> {
+            currentFortnightStartDate = currentFortnightStartDate.plusDays(14);
+            if (currentFortnightStartDate.plusDays(13).isAfter(LocalDate.now())) {
+                button_next_fortnight.setVisible(false); // Hide the "Next Fortnight" button if the current fortnight is reached
+            }
+            try {
+                initializeMoodFluctuationsLineChart(currentUser);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
 
         // Load external CSS file for styling PieChart
         String cssPath = "/Styling/Styling.css"; // Path relative to the resources directory
@@ -352,17 +381,20 @@ public class HomepageController implements Initializable {
     }
 
     private void initializeMoodFluctuationsLineChart(String currentUser) throws SQLException {
-        // Fetch mood data for the last 14 days
+        // Fetch mood data for the specified fortnight
         ObservableList<XYChart.Data<String, Number>> moodData = FXCollections.observableArrayList();
         ObservableList<String> dates = FXCollections.observableArrayList();
 
-        // Populate dates list with the last 14 days
-        for (int i = 13; i >= 0; i--) {
-            LocalDate date = LocalDate.now().minusDays(i);
-            dates.add(date.toString());
+        // Populate dates list with the current fortnight
+        LocalDate currentDate = currentFortnightStartDate;
+        for (int i = 0; i < 14; i++) {
+            String dateStr = currentDate.toString();
+            dates.add(dateStr);
+            currentDate = currentDate.plusDays(1);
         }
 
-        // Set x-axis categories
+        // Clear and set x-axis categories
+        xAxisDates.getCategories().clear();
         xAxisDates.setCategories(dates);
 
         // Get mood data for the user
@@ -401,6 +433,9 @@ public class HomepageController implements Initializable {
                 data.setNode(circle);
             }
         }
+
+        // Clear existing LineChart data
+        lineChartMoodFluctuations.getData().clear();
 
         // Create series and add data to the line chart
         XYChart.Series<String, Number> series = new XYChart.Series<>(moodData);
@@ -443,6 +478,11 @@ public class HomepageController implements Initializable {
         }
 
         lineChartMoodFluctuations.setLegendVisible(false); // Remove the legend
+
+        // Update the date range label
+        LocalDate endDate = currentFortnightStartDate.plusDays(13);
+        moodDateRangeLabel.setText(currentFortnightStartDate + " - " + endDate);
     }
+
 
 }

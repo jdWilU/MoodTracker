@@ -1,24 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.chart.BarChart?>
-<?import javafx.scene.chart.CategoryAxis?>
-<?import javafx.scene.chart.LineChart?>
-<?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.chart.PieChart?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ProgressBar?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import io.github.palexdev.materialfx.controls.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<?import io.github.palexdev.materialfx.controls.MFXButton?>
-<AnchorPane fx:id="homepage" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #f0f0f0;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.moodtracker.controller.HomepageController">
+<AnchorPane fx:id="homepage" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #f0f0f0;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.moodtracker.controller.HomepageController">
    <Pane layoutX="111.0" prefHeight="98.0" prefWidth="690.0" style="-fx-background-color: #FFFFFF;">
       <children>
          <VBox alignment="TOP_RIGHT" layoutX="290.0" layoutY="10.0" prefHeight="52.0" prefWidth="326.0" style="-fx-background-color: #FFFFFF;">
@@ -227,7 +218,7 @@
                      </ImageView>
                   </graphic>
                </Button>
-               <Label fx:id="dateRangeLabel" layoutX="105.0" layoutY="195.0" textFill="#838383" />
+               <Label fx:id="dateRangeLabel" alignment="CENTER" layoutX="74.0" layoutY="195.0" prefHeight="17.0" prefWidth="200.0" textAlignment="CENTER" textFill="#838383" />
                <Label layoutX="118.0" layoutY="14.0" text="Daily Screen Time" textFill="#838383">
                   <font>
                      <Font size="14.0" />
@@ -262,6 +253,31 @@
                      <Font size="14.0" />
                   </font>
                </Label>
+               <Button fx:id="button_previous_fortnight" layoutX="2.0" layoutY="186.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="41.0" style="-fx-background-radius: 15; -fx-background-color: #FFFFFF; -fx-border-color: #FFFFFF; -fx-border-radius: 15;" textFill="#838383">
+                  <font>
+                     <Font size="10.0" />
+                  </font>
+                  <graphic>
+                     <ImageView fitHeight="29.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                           <Image url="@Images/icons8-back-arrow-50.png" />
+                        </image>
+                     </ImageView>
+                  </graphic>
+               </Button>
+               <Button fx:id="button_next_fortnight" layoutX="540.0" layoutY="186.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="41.0" style="-fx-background-radius: 15; -fx-background-color: #FFFFFF; -fx-border-color: #FFFFFF; -fx-border-radius: 15;" textFill="#838383">
+                  <font>
+                     <Font size="10.0" />
+                  </font>
+                  <graphic>
+                     <ImageView fitHeight="35.0" fitWidth="29.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                           <Image url="@Images/icons8-back-arrow-50.png" />
+                        </image>
+                     </ImageView>
+                  </graphic>
+               </Button>
+               <Label fx:id="moodDateRangeLabel" alignment="CENTER" layoutX="183.0" layoutY="196.0" prefHeight="17.0" prefWidth="222.0" textAlignment="CENTER" textFill="#838383" />
             </children>
          </Pane>
 
