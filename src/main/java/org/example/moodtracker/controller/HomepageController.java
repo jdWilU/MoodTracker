@@ -52,8 +52,6 @@ public class HomepageController implements Initializable {
     @FXML
     private Button button_next_fortnight;
     @FXML
-    private MFXButton button_achievement;
-    @FXML
     private ProgressBar xpLevelTopBar;
     @FXML
     private Label levelLabelTopBar;
@@ -98,7 +96,6 @@ public class HomepageController implements Initializable {
         button_close.setOnAction(actionEvent -> UIUtils.closeApp((Stage) button_close.getScene().getWindow()));
         button_table.setOnAction(event -> DBUtils.changeScene(event, "tableView.fxml", "Table View", null));
         button_profile.setOnAction(event -> DBUtils.changeScene(event, "profile.fxml", "Profile", null));
-        button_achievement.setOnAction(event -> DBUtils.changeScene(event, "achievementsPage.fxml", "Achievements", null));
         button_resources.setOnAction(event -> DBUtils.changeScene(event, "resources-page.fxml", "Educational Resources", null));
 
         // Set user information and current date

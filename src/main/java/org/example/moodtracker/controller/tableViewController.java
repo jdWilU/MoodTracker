@@ -41,8 +41,6 @@ public class tableViewController implements Initializable {
     @FXML
     private MFXButton button_daily_entry;
     @FXML
-    private MFXButton button_achievement;
-    @FXML
     private ProgressBar xpLevelTopBar;
     @FXML
     private Label levelLabelTopBar;
@@ -63,7 +61,6 @@ public class tableViewController implements Initializable {
         button_close.setOnAction(actionEvent -> UIUtils.closeApp((Stage) button_close.getScene().getWindow()));
         button_profile.setOnAction(event -> DBUtils.changeScene(event, "profile.fxml", "Profile", null));
         button_daily_entry.setOnAction(event -> DBUtils.changeScene(event, "mood-tracking-page.fxml", "Mood Tracking", null));
-        button_achievement.setOnAction(event -> DBUtils.changeScene(event, "achievementsPage.fxml", "Achievements", null));
         button_resources.setOnAction(event -> DBUtils.changeScene(event, "resources-page.fxml", "Educational Resources", null));
 
         // Set user information and current date

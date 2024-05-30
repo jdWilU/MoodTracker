@@ -29,8 +29,6 @@ public class ResourcesPageController implements Initializable {
     @FXML
     private MFXButton button_daily_entry;
     @FXML
-    private MFXButton button_achievement;
-    @FXML
     private Label label_welcome;
     @FXML
     private Label current_date;
@@ -78,7 +76,6 @@ public class ResourcesPageController implements Initializable {
         button_table.setOnAction(event -> DBUtils.changeScene(event, "tableView.fxml", "Table View", null));
         button_profile.setOnAction(event -> DBUtils.changeScene(event, "profile.fxml", "Profile", null));
         button_daily_entry.setOnAction(event -> DBUtils.changeScene(event, "mood-tracking-page.fxml", "Mood Tracking", null));
-        button_achievement.setOnAction(event -> DBUtils.changeScene(event, "achievementsPage.fxml", "Achievements", null));
 
         // Set user information and current date
         if (currentUser != null) {
