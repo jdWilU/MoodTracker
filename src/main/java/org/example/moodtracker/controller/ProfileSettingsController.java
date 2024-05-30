@@ -1,6 +1,7 @@
 package org.example.moodtracker.controller;
 
 import io.github.palexdev.materialfx.controls.MFXButton;
+import io.github.palexdev.materialfx.controls.MFXProgressBar;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -64,6 +65,11 @@ public class ProfileSettingsController implements Initializable {
     private ProgressBar xpLevel;
     @FXML
     private Label levelLabel;
+    @FXML
+    private MFXProgressBar three_day_streak;
+    @FXML
+    private MFXProgressBar five_day_streak;
+
 
     private static final String[] COLORS = {
             "#fe6969", // Red
@@ -106,6 +112,7 @@ public class ProfileSettingsController implements Initializable {
         }
 
         initializeLevelAndXP();
+        initializeStreakCount();
 
     }
 
@@ -182,7 +189,7 @@ public class ProfileSettingsController implements Initializable {
                 // Fetch user's level and XP from the database
                 int xp = DBUtils.getXpForUser(userId);
                 int level = DBUtils.getUserLevel(userId);
-                int xpToNextLevel = ((level+1)*100) - xp;
+                int xpToNextLevel = ((level + 1) * 100) - xp;
 
                 // Calculate the progress for the XP bar
                 int xpForCurrentLevel = xp - (level * 100);
@@ -192,7 +199,7 @@ public class ProfileSettingsController implements Initializable {
                 levelLabel.setText("Level " + level);
                 levelLabelTopBar.setText("" + level);
                 xpTotal.setText(xp + " exp points");
-                NextLevelLabel.setText("Level " + (level+1));
+                NextLevelLabel.setText("Level " + (level + 1));
                 xpToNextLevelLabel.setText(xpToNextLevel + " exp to");
 
                 // Set progress for the XP bar
@@ -207,10 +214,52 @@ public class ProfileSettingsController implements Initializable {
         }
     }
 
+    private void initializeStreakCount() {
+        String currentUser = DBUtils.getCurrentUsername();
+        if (currentUser != null) {
+            try {
+                // Get user ID
+                int userId = DBUtils.getUserId(currentUser);
 
+                // Fetch user's longest streak from the database
+                int longestStreak = DBUtils.getUserEntryHistory(userId);
+                int totalEntries = DBUtils.getTotalEntries(userId);
 
+                // Set the progress for the 3-day streak progress bar
+                if (totalEntries >= 3) {
+                    if (longestStreak >= 3) {
+                        three_day_streak.setProgress(1.0); // 100%
+                        int xpToAdd = 15;
+                        DBUtils.updateXpInDatabase(userId, xpToAdd);
+                        DBUtils.updateLevelInDatabase(userId);
+                    } else {
+                        three_day_streak.setProgress((double) totalEntries / 3);
+                    }
+                } else {
+                    three_day_streak.setProgress((double) totalEntries / 3);
+                }
 
+                // Set the progress for the 5-day streak progress bar
+                if (totalEntries >= 5) {
+                    if (longestStreak >= 5) {
+                        five_day_streak.setProgress(1.0); // 100%
+                        int xpToAdd = 50;
+                        DBUtils.updateXpInDatabase(userId, xpToAdd);
+                        DBUtils.updateLevelInDatabase(userId);
+                    } else {
+                        five_day_streak.setProgress((double) totalEntries / 5);
+                    }
+                } else {
+                    five_day_streak.setProgress((double) totalEntries / 5);
+                }
 
-
+            } catch (SQLException e) {
+                // Handle SQLException
+                Logger.getLogger(ProfileSettingsController.class.getName()).log(Level.SEVERE, "Error fetching user's streak count", e);
+                // Show error message to the user
+                showAlert(Alert.AlertType.ERROR, "Error", "An error occurred while fetching user's streak count. Please try again later.");
+            }
+        }
+    }
 
 }
