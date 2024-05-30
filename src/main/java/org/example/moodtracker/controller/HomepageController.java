@@ -98,7 +98,6 @@ public class HomepageController implements Initializable {
         button_close.setOnAction(actionEvent -> UIUtils.closeApp((Stage) button_close.getScene().getWindow()));
         button_table.setOnAction(event -> DBUtils.changeScene(event, "tableView.fxml", "Table View", null));
         button_profile.setOnAction(event -> DBUtils.changeScene(event, "profile.fxml", "Profile", null));
-        button_daily_entry.setOnAction(event -> DBUtils.changeScene(event, "mood-tracking-page.fxml", "Mood Tracking", null));
         button_achievement.setOnAction(event -> DBUtils.changeScene(event, "achievementsPage.fxml", "Achievements", null));
         button_resources.setOnAction(event -> DBUtils.changeScene(event, "resources-page.fxml", "Educational Resources", null));
 
@@ -116,6 +115,24 @@ public class HomepageController implements Initializable {
             } catch (SQLException e) {
                 Logger.getLogger(HomepageController.class.getName()).log(Level.SEVERE, "Error fetching data", e);
             }
+
+            button_daily_entry.setOnAction(event -> {
+                try {
+                    int userId = DBUtils.getUserId(currentUser);
+                    boolean entryExists = DBUtils.entryExistsForToday(userId);
+                    if (entryExists) {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Daily Entry Already Exists!");
+                        alert.setHeaderText(null);
+                        alert.setContentText("You have already made a daily entry for today.");
+                        alert.showAndWait();
+                    } else {
+                        DBUtils.changeScene(event, "mood-tracking-page.fxml", "Mood Tracking", null);
+                    }
+                } catch (SQLException e) {
+                    Logger.getLogger(HomepageController.class.getName()).log(Level.SEVERE, "Error checking today's entry", e);
+                }
+            });
         }
 
         // Initially hide the "Next Week" button

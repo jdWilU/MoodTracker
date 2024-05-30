@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.HashMap;
@@ -154,15 +155,13 @@ public class DBUtils {
                     String phoneNumber = resultSet.getString("phone_number"); // Retrieve phone number
                     return new UserInfo(retrievedUsername, email, password, displayName, phoneNumber);
                 } else {
-                    // Log a warning instead of throwing an exception
                     Logger.getLogger(DBUtils.class.getName()).log(Level.WARNING, "User not found in the database");
-                    return null; // Return null to indicate user not found
+                    return null;
                 }
             }
         } catch (SQLException e) {
-            // Log any SQL exceptions that occur
             Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error executing SQL query", e);
-            return null; // Return null to indicate an error occurred
+            return null;
         }
     }
 
@@ -203,22 +202,18 @@ public class DBUtils {
 
 
     public static void deleteUser(String username) throws SQLException {
-        // SQL query to delete the user's record from the database
         String query = "DELETE FROM users WHERE username = ?";
 
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            // Set the username parameter
             preparedStatement.setString(1, username);
 
-            // Execute the DELETE query
             preparedStatement.executeUpdate();
 
             Logger.getLogger(DBUtils.class.getName()).log(Level.INFO, "User deleted successfully");
         } catch (SQLException e) {
-            // Log any SQL exceptions that occur
             Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error deleting user", e);
-            throw e; // Re-throw the exception to be handled by the caller
+            throw e;
         }
     }
 
@@ -302,7 +297,6 @@ public class DBUtils {
                 String activityCategory = activityStringBuilder.toString().replaceAll(",$", ""); // Remove trailing comma
 
                 preparedStatement.setInt(1, userId);
-                // Convert LocalDate to yyyy-mm-dd format
                 String formattedDate = entry.getEntryDate().format(DateTimeFormatter.ISO_LOCAL_DATE);
                 preparedStatement.setString(2, formattedDate);
                 preparedStatement.setString(3, entry.getMood());
@@ -326,15 +320,13 @@ public class DBUtils {
                 if (resultSet.next()) {
                     return resultSet.getInt("user_id");
                 } else {
-                    // Log a warning instead of throwing an exception
                     Logger.getLogger(DBUtils.class.getName()).log(Level.WARNING, "User not found in the database");
-                    return -1; // Return -1 to indicate user not found
+                    return -1;
                 }
             }
         } catch (SQLException e) {
-            // Log any SQL exceptions that occur
             Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error executing SQL query", e);
-            return -1; // Return -1 to indicate an error occurred
+            return -1;
         }
     }
 
@@ -398,9 +390,30 @@ public class DBUtils {
             }
         } catch (SQLException e) {
             System.err.println("Error retrieving user's level from the database: " + e.getMessage());
-            throw e; // Re-throw the SQLException to propagate it to the caller
+            throw e;
         }
         return level;
+    }
+
+    public static boolean entryExistsForToday(int userId) throws SQLException {
+        String query = "SELECT COUNT(*) FROM mood_tracking WHERE user_id = ? AND DATE(entry_date) = ?";
+        LocalDate today = LocalDate.now();
+        String formattedDate = today.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+        try (Connection connection = DriverManager.getConnection(DATABASE_URL);
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, userId);
+            preparedStatement.setString(2, formattedDate);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    int count = resultSet.getInt(1);
+                    return count > 0;
+                }
+            }
+        }
+
+        return false;
     }
 
 
