@@ -115,15 +115,32 @@ public class PopulateDatabase {
         }
     }
 
+    /**
+     * Retrieves the user ID for a given username.
+     *
+     * @param connection The database connection to use.
+     * @param username The username of the user whose ID is to be retrieved.
+     * @return The user ID if the user is found, or -1 if the user is not found.
+     * @throws SQLException If there is an error executing the SQL query.
+     */
     public static int getUserIdByUsername(Connection connection, String username) throws SQLException {
+        // SQL query to select the user_id based on the username
         String query = "SELECT user_id FROM users WHERE username = '" + username + "'";
+
+        // Try-with-resources statement to ensure the Statement is closed after use
         try (Statement statement = connection.createStatement()) {
+            // Execute the query and obtain the result set
             var resultSet = statement.executeQuery(query);
+
+            // Check if a result was returned
             if (resultSet.next()) {
+                // Return the user_id from the result set
                 return resultSet.getInt("user_id");
             }
         }
-        return -1; // Return -1 if user not found (shouldn't happen in this example)
+
+        // Return -1 if the user is not found
+        return -1;
     }
 }
 
