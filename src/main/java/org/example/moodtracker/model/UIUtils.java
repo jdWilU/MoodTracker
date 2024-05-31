@@ -14,13 +14,19 @@ import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static org.example.moodtracker.model.DBUtils.*;
-
+/**
+ * Utility class for common UI-related tasks.
+ */
 public class UIUtils {
 
-    // Method to set user information in a label
+    /**
+     * Sets user information in a label.
+     *
+     * @param label    The label to display user information.
+     * @param username The username of the current user.
+     */
     public static void setUserInformation(Label label, String username) {
-        UserInfo userInfo = getUserInfo(username);
+        UserInfo userInfo = DBUtils.getUserInfo(username);
         if (userInfo != null && userInfo.getDisplayName() != null && !userInfo.getDisplayName().isEmpty()) {
             label.setText("Welcome, " + userInfo.getDisplayName() + "!");
         } else {
@@ -28,7 +34,11 @@ public class UIUtils {
         }
     }
 
-    // Method to set the current date in a label
+    /**
+     * Sets the current date in a label.
+     *
+     * @param label The label to display the current date.
+     */
     public static void setCurrentDate(Label label) {
         LocalDate currentDate = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -36,15 +46,21 @@ public class UIUtils {
         label.setText("Today's Date: " + formattedDate);
     }
 
-    // Method to close the application window
+    /**
+     * Closes the application window.
+     *
+     * @param stage The stage of the application.
+     */
     public static void closeApp(Stage stage) {
         stage.close();
     }
 
-    // Method to log out & return to login screen
+    /**
+     * Logs out the user and returns to the login screen.
+     */
     public static void logout() {
         // Set the current username to null
-        setCurrentUsername(null);
+        DBUtils.setCurrentUsername(null);
 
         // Redirect to the login page
         Platform.runLater(() -> {
