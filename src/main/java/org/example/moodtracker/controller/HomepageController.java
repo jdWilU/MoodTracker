@@ -28,9 +28,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+/**
+ * Controller class for the Homepage.fxml file.
+ */
 public class HomepageController implements Initializable {
 
-
+    // FXML elements
     @FXML
     private Button button_logout;
     @FXML
@@ -85,25 +88,26 @@ public class HomepageController implements Initializable {
     private CategoryAxis xAxisDates;
     @FXML
     private NumberAxis yAxisMoodRatings;
-    @FXML
 
+    // Start date of the current week and fortnight
     private LocalDate currentStartDate = LocalDate.now().minusDays(6); // Start date of the current week
     private LocalDate currentFortnightStartDate = LocalDate.now().minusDays(13);
 
+    /**
+     * Initializes the controller class.
+     *
+     * @param url            The location used to resolve relative paths for the root object, or null if the location is not known.
+     * @param resourceBundle The resources used to localize the root object, or null if the root object was not localized.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        button_logout.setOnAction(event -> DBUtils.changeScene(event, "login.fxml", "Log In", null));
-        button_close.setOnAction(actionEvent -> UIUtils.closeApp((Stage) button_close.getScene().getWindow()));
-        button_table.setOnAction(event -> DBUtils.changeScene(event, "tableView.fxml", "Table View", null));
-        button_profile.setOnAction(event -> DBUtils.changeScene(event, "profile.fxml", "Profile", null));
-        button_resources.setOnAction(event -> DBUtils.changeScene(event, "resources-page.fxml", "Educational Resources", null));
-
         // Set user information and current date
         String currentUser = DBUtils.getCurrentUsername();
         if (currentUser != null) {
             UIUtils.setUserInformation(label_welcome, currentUser);
             UIUtils.setCurrentDate(current_date);
             initializeXPBar(currentUser);
+            initializeButtons(currentUser);
 
             try {
                 initializeMoodPieChart(currentUser);
@@ -112,31 +116,42 @@ public class HomepageController implements Initializable {
             } catch (SQLException e) {
                 Logger.getLogger(HomepageController.class.getName()).log(Level.SEVERE, "Error fetching data", e);
             }
-
-            button_daily_entry.setOnAction(event -> {
-                try {
-                    int userId = DBUtils.getUserId(currentUser);
-                    boolean entryExists = DBUtils.entryExistsForToday(userId);
-                    if (entryExists) {
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                        alert.setTitle("Daily Entry Already Exists!");
-                        alert.setHeaderText(null);
-                        alert.setContentText("You have already made a daily entry for today.");
-                        alert.showAndWait();
-                    } else {
-                        DBUtils.changeScene(event, "mood-tracking-page.fxml", "Mood Tracking", null);
-                    }
-                } catch (SQLException e) {
-                    Logger.getLogger(HomepageController.class.getName()).log(Level.SEVERE, "Error checking today's entry", e);
-                }
-            });
         }
+    }
 
-        // Initially hide the "Next Week" button
-        button_next_week.setVisible(false);
-        button_next_fortnight.setVisible(false);
+    /**
+     * Initializes button actions.
+     *
+     * @param currentUser The username of the current user.
+     */
+    public void initializeButtons(String currentUser) {
+        // Set actions for buttons
+        button_logout.setOnAction(event -> DBUtils.changeScene(event, "login.fxml", "Log In", null));
+        button_close.setOnAction(actionEvent -> UIUtils.closeApp((Stage) button_close.getScene().getWindow()));
+        button_table.setOnAction(event -> DBUtils.changeScene(event, "tableView.fxml", "Table View", null));
+        button_profile.setOnAction(event -> DBUtils.changeScene(event, "profile.fxml", "Profile", null));
+        button_resources.setOnAction(event -> DBUtils.changeScene(event, "resources-page.fxml", "Educational Resources", null));
 
-        // Button functionality for navigating weeks
+        // Set action for daily entry button with entry check
+        button_daily_entry.setOnAction(event -> {
+            try {
+                int userId = DBUtils.getUserId(currentUser);
+                boolean entryExists = DBUtils.entryExistsForToday(userId);
+                if (entryExists) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Daily Entry Already Exists!");
+                    alert.setHeaderText(null);
+                    alert.setContentText("You have already made a daily entry for today.");
+                    alert.showAndWait();
+                } else {
+                    DBUtils.changeScene(event, "mood-tracking-page.fxml", "Mood Tracking", null);
+                }
+            } catch (SQLException e) {
+                Logger.getLogger(HomepageController.class.getName()).log(Level.SEVERE, "Error checking today's entry", e);
+            }
+        });
+
+        // Set actions for navigating previous and next week
         button_previous_week.setOnAction(event -> {
             currentStartDate = currentStartDate.minusWeeks(1);
             button_next_week.setVisible(true); // Show the "Next Week" button
@@ -159,6 +174,7 @@ public class HomepageController implements Initializable {
             }
         });
 
+        // Set actions for navigating previous and next fortnight
         button_previous_fortnight.setOnAction(event -> {
             currentFortnightStartDate = currentFortnightStartDate.minusDays(14);
             button_next_fortnight.setVisible(true); // Show the "Next Fortnight" button
@@ -180,19 +196,13 @@ public class HomepageController implements Initializable {
                 e.printStackTrace();
             }
         });
-
-        // Load external CSS file for styling PieChart
-        String cssPath = "/Styling/Styling.css"; // Path relative to the resources directory
-        mood_Pie.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
-        System.out.println("Loaded Stylesheets: " + mood_Pie.getStylesheets());
-
-        // Set the Y-axis bounds
-        screenTimeYAxis.setAutoRanging(false);
-        screenTimeYAxis.setLowerBound(0);
-        screenTimeYAxis.setUpperBound(16);
-        screenTimeYAxis.setTickUnit(1);
     }
 
+    /**
+     * Initializes the XP bar.
+     *
+     * @param currentUser The username of the current user.
+     */
     public void initializeXPBar(String currentUser) {
         if (currentUser != null) {
             try {
@@ -200,19 +210,23 @@ public class HomepageController implements Initializable {
                 int xp = DBUtils.getXpForUser(userId);
                 int level = DBUtils.getUserLevel(userId);
                 int xpForCurrentLevel = xp - (level * 100);
-                double progress = (double) xpForCurrentLevel / 100.0;
-
+                double progress = (double) xpForCurrentLevel / 100;
                 // Set progress for the XP bar
                 xpLevelTopBar.setProgress(progress);
                 levelLabelTopBar.setText("" + level);
             } catch (SQLException e) {
-                // Handle SQLException
                 Logger.getLogger(HomepageController.class.getName()).log(Level.SEVERE, "Error fetching user's level and XP", e);
             }
         }
     }
 
-    private void initializeMoodPieChart(String currentUser) {
+    /**
+     * Initializes the mood pie chart.
+     *
+     * @param currentUser The username of the current user.
+     * @throws SQLException If an SQL exception occurs.
+     */
+    private void initializeMoodPieChart(String currentUser) throws SQLException {
         try {
             // Get mood data for the current user
             Map<String, Integer> moodCounts = DBUtils.getMoodCountsForUser(currentUser);
@@ -297,8 +311,12 @@ public class HomepageController implements Initializable {
         }
     }
 
-
-
+    /**
+     * Initializes the screen time bar chart.
+     *
+     * @param currentUser The username of the current user.
+     * @throws SQLException If an SQL exception occurs.
+     */
     private void initializeScreenTimeBarChart(String currentUser) throws SQLException {
         // Get screen time data for the current user
         Map<String, Integer> screenTimeData = DBUtils.getScreenTimeDataForUser(currentUser);
@@ -334,7 +352,8 @@ public class HomepageController implements Initializable {
                 ));
 
         // Add sorted screen time data to the series with days of the week as labels
-        for (Map.Entry<String, Integer> entry : sortedData.entrySet()) {
+        for (Map.Entry<String, Integer> entry : sortedData.entrySet())
+        {
             LocalDate date = LocalDate.parse(entry.getKey());
             String dayLabel = date.getDayOfWeek().toString().substring(0, 1).toUpperCase() + date.getDayOfWeek().toString().substring(1, 3).toLowerCase(); // Concatenate first letter in uppercase with last two letters in lowercase
             int screenTimeHours = entry.getValue();
@@ -359,20 +378,25 @@ public class HomepageController implements Initializable {
             series.getData().add(data);
         }
 
-        // Add the series to the BarChart
         screenTime_BarChart.getData().add(series);
-
-        // Remove the legend
         screenTime_BarChart.setLegendVisible(false);
+        screenTimeYAxis.setAutoRanging(false);
+        screenTimeYAxis.setLowerBound(0);
+        screenTimeYAxis.setUpperBound(16);
+        screenTimeYAxis.setTickUnit(1);
 
-        // Update the date range label
         LocalDate endDate = currentStartDate.plusDays(6);
         dateRangeLabel.setText(currentStartDate + " - " + endDate);
+
+        button_next_week.setVisible(false);
     }
 
-
-
-
+    /**
+     * Filters data to include only the current week starting from currentStartDate.
+     *
+     * @param data The data to be filtered.
+     * @return The filtered data for the current week.
+     */
     private Map<String, Integer> filterDataByWeek(Map<String, Integer> data) {
         // Calculate the end date of the week
         LocalDate endDate = currentStartDate.plusDays(6);
@@ -394,6 +418,12 @@ public class HomepageController implements Initializable {
         return filteredData;
     }
 
+    /**
+     * Initializes the mood fluctuations line chart.
+     *
+     * @param currentUser The username of the current user.
+     * @throws SQLException If an SQL exception occurs.
+     */
     private void initializeMoodFluctuationsLineChart(String currentUser) throws SQLException {
         // Fetch mood data for the specified fortnight
         ObservableList<XYChart.Data<String, Number>> moodData = FXCollections.observableArrayList();
@@ -492,11 +522,11 @@ public class HomepageController implements Initializable {
         }
 
         lineChartMoodFluctuations.setLegendVisible(false); // Remove the legend
+        button_next_fortnight.setVisible(false); // Initially hide button
 
         // Update the date range label
         LocalDate endDate = currentFortnightStartDate.plusDays(13);
         moodDateRangeLabel.setText(currentFortnightStartDate + " - " + endDate);
     }
-
-
 }
+

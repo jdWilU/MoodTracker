@@ -1,3 +1,4 @@
+
 package org.example.moodtracker.controller;
 
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -17,8 +18,16 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Controller class for the profile settings page.
+ * Allows users to view and update their profile information,
+ * including username, email, password, display name, and phone number.
+ * Users can also delete their account from this page.
+ * Users can also view their current level and achievements.
+ */
 public class ProfileSettingsController implements Initializable {
 
+    // FXML Elements
     @FXML
     private Button button_logout;
     @FXML
@@ -74,13 +83,28 @@ public class ProfileSettingsController implements Initializable {
 
     private static final Logger LOGGER = Logger.getLogger(ProfileSettingsController.class.getName());
 
+    /**
+     * Initializes the profile settings page.
+     * Sets up button actions, initializes user information,
+     * level, achievements, and handles daily entry progress.
+     *
+     * @param url            The location used to resolve relative paths for the root object.
+     * @param resourceBundle The resources used to localize the root object, or null if the root object was not localized.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        setupButtonActions();
         String currentUser = DBUtils.getCurrentUsername();
 
+        // Initialize users information, level and achievements
         if (currentUser != null) {
             UIUtils.setUserInformation(label_welcome, currentUser);
+            UIUtils.setCurrentDate(current_date);
+            populateUserInfo();
+            initializeLevelAndXP();
+            initializeStreakCount();
+            initialiseResourcesAchievement();
+            setupButtonActions();
+
             try {
                 int userId = DBUtils.getUserId(currentUser);
                 boolean entryExists = DBUtils.entryExistsForToday(userId);
@@ -89,14 +113,11 @@ public class ProfileSettingsController implements Initializable {
                 LOGGER.log(Level.SEVERE, "Error checking today's entry", e);
             }
         }
-
-        UIUtils.setCurrentDate(current_date);
-        populateUserInfo();
-        initializeLevelAndXP();
-        initializeStreakCount();
-        initialiseResourcesAchievement();
     }
 
+    /**
+     * Sets up actions for various buttons on the profile settings page.
+     */
     private void setupButtonActions() {
         button_homepage.setOnAction(event -> DBUtils.changeScene(event, "homepage.fxml", "Home", null));
         button_logout.setOnAction(event -> DBUtils.changeScene(event, "login.fxml", "Log In", null));
@@ -108,6 +129,13 @@ public class ProfileSettingsController implements Initializable {
         button_delete.setOnAction(event -> handleDeleteAccount());
     }
 
+    /**
+     * Displays an alert dialog with the specified type, title, and content.
+     *
+     * @param alertType The type of alert dialog.
+     * @param title     The title of the alert dialog.
+     * @param content   The content text of the alert dialog.
+     */
     private void showAlert(Alert.AlertType alertType, String title, String content) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
@@ -116,6 +144,10 @@ public class ProfileSettingsController implements Initializable {
         alert.showAndWait();
     }
 
+    /**
+     * Updates the user's profile information with the new values entered by the user.
+     * Displays success or error alerts accordingly.
+     */
     private void updateUser() {
         String newUsername = tf_username.getText().trim();
         String newEmail = tf_email.getText().trim();
@@ -139,6 +171,11 @@ public class ProfileSettingsController implements Initializable {
         }
     }
 
+    /**
+     * Prompts the user to confirm the deletion of their account.
+     * If confirmed, deletes the user's account from the database.
+     * If canceled, no action is taken.
+     */
     private void handleDeleteAccount() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmation");
@@ -158,6 +195,11 @@ public class ProfileSettingsController implements Initializable {
         }
     }
 
+    /**
+     * Initializes the user's current level and XP gain.
+     * Retrieves user's XP, level, and XP required for the next level from the database.
+     * Calculates the progress towards the next level and updates the progress bars accordingly.
+     */
     private void initializeLevelAndXP() {
         String currentUser = DBUtils.getCurrentUsername();
         if (currentUser != null) {
@@ -185,10 +227,21 @@ public class ProfileSettingsController implements Initializable {
         }
     }
 
+    /**
+     * Updates the daily entry progress bar based on whether an entry exists for the current day.
+     * If an entry exists, sets the progress bar to 100% (1.0), otherwise to 0% (0.0).
+     *
+     * @param entryExists Boolean indicating whether an entry exists for the current day.
+     */
     private void updateDailyEntryProgress(boolean entryExists) {
         barDailyEntry.setProgress(entryExists ? 1.0 : 0.0);
     }
 
+    /**
+     * Initializes the progress bars for three-day and five-day streak achievements.
+     * Retrieves user's longest streak and total entry count from the database.
+     * Updates the progress bars based on the user's streak counts and specified streak goals.
+     */
     private void initializeStreakCount() {
         String currentUser = DBUtils.getCurrentUsername();
         if (currentUser != null) {
@@ -207,6 +260,18 @@ public class ProfileSettingsController implements Initializable {
         }
     }
 
+    /**
+     * Checks the progress towards a streak goal and updates the progress bar accordingly.
+     * If the streak goal is achieved, awards XP to the user and updates their level.
+     *
+     * @param streakBar  The progress bar representing the streak achievement.
+     * @param totalEntries  The total number of entries made by the user.
+     * @param longestStreak  The user's longest streak of consecutive entries.
+     * @param streakGoal  The desired streak goal to be achieved.
+     * @param userId  The ID of the user.
+     * @param xpToAdd  The amount of XP to be added to the user's account upon achieving the streak goal.
+     * @throws SQLException If an SQL exception occurs while fetching user data from the database.
+     */
     private void updateStreakProgress(MFXProgressBar streakBar, int totalEntries, int longestStreak, int streakGoal, int userId, int xpToAdd) throws SQLException {
         if (totalEntries >= streakGoal) {
             if (longestStreak >= streakGoal) {
@@ -221,6 +286,11 @@ public class ProfileSettingsController implements Initializable {
         }
     }
 
+    /**
+     * Initializes the progress bar for the educational resources achievement.
+     * Checks whether the user has visited the educational resources page based on database records.
+     * Updates the progress bar to reflect the visit status.
+     */
     private void initialiseResourcesAchievement() {
         String currentUser = DBUtils.getCurrentUsername();
         if (currentUser != null) {
@@ -235,6 +305,10 @@ public class ProfileSettingsController implements Initializable {
         }
     }
 
+    /**
+     * Populates the user information text fields on the profile settings page.
+     * Retrieves user information from the database and sets the text fields accordingly.
+     */
     private void populateUserInfo() {
         String currentUser = DBUtils.getCurrentUsername();
         UserInfo user = DBUtils.getUserInfo(currentUser);
@@ -247,3 +321,4 @@ public class ProfileSettingsController implements Initializable {
         }
     }
 }
+
