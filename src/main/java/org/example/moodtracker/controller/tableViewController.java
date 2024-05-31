@@ -26,6 +26,9 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Controller class for the TableView view.
+ */
 public class tableViewController implements Initializable {
 
     @FXML
@@ -53,21 +56,21 @@ public class tableViewController implements Initializable {
 
     private static final String DATABASE_URL = "jdbc:sqlite:moodtracker.db";
 
+    /**
+     * Initializes the TableView view.
+     *
+     * @param url            The location used to resolve relative paths for the root object, or null if the location is not known.
+     * @param resourceBundle The resources used to localize the root object, or null if the root object was not localized.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Button functionality
-        button_homepage.setOnAction(event -> DBUtils.changeScene(event, "homepage.fxml", "Home"));
-        button_logout.setOnAction(event -> DBUtils.changeScene(event, "login.fxml", "Log In"));
-        button_close.setOnAction(actionEvent -> UIUtils.closeApp((Stage) button_close.getScene().getWindow()));
-        button_profile.setOnAction(event -> DBUtils.changeScene(event, "profile.fxml", "Profile"));
-        button_daily_entry.setOnAction(event -> DBUtils.changeScene(event, "mood-tracking-page.fxml", "Mood Tracking"));
-        button_resources.setOnAction(event -> DBUtils.changeScene(event, "resources-page.fxml", "Educational Resources"));
 
         // Set user information and current date
         String currentUser = DBUtils.getCurrentUsername();
         if (currentUser != null) {
             UIUtils.setUserInformation(label_welcome, currentUser);
             initializeXPBar(currentUser);
+            initializeButtons();
         }
         UIUtils.setCurrentDate(current_date);
 
@@ -78,6 +81,23 @@ public class tableViewController implements Initializable {
         loadData();
     }
 
+    /**
+     * Initializes the buttons.
+     */
+    private void initializeButtons() {
+        button_homepage.setOnAction(event -> DBUtils.changeScene(event, "homepage.fxml", "Home", null));
+        button_logout.setOnAction(event -> DBUtils.changeScene(event, "login.fxml", "Log In", null));
+        button_close.setOnAction(actionEvent -> UIUtils.closeApp((Stage) button_close.getScene().getWindow()));
+        button_profile.setOnAction(event -> DBUtils.changeScene(event, "profile.fxml", "Profile", null));
+        button_daily_entry.setOnAction(event -> DBUtils.changeScene(event, "mood-tracking-page.fxml", "Mood Tracking", null));
+        button_resources.setOnAction(event -> DBUtils.changeScene(event, "resources-page.fxml", "Educational Resources", null));
+    }
+
+    /**
+     * Initializes the XP progress bar.
+     *
+     * @param currentUser The current logged-in user.
+     */
     public void initializeXPBar(String currentUser) {
         if (currentUser != null) {
             try {
@@ -97,6 +117,9 @@ public class tableViewController implements Initializable {
         }
     }
 
+    /**
+     * Sets up the MaterialFX table.
+     */
     private void setupMFXTable() {
         MFXTableColumn<MoodEntry> dateColumn = new MFXTableColumn<>("Date", true, Comparator.comparing(MoodEntry::getEntryDate));
         MFXTableColumn<MoodEntry> moodColumn = new MFXTableColumn<>("Mood", true, Comparator.comparing(MoodEntry::getMood));
@@ -123,7 +146,9 @@ public class tableViewController implements Initializable {
         );
     }
 
-
+    /**
+     * Loads data into the table view.
+     */
     private void loadData() {
         ObservableList<MoodEntry> moodEntries = FXCollections.observableArrayList();
 

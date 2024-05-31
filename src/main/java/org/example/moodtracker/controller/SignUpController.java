@@ -1,8 +1,7 @@
 package org.example.moodtracker.controller;
+
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
-
-
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -10,12 +9,16 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import org.example.moodtracker.model.DBUtils;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * Controller class for the SignUp view.
+ */
 public class SignUpController implements Initializable {
     @FXML
-    private Label errorLabel ;
+    private Label errorLabel;
     @FXML
     private Button button_signup;
     @FXML
@@ -31,7 +34,12 @@ public class SignUpController implements Initializable {
     @FXML
     private Label strengthLabel;
 
-
+    /**
+     * Initializes the SignUp view.
+     *
+     * @param url            The location used to resolve relative paths for the root object, or null if the location is not known.
+     * @param resourceBundle The resources used to localize the root object, or null if the root object was not localized.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Set action for sign up button
@@ -62,19 +70,28 @@ public class SignUpController implements Initializable {
         });
     }
 
-    // Method to calculate password strength
+    /**
+     * Calculates the strength of the password.
+     *
+     * @param password The password to evaluate.
+     * @return The strength of the password.
+     */
     private PasswordStrength calculatePasswordStrength(String password) {
         if (password.length() < 8) {
             return PasswordStrength.WEAK;
         } else if (password.matches(".*[a-z].*") && password.matches(".*[A-Z].*") &&
-                   password.matches(".*\\d.*") && password.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?].*")) {
+                password.matches(".*\\d.*") && password.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?].*")) {
             return PasswordStrength.STRONG;
         } else {
             return PasswordStrength.MEDIUM;
         }
     }
 
-    // Method to update password strength indicator
+    /**
+     * Updates the password strength indicator.
+     *
+     * @param strength The strength of the password.
+     */
     private void updatePasswordStrengthIndicator(PasswordStrength strength) {
         if (strength != null) {
             switch (strength) {
@@ -83,7 +100,6 @@ public class SignUpController implements Initializable {
                     strengthLabel.setText("Weak");
                     strengthLabel.setTextFill(Color.RED);
                     setProgressBarColor(strengthProgressBar, Color.RED);
-
                     break;
                 case MEDIUM:
                     strengthProgressBar.setProgress(0.66);
@@ -108,7 +124,12 @@ public class SignUpController implements Initializable {
         }
     }
 
-    // Method to set the color of the ProgressBar
+    /**
+     * Sets the color of the ProgressBar.
+     *
+     * @param progressBar The ProgressBar to set color for.
+     * @param color       The color to set.
+     */
     private void setProgressBarColor(ProgressBar progressBar, Color color) {
         String colorStyle = String.format("-fx-accent: #%02x%02x%02x;",
                 (int) (color.getRed() * 255),
@@ -117,7 +138,9 @@ public class SignUpController implements Initializable {
         progressBar.setStyle(colorStyle);
     }
 
-    // Enum representing password strength levels
+    /**
+     * Enum representing password strength levels.
+     */
     private enum PasswordStrength {
         WEAK, MEDIUM, STRONG
     }
