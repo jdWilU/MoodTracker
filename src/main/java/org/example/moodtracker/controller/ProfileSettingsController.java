@@ -119,12 +119,12 @@ public class ProfileSettingsController implements Initializable {
      * Sets up actions for various buttons on the profile settings page.
      */
     private void setupButtonActions() {
-        button_homepage.setOnAction(event -> DBUtils.changeScene(event, "homepage.fxml", "Home", null));
-        button_logout.setOnAction(event -> DBUtils.changeScene(event, "login.fxml", "Log In", null));
-        button_table.setOnAction(event -> DBUtils.changeScene(event, "tableView.fxml", "Table View", null));
+        button_homepage.setOnAction(event -> DBUtils.changeScene(event, "homepage.fxml", "Home"));
+        button_logout.setOnAction(event -> DBUtils.changeScene(event, "login.fxml", "Log In"));
+        button_table.setOnAction(event -> DBUtils.changeScene(event, "tableView.fxml", "Table View"));
         button_close.setOnAction(actionEvent -> UIUtils.closeApp((Stage) button_close.getScene().getWindow()));
-        button_daily_entry.setOnAction(event -> DBUtils.changeScene(event, "mood-tracking-page.fxml", "Mood Tracking", null));
-        button_resources.setOnAction(event -> DBUtils.changeScene(event, "resources-page.fxml", "Educational Resources", null));
+        button_daily_entry.setOnAction(event -> DBUtils.changeScene(event, "mood-tracking-page.fxml", "Mood Tracking"));
+        button_resources.setOnAction(event -> DBUtils.changeScene(event, "resources-page.fxml", "Educational Resources"));
         button_save.setOnAction(event -> updateUser());
         button_delete.setOnAction(event -> handleDeleteAccount());
     }

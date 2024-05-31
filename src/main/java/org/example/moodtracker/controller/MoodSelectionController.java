@@ -35,7 +35,7 @@ public class MoodSelectionController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        button_moodback.setOnAction(event -> DBUtils.changeScene(event, "homepage.fxml", "Homepage", null));
+        button_moodback.setOnAction(event -> DBUtils.changeScene(event, "homepage.fxml", "Homepage"));
         button_moodsubmit.setOnAction(event -> moodSubmit(event));
     }
 
@@ -56,7 +56,7 @@ public class MoodSelectionController implements Initializable {
             moodEntry.setSelectedMood(selectedMood);
             MoodEntry.setMoodEntry(moodEntry);
 
-            DBUtils.changeScene(event, "activity.fxml", "Activity Page", null);
+            DBUtils.changeScene(event, "activity.fxml", "Activity Page");
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("Please select a mood.");

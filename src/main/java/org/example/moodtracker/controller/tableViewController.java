@@ -85,12 +85,12 @@ public class tableViewController implements Initializable {
      * Initializes the buttons.
      */
     private void initializeButtons() {
-        button_homepage.setOnAction(event -> DBUtils.changeScene(event, "homepage.fxml", "Home", null));
-        button_logout.setOnAction(event -> DBUtils.changeScene(event, "login.fxml", "Log In", null));
+        button_homepage.setOnAction(event -> DBUtils.changeScene(event, "homepage.fxml", "Home"));
+        button_logout.setOnAction(event -> DBUtils.changeScene(event, "login.fxml", "Log In"));
         button_close.setOnAction(actionEvent -> UIUtils.closeApp((Stage) button_close.getScene().getWindow()));
-        button_profile.setOnAction(event -> DBUtils.changeScene(event, "profile.fxml", "Profile", null));
-        button_daily_entry.setOnAction(event -> DBUtils.changeScene(event, "mood-tracking-page.fxml", "Mood Tracking", null));
-        button_resources.setOnAction(event -> DBUtils.changeScene(event, "resources-page.fxml", "Educational Resources", null));
+        button_profile.setOnAction(event -> DBUtils.changeScene(event, "profile.fxml", "Profile"));
+        button_daily_entry.setOnAction(event -> DBUtils.changeScene(event, "mood-tracking-page.fxml", "Mood Tracking"));
+        button_resources.setOnAction(event -> DBUtils.changeScene(event, "resources-page.fxml", "Educational Resources"));
     }
 
     /**

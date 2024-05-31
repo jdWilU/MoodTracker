@@ -51,7 +51,7 @@ public class ScreentimeJournalPageController implements Initializable {
      * Initializes the button actions.
      */
     private void initializeButtons() {
-        buttonScreentimeBack.setOnAction(event -> DBUtils.changeScene(event, "activity.fxml", "Activity", null));
+        buttonScreentimeBack.setOnAction(event -> DBUtils.changeScene(event, "activity.fxml", "Activity"));
         buttonSubmit.setOnAction(event -> submitButton(event));
     }
 
@@ -93,7 +93,7 @@ public class ScreentimeJournalPageController implements Initializable {
             alert.showAndWait();
 
             // Redirect to the homepage
-            DBUtils.changeScene(event, "homepage.fxml", "Home", null);
+            DBUtils.changeScene(event, "homepage.fxml", "Home");
         } else {
             // Show error message if screen time value is invalid
             Alert alert = new Alert(Alert.AlertType.ERROR);

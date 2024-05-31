@@ -16,6 +16,9 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Database utilities class
+ */
 public class DBUtils {
     private static final String DATABASE_URL = "jdbc:sqlite:moodtracker.db";
     private static String currentUsername;
@@ -189,7 +192,6 @@ public class DBUtils {
         }
     }
 
-
     // User details: getters & setters
     /**
      * Gets the current username.
@@ -239,15 +241,14 @@ public class DBUtils {
     /**
      * Updates user information in the database.
      *
-     * @param username        The current username.
-     * @param newUsername     The new username.
-     * @param newEmail        The new email.
-     * @param newPassword     The new password.
-     * @param newDisplayName  The new display name.
-     * @param newPhoneNumber  The new phone number.
-     * @return True if the update was successful, false otherwise.
+     * @param username       The current username.
+     * @param newUsername    The new username.
+     * @param newEmail       The new email.
+     * @param newPassword    The new password.
+     * @param newDisplayName The new display name.
+     * @param newPhoneNumber The new phone number.
      */
-    public static boolean updateUserInfo(String username, String newUsername, String newEmail, String newPassword, String newDisplayName, String newPhoneNumber) {
+    public static void updateUserInfo(String username, String newUsername, String newEmail, String newPassword, String newDisplayName, String newPhoneNumber) throws SQLException {
         String query = "UPDATE users SET username = ?, email = ?, password = ?, display_name = ?, phone_number = ? WHERE username = ?";
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -257,12 +258,7 @@ public class DBUtils {
             preparedStatement.setString(4, newDisplayName);
             preparedStatement.setString(5, newPhoneNumber);
             preparedStatement.setString(6, username);
-
-            int rowsAffected = preparedStatement.executeUpdate();
-            return rowsAffected > 0;
-        } catch (SQLException e) {
-            Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error updating user information", e);
-            return false;
+            preparedStatement.executeUpdate();
         }
     }
 
