@@ -13,8 +13,6 @@ import org.example.moodtracker.model.DBUtils;
 import org.example.moodtracker.model.UIUtils;
 import org.example.moodtracker.model.UserInfo;
 
-import javax.swing.text.html.ImageView;
-import java.awt.*;
 import java.net.URL;
 import java.sql.*;
 import java.util.Optional;
@@ -89,12 +87,12 @@ public class ProfileSettingsController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Button functionality
-        button_homepage.setOnAction(event -> DBUtils.changeScene(event,"homepage.fxml", "Home",null));
-        button_logout.setOnAction(event -> DBUtils.changeScene(event, "login.fxml", "Log In", null));
-        button_table.setOnAction(event -> DBUtils.changeScene(event, "tableView.fxml", "Table View", null));
+        button_homepage.setOnAction(event -> DBUtils.changeScene(event,"homepage.fxml", "Home"));
+        button_logout.setOnAction(event -> DBUtils.changeScene(event, "login.fxml", "Log In"));
+        button_table.setOnAction(event -> DBUtils.changeScene(event, "tableView.fxml", "Table View"));
         button_close.setOnAction(actionEvent -> UIUtils.closeApp((Stage) button_close.getScene().getWindow()));
-        button_daily_entry.setOnAction(event -> DBUtils.changeScene(event, "mood-tracking-page.fxml", "Mood Tracking", null));
-        button_resources.setOnAction(event -> DBUtils.changeScene(event, "resources-page.fxml", "Educational Resources", null));
+        button_daily_entry.setOnAction(event -> DBUtils.changeScene(event, "mood-tracking-page.fxml", "Mood Tracking"));
+        button_resources.setOnAction(event -> DBUtils.changeScene(event, "resources-page.fxml", "Educational Resources"));
 
         button_save.setOnAction(event -> updateUser());
         button_delete.setOnAction(event -> handleDeleteAccount());
@@ -140,20 +138,15 @@ public class ProfileSettingsController implements Initializable {
         String newPhoneNumber = tf_phone.getText().trim();
         String currentUser = DBUtils.getCurrentUsername();
 
-        try {
-            UserInfo userInfo = DBUtils.getUserInfo(currentUser);
-            if (userInfo != null) {
-                DBUtils.updateUserInfo(currentUser, newUsername, newEmail, newPassword, newDisplayName, newPhoneNumber);
+        UserInfo userInfo = DBUtils.getUserInfo(currentUser);
+        if (userInfo != null) {
+            DBUtils.updateUserInfo(currentUser, newUsername, newEmail, newPassword, newDisplayName, newPhoneNumber);
 
-                if (!currentUser.equals(newUsername)) {
-                    DBUtils.setCurrentUsername(newUsername);
-                }
-
-                showAlert(Alert.AlertType.INFORMATION, "Update Successful", "Your information has been updated successfully.");
+            if (!currentUser.equals(newUsername)) {
+                DBUtils.setCurrentUsername(newUsername);
             }
-        } catch (SQLException e) {
-            Logger.getLogger(ProfileSettingsController.class.getName()).log(Level.SEVERE, "Error updating user information", e);
-            showAlert(Alert.AlertType.ERROR, "Error", "An error occurred while updating your information. Please try again later.");
+
+            showAlert(Alert.AlertType.INFORMATION, "Update Successful", "Your information has been updated successfully.");
         }
     }
 

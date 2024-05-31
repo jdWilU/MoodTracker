@@ -7,11 +7,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -22,11 +20,10 @@ public class DBUtils {
     private static final String DATABASE_URL = "jdbc:sqlite:moodtracker.db";
     private static String currentUsername;
     private static String currentEmail;
-    private static String currentPassword; // Static variable to store the current username
 
-
-
-    // Function to create necessary tables in SQLite database
+    /**
+     * Function to create necessary tables in the SQLite database.
+     */
     public static void createDatabase() {
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);
              Statement statement = connection.createStatement()) {
@@ -58,7 +55,14 @@ public class DBUtils {
         }
     }
 
-    public static void changeScene(ActionEvent event, String fxmlFile, String title, String username) {
+    /**
+     * Changes the scene in the JavaFX application.
+     *
+     * @param event    The action event triggering the scene change.
+     * @param fxmlFile The FXML file to load.
+     * @param title    The title for the new scene.
+     */
+    public static void changeScene(ActionEvent event, String fxmlFile, String title) {
         Parent root = null;
         try {
             URL resource = DBUtils.class.getClassLoader().getResource(fxmlFile);
@@ -77,13 +81,21 @@ public class DBUtils {
             System.err.println("Root is null, cannot change scene. Check FXML file: " + fxmlFile);
             return;
         }
-
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setTitle(title);
         stage.setScene(new Scene(root, 800, 600));
         stage.show();
     }
 
+/**
+     * Signs up a new user by inserting their details into the database.
+     *
+     * @param event      The action event triggering the sign-up process.
+     * @param username   The username of the new user.
+     * @param email      The email of the new user.
+     * @param password   The password of the new user.
+     * @param errorLabel The label to display error messages.
+     */
     public static void signUpUser(ActionEvent event, String username, String email, String password, Label errorLabel) {
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);
              PreparedStatement psCheckUserExists = connection.prepareStatement("SELECT * FROM users WHERE username = ?");
@@ -103,7 +115,7 @@ public class DBUtils {
                     setCurrentUsername(username);
                     setCurrentEmail(email);
                     setCurrentPassword(password);
-                    changeScene(event, "homepage.fxml", "Welcome", username);
+                    changeScene(event, "homepage.fxml", "Welcome");
                 }
             }
         } catch (SQLException e) {
@@ -112,6 +124,14 @@ public class DBUtils {
         }
     }
 
+    /**
+     * Logs in an existing user by checking their credentials.
+     *
+     * @param event      The action event triggering the login process.
+     * @param username   The username of the user.
+     * @param password   The password of the user.
+     * @param errorLabel The label to display error messages.
+     */
     public static void logInUser(ActionEvent event, String username, String password, Label errorLabel) {
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);
              PreparedStatement preparedStatement = connection.prepareStatement("SELECT password FROM users WHERE username = ?")) {
@@ -125,7 +145,7 @@ public class DBUtils {
                         String retrievedPassword = resultSet.getString("password");
                         if (retrievedPassword.equals(password)) {
                             setCurrentUsername(username);
-                            changeScene(event, "homepage.fxml", "Welcome", username);
+                            changeScene(event, "homepage.fxml", "Welcome");
                         } else {
                             System.out.println("Passwords do not match!");
                             errorLabel.setText("Password or Username are Incorrect!");
@@ -139,6 +159,12 @@ public class DBUtils {
         }
     }
 
+    /**
+     * Retrieves user information based on the username.
+     *
+     * @param username The username to look up.
+     * @return The user's information or null if not found.
+     */
     public static UserInfo getUserInfo(String username) {
         String query = "SELECT * FROM users WHERE username = ?";
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);
@@ -165,26 +191,63 @@ public class DBUtils {
 
 
     // User details: getters & setters
+    /**
+     * Gets the current username.
+     *
+     * @return The current username.
+     */
     public static String getCurrentUsername() {
         return currentUsername;
     }
+
+    /**
+     * Sets the current username.
+     *
+     * @param username The username to set.
+     */
     public static void setCurrentUsername(String username) {
         currentUsername = username;
     }
+
+    /**
+     * Gets the current email.
+     *
+     * @return The current email.
+     */
     public static String getCurrentEmail() {
         return currentEmail;
     }
+
+    /**
+     * Sets the current email.
+     *
+     * @param email The email to set.
+     */
     public static void setCurrentEmail(String email) {
         currentEmail = email;
     }
-    public static String getCurrentPassword() {
-        return currentPassword;
-    }
+
+    /**
+     * Sets the current password.
+     *
+     * @param password The password to set.
+     */
     public static void setCurrentPassword(String password) {
-        currentPassword = password;
+        // Static variable to store the current username
     }
 
-    public static void updateUserInfo(String username, String newUsername, String newEmail, String newPassword, String newDisplayName, String newPhoneNumber) throws SQLException {
+    /**
+     * Updates user information in the database.
+     *
+     * @param username        The current username.
+     * @param newUsername     The new username.
+     * @param newEmail        The new email.
+     * @param newPassword     The new password.
+     * @param newDisplayName  The new display name.
+     * @param newPhoneNumber  The new phone number.
+     * @return True if the update was successful, false otherwise.
+     */
+    public static boolean updateUserInfo(String username, String newUsername, String newEmail, String newPassword, String newDisplayName, String newPhoneNumber) {
         String query = "UPDATE users SET username = ?, email = ?, password = ?, display_name = ?, phone_number = ? WHERE username = ?";
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -194,11 +257,21 @@ public class DBUtils {
             preparedStatement.setString(4, newDisplayName);
             preparedStatement.setString(5, newPhoneNumber);
             preparedStatement.setString(6, username);
-            preparedStatement.executeUpdate();
+
+            int rowsAffected = preparedStatement.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "Error updating user information", e);
+            return false;
         }
     }
 
-
+    /**
+     * Deletes a user from the database based on their username.
+     *
+     * @param username The username of the user to delete.
+     * @throws SQLException If an SQL error occurs.
+     */
     public static void deleteUser(String username) throws SQLException {
         String query = "DELETE FROM users WHERE username = ?";
 
@@ -216,6 +289,13 @@ public class DBUtils {
     }
 
 
+    /**
+     * Retrieves the count of each mood type for a specific user.
+     *
+     * @param username The username of the user.
+     * @return A map of mood types to their respective counts.
+     * @throws SQLException If an SQL error occurs.
+     */
     public static Map<String, Integer> getMoodCountsForUser(String username) throws SQLException {
         String query = "SELECT mood, COUNT(*) AS count FROM mood_tracking WHERE user_id = (SELECT user_id FROM users WHERE username = ?) GROUP BY mood";
         Map<String, Integer> moodCounts = new HashMap<>();
@@ -236,6 +316,13 @@ public class DBUtils {
         return moodCounts;
     }
 
+    /**
+     * Retrieves screen time data for a specific user.
+     *
+     * @param username The username of the user.
+     * @return A map of entry dates to screen time hours.
+     * @throws SQLException If an SQL error occurs.
+     */
     public static Map<String, Integer> getScreenTimeDataForUser(String username) throws SQLException {
         String query = "SELECT entry_date, screen_time_hours FROM mood_tracking WHERE user_id = (SELECT user_id FROM users WHERE username = ?) ORDER BY entry_date";
         Map<String, Integer> screenTimeData = new HashMap<>();
@@ -259,6 +346,13 @@ public class DBUtils {
         return screenTimeData;
     }
 
+    /**
+     * Retrieves mood data for a specific user.
+     *
+     * @param username The username of the user.
+     * @return A map of entry dates to mood ratings.
+     * @throws SQLException If an SQL error occurs.
+     */
     public static Map<String, String> getMoodDataForUser(String username) throws SQLException {
         String query = "SELECT entry_date, mood FROM mood_tracking WHERE user_id = (SELECT user_id FROM users WHERE username = ?) ORDER BY entry_date";
         Map<String, String> moodData = new HashMap<>();
@@ -283,6 +377,12 @@ public class DBUtils {
         return moodData;
     }
 
+    /**
+     * Inserts a list of mood entries for a specific user.
+     *
+     * @param entries The list of mood entries to insert.
+     * @param userId  The ID of the user.
+     */
     public static void insertMoodEntries(List<MoodEntry> entries, int userId) {
         String insertMoodEntrySQL = "INSERT INTO mood_tracking (user_id, entry_date, mood, screen_time_hours, activity_category, comments) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);
@@ -309,6 +409,12 @@ public class DBUtils {
         }
     }
 
+    /**
+     * Retrieves the ID of a user based on their username.
+     *
+     * @param username The username to look up.
+     * @return The user ID, or -1 if not found.
+     */
     public static int getUserId(String username) {
         String query = "SELECT user_id FROM users WHERE username = ?";
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);
@@ -328,6 +434,12 @@ public class DBUtils {
         }
     }
 
+    /**
+     * Updates the XP of a user in the database.
+     *
+     * @param userId   The ID of the user.
+     * @param xpToAdd  The amount of XP to add.
+     */
     public static void updateXpInDatabase(int userId, int xpToAdd) {
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);
              PreparedStatement preparedStatement = connection.prepareStatement("UPDATE users SET xp = xp + ? WHERE user_id = ?")) {
@@ -342,6 +454,12 @@ public class DBUtils {
         }
     }
 
+    /**
+     * Retrieves the XP of a user based on their user ID.
+     *
+     * @param userId The ID of the user.
+     * @return The XP of the user.
+     */
     public static int getXpForUser(int userId) {
         int xp = 0;
         String getXpSQL = "SELECT xp FROM users WHERE user_id = ?";
@@ -359,6 +477,11 @@ public class DBUtils {
         return xp;
     }
 
+    /**
+     * Updates the level of a user based on their XP.
+     *
+     * @param userId The ID of the user.
+     */
     public static void updateLevelInDatabase(int userId) {
         int xp = getXpForUser(userId);
         int level = xp / 100;
@@ -375,6 +498,13 @@ public class DBUtils {
         }
     }
 
+    /**
+     * Retrieves the level of a user based on their user ID.
+     *
+     * @param userId The ID of the user.
+     * @return The level of the user.
+     * @throws SQLException If an SQL error occurs.
+     */
     public static int getUserLevel(int userId) throws SQLException {
         int level = 0;
         String getLevelSQL = "SELECT level FROM users WHERE user_id = ?";
@@ -393,6 +523,13 @@ public class DBUtils {
         return level;
     }
 
+    /**
+     * Checks if a mood entry exists for today for a specific user.
+     *
+     * @param userId The ID of the user.
+     * @return True if an entry exists for today, false otherwise.
+     * @throws SQLException If an SQL error occurs.
+     */
     public static boolean entryExistsForToday(int userId) throws SQLException {
         String query = "SELECT COUNT(*) FROM mood_tracking WHERE user_id = ? AND DATE(entry_date) = ?";
         LocalDate today = LocalDate.now();
@@ -414,6 +551,14 @@ public class DBUtils {
         return false;
     }
 
+
+    /**
+     * Retrieves the longest streak of consecutive days with mood entries for a user.
+     *
+     * @param userId The ID of the user.
+     * @return The longest streak of consecutive days with mood entries.
+     * @throws SQLException If an SQL error occurs.
+     */
     public static int getUserEntryHistory(int userId) throws SQLException {
         int longestStreak = 0;
         List<LocalDate> entryDates = new ArrayList<>();
@@ -462,6 +607,13 @@ public class DBUtils {
         return longestStreak;
     }
 
+    /**
+     * Retrieves the total number of mood entries for a user.
+     *
+     * @param userId The ID of the user.
+     * @return The total number of mood entries.
+     * @throws SQLException If an SQL error occurs.
+     */
     public static int getTotalEntries(int userId) throws SQLException {
         int totalEntries = 0;
         String getTotalEntriesSQL = "SELECT COUNT(*) AS total_entries FROM mood_tracking WHERE user_id = ?";
@@ -482,6 +634,12 @@ public class DBUtils {
         return totalEntries;
     }
 
+    /**
+     * Updates the 'visited_education' column for a user to true.
+     *
+     * @param userId The ID of the user.
+     * @throws SQLException If an SQL error occurs.
+     */
     public static void updateVisitedEducation(int userId) throws SQLException {
         String updateSQL = "UPDATE users SET visited_education = TRUE WHERE user_id = ?";
 
@@ -501,6 +659,13 @@ public class DBUtils {
         }
     }
 
+    /**
+     * Checks if a user has visited the education section.
+     *
+     * @param userId The ID of the user.
+     * @return True if the user has visited the education section, false otherwise.
+     * @throws SQLException If an SQL error occurs.
+     */
     public static boolean hasVisitedEducation(int userId) throws SQLException {
         String querySQL = "SELECT visited_education FROM users WHERE user_id = ?";
         boolean visitedEducation = false;

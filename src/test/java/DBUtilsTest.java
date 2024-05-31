@@ -90,7 +90,7 @@ class DBUtilsTest {
         String titleWithUsername = "Welcome";
         String username = "testuser";
 
-        DBUtils.changeScene(eventWithUsername, fxmlFileWithUsername, titleWithUsername, username);
+        DBUtils.changeScene(eventWithUsername, fxmlFileWithUsername, titleWithUsername);
 
         Stage stageWithUsername = (Stage) eventWithUsername.getSource();
         assertNotNull(stageWithUsername);
@@ -105,7 +105,7 @@ class DBUtilsTest {
         String fxmlFileWithoutUsername = "logged-in.fxml";
         String titleWithoutUsername = "Welcome";
 
-        DBUtils.changeScene(eventWithoutUsername, fxmlFileWithoutUsername, titleWithoutUsername, null);
+        DBUtils.changeScene(eventWithoutUsername, fxmlFileWithoutUsername, titleWithoutUsername);
 
         Stage stageWithoutUsername = (Stage) eventWithoutUsername.getSource();
         assertNotNull(stageWithoutUsername);
@@ -120,7 +120,7 @@ class DBUtilsTest {
         String fxmlFileInvalid = "non-existing-file.fxml";
         String titleInvalid = "Welcome";
 
-        assertThrows(IOException.class, () -> DBUtils.changeScene(eventInvalidFile, fxmlFileInvalid, titleInvalid, username));
+        assertThrows(IOException.class, () -> DBUtils.changeScene(eventInvalidFile, fxmlFileInvalid, titleInvalid));
     }
 
     @Test

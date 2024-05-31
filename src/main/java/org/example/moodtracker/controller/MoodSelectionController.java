@@ -2,9 +2,7 @@ package org.example.moodtracker.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
@@ -12,10 +10,7 @@ import javafx.scene.control.ToggleGroup;
 import org.example.moodtracker.model.DBUtils;
 import org.example.moodtracker.model.MoodEntry;
 
-import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class MoodSelectionController implements Initializable {
@@ -30,7 +25,7 @@ public class MoodSelectionController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        button_moodback.setOnAction(event -> DBUtils.changeScene(event, "homepage.fxml", "Homepage",null));
+        button_moodback.setOnAction(event -> DBUtils.changeScene(event, "homepage.fxml", "Homepage"));
         button_moodsubmit.setOnAction(event -> moodSubmit(event));
     }
 
@@ -44,7 +39,7 @@ public class MoodSelectionController implements Initializable {
             moodEntry.setSelectedMood(selectedMood);
             MoodEntry.setMoodEntry(moodEntry);
 
-            DBUtils.changeScene(event, "activity.fxml", "Activity Page", null);
+            DBUtils.changeScene(event, "activity.fxml", "Activity Page");
         } else {
             // Show an alert if no mood is selected
             Alert alert = new Alert(Alert.AlertType.ERROR);

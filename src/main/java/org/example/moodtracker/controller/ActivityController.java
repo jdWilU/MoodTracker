@@ -29,7 +29,7 @@ public class ActivityController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Set the action for the back button to change the scene to the mood tracking page
-        button_activityback.setOnAction(event -> DBUtils.changeScene(event, "mood-tracking-page.fxml", "Mood Tracking", null));
+        button_activityback.setOnAction(event -> DBUtils.changeScene(event, "mood-tracking-page.fxml", "Mood Tracking"));
 
         // Set the action for the next button to call the activityNext method
         button_activitynext.setOnAction(this::activityNext);
@@ -58,7 +58,7 @@ public class ActivityController implements Initializable {
             MoodEntry.setMoodEntry(moodEntry);
 
             // Change the scene to the screentime journal page
-            DBUtils.changeScene(event, "screentime-journal_page.fxml", "Screentime", null);
+            DBUtils.changeScene(event, "screentime-journal_page.fxml", "Screentime");
         } else {
             // Show an alert if no activity is selected
             Alert alert = new Alert(Alert.AlertType.ERROR);

@@ -92,11 +92,11 @@ public class HomepageController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        button_logout.setOnAction(event -> DBUtils.changeScene(event, "login.fxml", "Log In", null));
+        button_logout.setOnAction(event -> DBUtils.changeScene(event, "login.fxml", "Log In"));
         button_close.setOnAction(actionEvent -> UIUtils.closeApp((Stage) button_close.getScene().getWindow()));
-        button_table.setOnAction(event -> DBUtils.changeScene(event, "tableView.fxml", "Table View", null));
-        button_profile.setOnAction(event -> DBUtils.changeScene(event, "profile.fxml", "Profile", null));
-        button_resources.setOnAction(event -> DBUtils.changeScene(event, "resources-page.fxml", "Educational Resources", null));
+        button_table.setOnAction(event -> DBUtils.changeScene(event, "tableView.fxml", "Table View"));
+        button_profile.setOnAction(event -> DBUtils.changeScene(event, "profile.fxml", "Profile"));
+        button_resources.setOnAction(event -> DBUtils.changeScene(event, "resources-page.fxml", "Educational Resources"));
 
         // Set user information and current date
         String currentUser = DBUtils.getCurrentUsername();
@@ -124,7 +124,7 @@ public class HomepageController implements Initializable {
                         alert.setContentText("You have already made a daily entry for today.");
                         alert.showAndWait();
                     } else {
-                        DBUtils.changeScene(event, "mood-tracking-page.fxml", "Mood Tracking", null);
+                        DBUtils.changeScene(event, "mood-tracking-page.fxml", "Mood Tracking");
                     }
                 } catch (SQLException e) {
                     Logger.getLogger(HomepageController.class.getName()).log(Level.SEVERE, "Error checking today's entry", e);

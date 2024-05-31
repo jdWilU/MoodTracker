@@ -35,6 +35,6 @@ public class HelloController implements Initializable {
         button_login.setOnAction(event -> DBUtils.logInUser(event, mfx_username.getText(), mxf_password.getText(), errorLabel));
 
         // Set the action for the sign-up button to change the scene to the sign-up page
-        button_signup.setOnAction(event -> DBUtils.changeScene(event, "sign-up.fxml", "Sign Up", null));
+        button_signup.setOnAction(event -> DBUtils.changeScene(event, "sign-up.fxml", "Sign Up"));
     }
 }

@@ -30,7 +30,7 @@ public class ScreentimeJournalPageController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        buttonScreentimeBack.setOnAction(event -> DBUtils.changeScene(event, "activity.fxml", "Activity", null));
+        buttonScreentimeBack.setOnAction(event -> DBUtils.changeScene(event, "activity.fxml", "Activity"));
         buttonSubmit.setOnAction(event -> submitButton(event));
 
         // Retrieve the user ID when the controller is initialized
@@ -66,7 +66,7 @@ public class ScreentimeJournalPageController implements Initializable {
             alert.setContentText("Mood entry completed. You gained " + xpToAdd + " XP!");
             alert.showAndWait();
 
-            DBUtils.changeScene(event, "homepage.fxml", "Home", null);
+            DBUtils.changeScene(event, "homepage.fxml", "Home");
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("Please enter a valid screen time value.");

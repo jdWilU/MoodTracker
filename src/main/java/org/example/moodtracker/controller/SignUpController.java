@@ -53,7 +53,7 @@ public class SignUpController implements Initializable {
         });
 
         // Set action for login button
-        button_login.setOnAction(event -> DBUtils.changeScene(event, "login.fxml", "Log In", null));
+        button_login.setOnAction(event -> DBUtils.changeScene(event, "login.fxml", "Log In"));
 
         // Update password strength indicator as password is typed
         mxf_password.textProperty().addListener((observable, oldValue, newValue) -> {

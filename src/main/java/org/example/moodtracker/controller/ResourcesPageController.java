@@ -71,11 +71,11 @@ public class ResourcesPageController implements Initializable {
         // Button functionality
         button_close.setOnAction(actionEvent -> UIUtils.closeApp((Stage) button_close.getScene().getWindow()));
 
-        button_homepage.setOnAction(event -> DBUtils.changeScene(event, "homepage.fxml", "Home", null));
-        button_logout.setOnAction(event -> DBUtils.changeScene(event, "login.fxml", "Log In", null));
-        button_table.setOnAction(event -> DBUtils.changeScene(event, "tableView.fxml", "Table View", null));
-        button_profile.setOnAction(event -> DBUtils.changeScene(event, "profile.fxml", "Profile", null));
-        button_daily_entry.setOnAction(event -> DBUtils.changeScene(event, "mood-tracking-page.fxml", "Mood Tracking", null));
+        button_homepage.setOnAction(event -> DBUtils.changeScene(event, "homepage.fxml", "Home"));
+        button_logout.setOnAction(event -> DBUtils.changeScene(event, "login.fxml", "Log In"));
+        button_table.setOnAction(event -> DBUtils.changeScene(event, "tableView.fxml", "Table View"));
+        button_profile.setOnAction(event -> DBUtils.changeScene(event, "profile.fxml", "Profile"));
+        button_daily_entry.setOnAction(event -> DBUtils.changeScene(event, "mood-tracking-page.fxml", "Mood Tracking"));
 
         // Set user information and current date
         if (currentUser != null) {

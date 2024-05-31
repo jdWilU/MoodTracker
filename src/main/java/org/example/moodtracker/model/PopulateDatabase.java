@@ -19,6 +19,9 @@ public class PopulateDatabase {
         populateMoodTrackingTable();
     }
 
+    /**
+     * Description: Script function to populate the database with mood data for the "john_doe" user. Only needs to be run once
+     */
     public static void populateMoodTrackingTable() {
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);
              Statement statement = connection.createStatement()) {
@@ -47,7 +50,7 @@ public class PopulateDatabase {
             statement.executeUpdate(insertMood4SQL);
 
             String insertMood5SQL = "INSERT INTO mood_tracking (user_id, entry_date, mood, screen_time_hours, activity_category, comments) " +
-                    "VALUES (" + userId1 + ", '2024-05-18', 'GREAT', 6, 'Gaming', 'Man I love dogs')";
+                    "VALUES (" + userId1 + "--, '2024-05-18', 'GREAT', 6, 'Gaming', 'Man I love dogs')";
             statement.executeUpdate(insertMood5SQL);
 
             String insertMood6SQL = "INSERT INTO mood_tracking (user_id, entry_date, mood, screen_time_hours, activity_category, comments) " +
@@ -106,8 +109,6 @@ public class PopulateDatabase {
 
             updateLevelInDatabase(userId1);
             updateXpInDatabase(userId1, 340);
-
-
 
         } catch (SQLException e) {
             System.err.println("Error populating mood tracking table: " + e.getMessage());
