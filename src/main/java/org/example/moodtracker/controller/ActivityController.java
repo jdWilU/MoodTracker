@@ -23,8 +23,8 @@ public class ActivityController implements Initializable {
 
     /**
      * Description: Function to initialise activity page buttons, and array to track selected buttons
-     * @param url
-     * @param resourceBundle
+     * @param url The location used to resolve relative paths for the root object, or null if the location is not known.
+    * @param resourceBundle The resources used to localize the root object, or null if the root object was not localized.
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -41,7 +41,7 @@ public class ActivityController implements Initializable {
     /**
      * Description: Function to progress the user on to the next page of the mood entry.
      * The function collects the activities that the user has entered and progresses to the next page when the next button is clicked.
-     * @param event
+     * @param event Button click event
      */
     @FXML
     private void activityNext(ActionEvent event) {
@@ -69,7 +69,7 @@ public class ActivityController implements Initializable {
 
     /**
      * Description: Function to add the selected styling to activity buttons when clicked.
-     * @param event
+     * @param event Button click event
      */
     @FXML
     private void handleActivityButtonClick(ActionEvent event) {
