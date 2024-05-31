@@ -7,7 +7,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import org.example.moodtracker.model.DBUtils;
 import org.example.moodtracker.model.MoodEntry;
-
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +21,11 @@ public class ActivityController implements Initializable {
 
     private List<Button> selectedButtons; // List to track selected activity buttons
 
+    /**
+     * Description: Function to initialise activity page buttons, and array to track selected buttons
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Set the action for the back button to change the scene to the mood tracking page
@@ -34,6 +38,11 @@ public class ActivityController implements Initializable {
         selectedButtons = new ArrayList<>();
     }
 
+    /**
+     * Description: Function to progress the user on to the next page of the mood entry.
+     * The function collects the activities that the user has entered and progresses to the next page when the next button is clicked.
+     * @param event
+     */
     @FXML
     private void activityNext(ActionEvent event) {
         if (!selectedButtons.isEmpty()) {
@@ -58,6 +67,10 @@ public class ActivityController implements Initializable {
         }
     }
 
+    /**
+     * Description: Function to add the selected styling to activity buttons when clicked.
+     * @param event
+     */
     @FXML
     private void handleActivityButtonClick(ActionEvent event) {
         // Check if the source of the event is a button
